@@ -1,0 +1,134 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Sailwind Map</title>
+  <link rel="stylesheet" href="./css/simplified.css" />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
+  <script src="./assets/Grid_subset.js"></script>
+  <script src="./assets/Sailwind.js"></script>
+  <script src="https://js.arcgis.com/4.21/"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <!-- THIS IS THE FORM THAT POPS UP WHEN YOU ADD A NEW POINT AND HAVE ADDITIONAL DETAILS TICKED -->
+  <form class="form-popup" id="form_position_details">
+    <h1>Enter Position Details</h1>
+    <hr>
+    <div class="row">
+      <label for="day" class="left">Day</label>
+      <input id="day" class="right" type="text" maxlength="6" placeholder="Enter Day (1,2,3)">
+    </div>
+    <div class="row">
+      <label for="time" class="left">Time</label>
+      <input id="time" class="right" type="text" maxlength="4" placeholder="Enter Time (0600)">
+    </div>
+    <div class="row">
+      <label for="windd" class="left">Wind Dir</label>
+      <input id="windd" class="right" type="text" maxlength="3" placeholder="Wind Direction (270)">
+    </div>
+    <div class="row">
+      <label for="windf" class="left">Wind Force</label>
+      <input id="windf" class="right" type="text" maxlength="1" placeholder="Wind Force (1-5)">
+    </div>
+    <button id="save_point_details" type="button" onclick="getDetails()">Save</button>
+  </form>
+
+  <!-- THIS IS THE FORM THAT POPS UP WHEN YOU HOVER OVER A POINT -->
+  <form class="form-popup" id="form_position_summary">
+    <h1>Position Details</h1>
+    <hr>
+    <div class="row">
+      <label class="left">Day: </label><span class="right" id="dayout"></span>
+    </div>
+    <div class="row">
+      <label class="left">Time: </label><span class="right" id="timeout"></span>
+    </div>
+    <div class="row">
+      <label class="left">Wind Dir: </label><span class="right" id="winddout"></span>
+    </div>
+    <div class="row">
+      <label class="left">Wind Force: </label><span class="right" id="windfout"></span>
+    </div>
+  </form>
+
+  <!-- MAP VIEW DIV -->
+  <div id="viewDiv"></div>
+
+  <!-- WRAPPED SIDEBAR -->
+  <div id="sidebar">
+    <div class="box" id="CoordEntry">
+      <h1>Plotting</h1>
+      <hr>
+      <div class="row">
+        <label for="latin" class="left">Latitude:</label>
+        <input id="latin" class="right" type="text" maxlength="6">
+      </div>
+      <div class="row">
+        <label for="longin" class="left">Longitude:</label>
+        <input id="longin" class="right" type="text">
+      </div>
+      <div class="row">
+        <label for="traveldist" class="left">Travel Distance:</label>
+        <span id="traveldist" class="right"></span>
+      </div>
+      <div class="row">
+        <label for="detailscheck" class="left">Add Extra Details</label>
+        <input id="detailscheck" type="checkbox">
+      </div>
+      <div class="buttons">
+        <button type="button" onclick="getCoords()">Enter Ye Coords</button>
+        <button type="button" onclick="clearCoords()">Clear Ye Coords</button>
+      </div>
+      <div class="buttons">
+        <button type="button" onclick="saveLocal()">Save Map</button>
+        <button type="button" onclick="getLocal()">Load Map</button>
+      </div>
+    </div>
+
+    <div class="box" id="DestEntry">
+      <h1>Destination</h1>
+      <hr>
+      <div class="row">
+        <label>Heading: <span class="right" id="heading"></span></label>
+      </div>
+      <div class="row">
+        <label>Distance: <span class="right" id="distance"></span></label>
+      </div>
+      <div class="buttons">
+        <button type="button" onclick="getDestination()">
+          Set
+        </button>
+        <button type="button" onclick="clearDestination()">
+          Clear
+        </button>
+      </div>
+    </div>
+
+    <div class="compass_container" id="compass">
+      <img src="./assets/img/compass2.png" alt="compass" id="image">
+      <span class="arrow2"></span>
+      <span class="arrow3"></span>
+      <span class="arrow"></span>
+      <span class="arrowc"></span>
+    </div>
+    <br>
+
+    <div class="box" id="cursor_details">
+      <div class="row">
+        <label>Latitude: </label><span class="right" id="yposition"></span>
+      </div>
+      <div class="row">
+        <label>Longitude: </label><span class="right" id="xposition"></span>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+<script src="./js/source.js"></script>
+
+</html>
