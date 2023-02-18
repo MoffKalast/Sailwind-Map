@@ -342,7 +342,7 @@ require([
             // check if a feature is returned from the hurricanesLayer
             if (response.results.length) {
                 const graphic = response.results[0].graphic;
-                console.log(graphic);
+                //console.log(graphic);
                 if(document.getElementById("form_position_details").style.display != "block"){openSum(graphic)}
                 
             }
@@ -355,7 +355,7 @@ require([
 
     view.on("immediate-click",function(event){
         buttonpressed=false;
-        console.log(event)
+        //console.log(event)
     if (drawBool){
 
         if (checkBool){        
@@ -406,7 +406,7 @@ require([
          var long=event.mapPoint.x;
          plotCourse(lat,long)
      }
-     console.log(graphicsLayer)
+     //console.log(graphicsLayer)
     });
 
     view.on("hold",function(event){
