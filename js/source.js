@@ -43,7 +43,7 @@ require([
 		type: "simple",
 		symbol: {
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
-			color: [0, 0, 0, 0.8],
+			color: [0, 0, 0, 0.6],
 			style: 'long-dash-dot',
 			width: 0.2
 		}
@@ -63,7 +63,7 @@ require([
 		type: "simple",
 		symbol: {
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
-			color: [0, 0, 0, 0.7],
+			color: [0, 0, 0, 0.5],
 			style: 'solid',
 			width: 1
 		}
@@ -81,7 +81,7 @@ require([
 				color: "orange",
 				outline: {  // autocasts as new SimpleLineSymbol()
 					color: [0, 0, 0, 0.8],
-					width: "3px"
+					width: "5em"
 				}
 			}
 		}, {
@@ -92,7 +92,7 @@ require([
 				color: "orange",
 				outline: {  // autocasts as new SimpleLineSymbol()
 					color: [0, 0, 0, 0.8],
-					width: "3px"
+					width: "5em"
 				}
 			}
 		}, {
@@ -103,7 +103,7 @@ require([
 				color: "orange",
 				outline: {  // autocasts as new SimpleLineSymbol()
 					color: [0, 0, 0, 0.8],
-					width: "3px"
+					width: "5em"
 				}
 			}
 		}, {
@@ -114,7 +114,7 @@ require([
 				color: "Red",
 				outline: {  // autocasts as new SimpleLineSymbol()
 					color: [0, 0, 0, 0.8],
-					width: "2px"
+					width: "5em"
 				}
 			}
 		}, {
@@ -125,7 +125,7 @@ require([
 				color: "orange",
 				outline: {  // autocasts as new SimpleLineSymbol()
 					color: [0, 0, 0, 0.8],
-					width: "3px"
+					width: "5em"
 				}
 			}
 		}],
