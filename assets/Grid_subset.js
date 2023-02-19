@@ -1,7 +1,7 @@
-let maxLat = 46;
-let minLat = 26;
-let maxLong = 32;
-let minLong = -12;
+let maxLat = 44;
+let minLat = 27;
+let maxLong = 9;
+let minLong = -9;
 
 let latdif = maxLat - minLat;
 let longdif = maxLong - minLong;
