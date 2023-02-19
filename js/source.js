@@ -27,6 +27,10 @@ require([
 		type: "application/json"
 	});
 
+	const routeBlob = new Blob([JSON.stringify(routeJson)], {
+		type: "application/json"
+	});
+
 	const gridBlob = new Blob([JSON.stringify(gridJson)], {
 		type: "application/json"
 	});
@@ -56,6 +60,16 @@ require([
 			color: [0, 0, 0, 0.4],
 			style: 'long-dash-dot',
 			width: 0.1
+		}
+	};
+
+	let routeRenderer = {
+		type: "simple",
+		symbol: {
+			type: "simple-line",  // autocasts as SimpleLineSymbol()
+			color: [178, 165, 152, 0.2],
+			style: 'solid',
+			width: 8
 		}
 	};
 
@@ -192,6 +206,12 @@ require([
 		labelingInfo: [gridlabelClass]
 	});
 
+	const routeJsonUrl = URL.createObjectURL(routeBlob);
+	const route = new GeoJSONLayer({
+		url: routeJsonUrl,
+		renderer: routeRenderer
+	});
+
 	const gridJsonUrl = URL.createObjectURL(gridBlob);
 	const grid = new GeoJSONLayer({
 		url: gridJsonUrl,
@@ -224,7 +244,7 @@ require([
 	});
 
 	const map = new ArcGISMap({
-		layers: [layer, grid, fGrid, ufGrid, labelGrid]
+		layers: [route, layer, grid, fGrid, ufGrid, labelGrid]
 	});
 
 	const view = new MapView({
