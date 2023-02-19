@@ -329,3 +329,7 @@ button:active {
     border-right: 1.75vh solid transparent;
     transition: all 1.70s;
 }
+
+.checkbox {
+    accent-color: darkorange;
+}

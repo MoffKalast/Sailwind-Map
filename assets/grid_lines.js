@@ -1,7 +1,7 @@
 let maxLat = 44;
 let minLat = 27;
-let maxLong = 9;
-let minLong = -9;
+let maxLong = 12;
+let minLong = -12;
 
 let latdif = maxLat - minLat;
 let longdif = maxLong - minLong;
@@ -99,9 +99,7 @@ for (i = 0; i <= longdif; i++) {
 			"type": "Point",
 			"coordinates": [minLong + i, maxLat + .25]
 		}, "properties": {
-
 			"TextString": minLong + i + "°",
-
 		}
 	});
 	labeljson.features.push({
@@ -110,9 +108,7 @@ for (i = 0; i <= longdif; i++) {
 			"type": "Point",
 			"coordinates": [minLong + i, minLat - .25]
 		}, "properties": {
-
 			"TextString": minLong + i + "°",
-
 		}
 	});
 }
@@ -124,9 +120,7 @@ for (i = 0; i <= latdif; i++) {
 			"type": "Point",
 			"coordinates": [minLong - .25, minLat + i]
 		}, "properties": {
-
 			"TextString": minLat + i + "°",
-
 		}
 	});
 	labeljson.features.push({
@@ -135,9 +129,7 @@ for (i = 0; i <= latdif; i++) {
 			"type": "Point",
 			"coordinates": [maxLong + .25, minLat + i]
 		}, "properties": {
-
 			"TextString": minLat + i + "°",
-
 		}
 	});
 }

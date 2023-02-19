@@ -8,6 +8,8 @@ var checkBool = false;
 
 var buttonpressed = false;
 
+var route;
+
 require([
 	"esri/Map",
 	"esri/views/MapView",
@@ -15,6 +17,7 @@ require([
 	"esri/Graphic",
 	"esri/layers/GraphicsLayer",
 	"esri/widgets/CoordinateConversion",
+	"esri/symbols/CIMSymbol",
 	"dojo/dom",
 	"dojo/domReady!"
 ], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, CoordinateConversion, dom) {
@@ -69,7 +72,7 @@ require([
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
 			color: [178, 165, 152, 0.2],
 			style: 'solid',
-			width: 8
+			width: 6
 		}
 	};
 
@@ -146,8 +149,8 @@ require([
 		visualVariables: [{
 			type: "opacity",
 			field: "SHAPE_Area",
-			stops: [{ value: 0.000006, opacity: 0.10 },
-			{ value: 0.005, opacity: 0.99 }]
+			stops: [{ value: 0.000006, opacity: 0.75 },
+			{ value: 0.005, opacity: 1.0 }]
 		}]
 	};
 
@@ -207,7 +210,7 @@ require([
 	});
 
 	const routeJsonUrl = URL.createObjectURL(routeBlob);
-	const route = new GeoJSONLayer({
+	route = new GeoJSONLayer({
 		url: routeJsonUrl,
 		renderer: routeRenderer
 	});
@@ -475,6 +478,19 @@ require([
 		}
 	}
 
+
+	document.getElementById('routescheck').onclick = function () {
+		route.visible = this.checked;
+	}
+
+	document.getElementById('windscheck').onclick = function () {
+		// access properties using this keyword
+		if (this.checked) {
+			checkBool = true
+		} else {
+			checkBool = false
+		}
+	}
 
 
 
