@@ -150,13 +150,14 @@ require([
 		symbol: {
 			type: "text",
 			color: "black",
-			haloColor: [255, 255, 255, 0.65],
-			haloSize: "2.0px",
+			haloColor: [221, 218, 215, 0.6],
+			haloSize: "3pt",
 			font: {
 				family: "Redressed",
-				size: 14
+				size: 13
 			}
 		},
+		labelPlacement: "center-center",
 		labelExpressionInfo: {
 			expression: "$feature.TextString"
 		}
@@ -168,11 +169,11 @@ require([
 		symbol: {
 			type: "text",
 			color: "black",
-			haloColor: [255, 255, 255, 0.45],
-			haloSize: "2.0px",
+			haloColor: [221, 218, 215, 0.6],
+			haloSize: "3pt",
 			font: {
 				family: "Redressed",
-				size: 15
+				size: 16
 			}
 		},
 		labelPlacement: "above-center",
