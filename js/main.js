@@ -9,6 +9,7 @@ var checkBool = false;
 var buttonpressed = false;
 
 var route;
+var wind;
 
 var extents_checksum = 0;
 
@@ -22,8 +23,9 @@ require([
 	"esri/views/MapView",
 	"esri/layers/GeoJSONLayer",
 	"esri/Graphic",
-	"esri/layers/GraphicsLayer"
-], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer) {
+	"esri/layers/GraphicsLayer",
+	"esri/symbols/LineSymbolMarker"
+], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, LineSymbolMarker) {
 
 	const biglabelBlob = new Blob([JSON.stringify(bigLabels)], {
 		type: "application/json"
@@ -34,6 +36,10 @@ require([
 	});
 
 	const routeBlob = new Blob([JSON.stringify(routeJson)], {
+		type: "application/json"
+	});
+
+	const windBlob = new Blob([JSON.stringify(windJson)], {
 		type: "application/json"
 	});
 
@@ -69,7 +75,7 @@ require([
 		}
 	};
 
-	let routeRenderer = {
+ 	let routeRenderer = {
 		type: "simple",
 		symbol: {
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
@@ -77,6 +83,53 @@ require([
 			style: 'solid',
 			width: 6
 		}
+	};
+
+	let windRenderer = {
+		type: "unique-value",  // autocasts as new UniqueValueRenderer()
+		field: "Region",
+		defaultSymbol: { type: "simple-line" },  // autocasts as new SimpleLineSymbol()
+		uniqueValueInfos: [{
+			value: "Emerald",
+			symbol: {
+				type: "simple-line",  // autocasts as SimpleLineSymbol()
+				color: [0, 150, 0, 0.3],
+				style: 'solid',
+				width: 1,
+				marker: { // autocasts from LineSymbolMarker
+					style: "arrow",
+					color: [0, 150, 0, 0.6],
+					placement: "end"
+				}
+			}
+		}, {
+			value: "Aestrin",
+			symbol: {
+				type: "simple-line",  // autocasts as SimpleLineSymbol()
+				color: [100, 100, 200, 0.3],
+				style: 'solid',
+				width: 1,
+				marker: { // autocasts from LineSymbolMarker
+					style: "arrow",
+					color: [100, 100, 200, 0.6],
+					placement: "end"
+				}
+			}
+		}, {
+			value: "Al'Ankh",
+			symbol: {
+				type: "simple-line",  // autocasts as SimpleLineSymbol()
+				color: [150, 60, 0, 0.3],
+				style: 'solid',
+				width: 1,
+				marker: { // autocasts from LineSymbolMarker
+					style: "arrow",
+					color: [150, 60, 0, 0.6],
+					placement: "end"
+				}
+			}
+		}],
+		visualVariables: []
 	};
 
 	let gridRenderer = {
@@ -192,7 +245,8 @@ require([
 			font: {
 				family: "Oregano",
 				size: 16.5
-			}
+			},
+			yoffset: 14
 		},
 		labelPlacement: "above-center",
 		labelExpressionInfo: {
@@ -201,23 +255,22 @@ require([
 
 	};
 
-	labelClass.symbol.yoffset = 14;
-
 	const biglabel = new GeoJSONLayer({
 		url: URL.createObjectURL(biglabelBlob),
 		renderer: bigLabelsRenderer,
-		labelingInfo: [bigLabelClass]
+		labelingInfo: [bigLabelClass],
+		maxScale: 4000000
 	});
 
-	biglabel.maxScale = 4000000;
-	//biglabel.blendMode = "color-burn"; this lags on mobile, like A LOT
-
-	route = new GeoJSONLayer({
+	const route = new GeoJSONLayer({
 		url: URL.createObjectURL(routeBlob),
 		renderer: routeRenderer
 	});
 
-	//route.blendMode = "color-burn";
+	const wind = new GeoJSONLayer({
+		url: URL.createObjectURL(windBlob),
+		renderer: windRenderer
+	});
 
 	const grid = new GeoJSONLayer({
 		url: URL.createObjectURL(gridBlob),
@@ -226,18 +279,15 @@ require([
 
 	const ufGrid = new GeoJSONLayer({
 		url: URL.createObjectURL(ufGridBlob),
-		renderer: ufGridRenderer
+		renderer: ufGridRenderer,
+		minScale: 800000
 	});
-
-	ufGrid.minScale = 800000;
-	//ufGrid.blendMode = "color-burn";
 
 	const fGrid = new GeoJSONLayer({
 		url: URL.createObjectURL(fGridBlob),
-		renderer: fGridRenderer
+		renderer: fGridRenderer,
+		minScale: 3000000
 	});
-
-	fGrid.minScale = 3000000;
 
 	const layer = new GeoJSONLayer({
 		url: URL.createObjectURL(blob),
@@ -246,7 +296,7 @@ require([
 	});
 
 	const map = new ArcGISMap({
-		layers: [route, layer, grid, fGrid, ufGrid, biglabel]
+		layers: [route, wind, layer, grid, fGrid, ufGrid, biglabel]
 	});
 
 	const view = new MapView({
@@ -280,6 +330,25 @@ require([
 	map.add(plotLayer);
 	map.add(graphicsLayer);
 	map.add(lineGraphicsLayer);
+
+	// Boat svg
+	testLayer = new GraphicsLayer();
+ 	map.add(testLayer);
+
+	let boat = new Graphic({
+		geometry: {
+			type: "point",
+			longitude: -18,
+			latitude: 42
+		},
+		symbol: {
+			type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+			url: "assets/img/boat.svg",
+			width: "200px",
+			height: "200px"
+		  }
+	});
+	testLayer.add(boat);
 
 	let point = {
 		type: "point",
@@ -487,15 +556,12 @@ require([
 
 	document.getElementById('routescheck').onclick = function () {
 		route.visible = this.checked;
+		localStorage.setItem("route_visible", this.checked);
 	}
 
 	document.getElementById('windscheck').onclick = function () {
-		// access properties using this keyword
-		if (this.checked) {
-			checkBool = true
-		} else {
-			checkBool = false
-		}
+		wind.visible = this.checked;
+		localStorage.setItem("wind_visible", this.checked);
 	}
 
 	let degreeSideLabelGraphic = new Graphic({
@@ -622,6 +688,16 @@ require([
 		}
 
 	});
+
+	if(localStorage.hasOwnProperty("route_visible")){
+		route.visible = localStorage.getItem("route_visible") === 'true';
+		document.getElementById("routescheck").checked = route.visible;
+	}
+
+	if(localStorage.hasOwnProperty("wind_visible")){
+		wind.visible = localStorage.getItem("wind_visible") === 'true';
+		document.getElementById("windscheck").checked = wind.visible;
+	}
 });
 
 function wait() {
