@@ -536,10 +536,6 @@ require([
 			checkBool = false
 		}
 	}
-
-
-
-
 });
 
 function wait() {
@@ -817,5 +813,3 @@ function bearing(startLat, startLng, destLat, destLng) {
 	//brng = toDegrees(brng);
 	return (degrees + 360) % 360;
 };
-
-
