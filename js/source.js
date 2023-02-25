@@ -10,21 +10,15 @@ var buttonpressed = false;
 
 var route;
 
+var extents_checksum = 0;
+
 require([
 	"esri/Map",
 	"esri/views/MapView",
 	"esri/layers/GeoJSONLayer",
 	"esri/Graphic",
-	"esri/layers/GraphicsLayer",
-	"esri/widgets/CoordinateConversion",
-	"esri/symbols/CIMSymbol",
-	"dojo/dom",
-	"dojo/domReady!"
-], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, CoordinateConversion, dom) {
-
-	const labelBlob = new Blob([JSON.stringify(labels)], {
-		type: "application/json"
-	});
+	"esri/layers/GraphicsLayer"
+], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer) {
 
 	const biglabelBlob = new Blob([JSON.stringify(bigLabels)], {
 		type: "application/json"
@@ -158,15 +152,6 @@ require([
 		}]
 	};
 
-	let labelsRenderer = {
-		type: "simple",  // autocasts as new SimpleRenderer()
-		symbol: {
-			type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
-			size: 0,
-			color: [0, 0, 0, 0.0]
-		}
-	};
-
 	let bigLabelsRenderer = {
 		type: "simple",  // autocasts as new SimpleRenderer()
 		symbol: {
@@ -174,24 +159,6 @@ require([
 			size: 0,
 			color: [0, 0, 0, 0.0]
 		}
-	};
-
-	let gridlabelClass = {
-		symbol: {
-			type: "text",
-			color: "black",
-			haloColor: [221, 218, 215, 0.6],
-			haloSize: "3pt",
-			font: {
-				family: "Oregano",
-				size: 13
-			}
-		},
-		labelPlacement: "center-center",
-		labelExpressionInfo: {
-			expression: "$feature.TextString"
-		}
-
 	};
 
 	let bigLabelClass = {
@@ -212,7 +179,6 @@ require([
 	};
 
 	let labelClass = {
-
 		symbol: {
 			type: "text",
 			color: "black",
@@ -231,12 +197,6 @@ require([
 	};
 
 	labelClass.symbol.yoffset = 14;
-
-	const labelGrid = new GeoJSONLayer({
-		url: URL.createObjectURL(labelBlob),
-		renderer: labelsRenderer,
-		labelingInfo: [gridlabelClass]
-	});
 
 	const biglabel = new GeoJSONLayer({
 		url: URL.createObjectURL(biglabelBlob),
@@ -281,7 +241,7 @@ require([
 	});
 
 	const map = new ArcGISMap({
-		layers: [route, layer, grid, fGrid, ufGrid, labelGrid, biglabel]
+		layers: [route, layer, grid, fGrid, ufGrid, biglabel]
 	});
 
 	const view = new MapView({
@@ -303,35 +263,30 @@ require([
 	view.ui._removeComponents(["attribution"]);
 	view.scale = 6000000;
 
-
-	//edgeLayer = new GraphicsLayer();
+	edgeLayer = new GraphicsLayer();
 	gridLayer = new GraphicsLayer();
 	graphicsLayer = new GraphicsLayer();
 	lineGraphicsLayer = new GraphicsLayer();
 	plotLayer = new GraphicsLayer();
 	plotPoint = new GraphicsLayer();
 
+	map.add(edgeLayer);
 	map.add(plotPoint);
 	map.add(plotLayer);
 	map.add(graphicsLayer);
 	map.add(lineGraphicsLayer);
 
-	point = {
+	let point = {
 		type: "point",
 		longitude: 0,
 		latitude: 0
 	};
-	let pointAtt = {
-		day: null,
-		time: null,
-		windForce: null,
-		windDir: null
-	};
 
-	polyline = {
+	let polyline = {
 		type: "polyline",
 		paths: [[0, 0]]
 	};
+
 	let polylineAtt = {
 		day: null,
 		time: null,
@@ -375,24 +330,24 @@ require([
 		width: 2
 	};
 
-	plotlineGraphic = new Graphic({
+	let plotlineGraphic = new Graphic({
 		geometry: polyline,
 		symbol: plotlineSymbol,
 		attributes: polylineAtt
 	});
 
-	polylineGraphic = new Graphic({
+	let polylineGraphic = new Graphic({
 		geometry: polyline,
 		symbol: polylineSymbol
 	});
 
-	pointGraphic = new Graphic({
+	let pointGraphic = new Graphic({
 		geometry: point,
 		symbol: markerSymbol,
 		attributes: polylineAtt
 	});
 
-	plotPointGraphic = new Graphic({
+	let plotPointGraphic = new Graphic({
 		geometry: point,
 		symbol: plotSymbol
 	});
@@ -401,7 +356,6 @@ require([
 		const opts = {
 			include: graphicsLayer
 		}
-
 
 		let point = view.toMap({ x: event.x, y: event.y });
 		//console.log([point.latitude, point.longitude]);
@@ -536,6 +490,113 @@ require([
 			checkBool = false
 		}
 	}
+
+	let degreeSideLabelGraphic = new Graphic({
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "black",
+			haloColor: [198, 191, 185, 0.95],
+			haloSize: "4pt",
+			font: {
+				family: "Montserrat",
+				size: 14
+			},
+			text: "0°",
+			xoffset: 0,
+			yoffset: -5,
+		  }
+	});
+
+	let degreeTopLabelGraphic = new Graphic({
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "black",
+			haloColor: [189, 179, 170, 0.95],
+			haloSize: "4pt",
+			font: {
+				family: "Montserrat",
+				size: 14
+			},
+			text: "0°",
+			xoffset: 3,
+			yoffset: 0,
+		  }
+	});
+
+	// dynamic degree number renderer
+	view.watch('extent', function(newextent, oldextent) {
+		let xmin = view.extent.xmin;
+		let xmax = view.extent.xmax;
+		let ymin = view.extent.ymin;
+		let ymax = view.extent.ymax;
+
+		let checksum = xmin+xmax+ymin+ymax;
+
+		if(checksum == extents_checksum)
+			return;
+
+		extents_checksum = checksum;
+		edgeLayer.removeAll();
+	});
+
+	// dynamic degree number renderer
+	view.watch('stationary', function(newextent, oldextent) {
+
+		let xmin = view.extent.xmin;
+		let xmax = view.extent.xmax;
+		let ymin = view.extent.ymin;
+		let ymax = view.extent.ymax;
+		let width_offset = view.extent.width * 0.03;
+		let height_offset = view.extent.height * 0.03;
+
+		//would be better to just reuse objects, but there's no way to iterate over existing ones
+		edgeLayer.removeAll();
+
+		let lat_min = parseInt(ymin);
+		let lat_max = parseInt(ymax);
+
+		let long_min = parseInt(xmin);
+		let long_max = parseInt(xmax);
+
+		if(lat_min < -90)
+			lat_min = -90;
+
+		if(lat_max > 90)
+			lat_max = 90;
+
+		if(long_min < -90)
+			long_min = -90;
+
+		if(long_max > 90)
+			long_max = 90;
+
+		for(let i = lat_min; i <= lat_max; i++){
+			let testpoint = degreeSideLabelGraphic.clone();
+			testpoint.geometry.latitude = i;
+			testpoint.geometry.longitude = xmin+width_offset;
+			testpoint.symbol.text = i+"°";
+			edgeLayer.add(testpoint);
+		}
+
+		for(let i = long_min; i <= long_max; i++){
+			let testpoint = degreeTopLabelGraphic.clone();
+			testpoint.geometry.latitude = ymax-height_offset;
+			testpoint.geometry.longitude = i;
+			testpoint.symbol.text = i+"°";
+			edgeLayer.add(testpoint);
+		}
+
+	});
 });
 
 function wait() {

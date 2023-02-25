@@ -89,56 +89,6 @@ for (let i = minLat*100; i <= maxLat*100; i+=5) {
     }
 }
 
-// Degree numbers
-
-var labels = {
-	"type": "FeatureCollection",
-	"features": []
-}
-
-/* for (i = 0; i <= longdif; i++) {
-	labels.features.push({
-		"type": "Feature",
-		"geometry": {
-			"type": "Point",
-			"coordinates": [minLong + i, maxLat + .25]
-		}, "properties": {
-			"TextString": minLong + i + "°",
-		}
-	});
-	labels.features.push({
-		"type": "Feature",
-		"geometry": {
-			"type": "Point",
-			"coordinates": [minLong + i, minLat - .25]
-		}, "properties": {
-			"TextString": minLong + i + "°",
-		}
-	});
-}
-
-for (i = 0; i <= latdif; i++) {
-	labels.features.push({
-		"type": "Feature",
-		"geometry": {
-			"type": "Point",
-			"coordinates": [minLong - .25, minLat + i]
-		}, "properties": {
-			"TextString": minLat + i + "°",
-		}
-	});
-	labels.features.push({
-		"type": "Feature",
-		"geometry": {
-			"type": "Point",
-			"coordinates": [maxLong + .25, minLat + i]
-		}, "properties": {
-			"TextString": minLat + i + "°",
-		}
-	});
-} */
-
-
 var bigLabels = {
 	"type": "FeatureCollection",
 	"features": []
@@ -178,7 +128,7 @@ bigLabels.features.push({
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [15.1, 35.5]
+		"coordinates": [12.1, 35.5]
 	}, "properties": {
 		"TextString": "Here be dragons",
 	}
