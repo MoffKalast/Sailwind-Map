@@ -26,6 +26,10 @@ require([
 		type: "application/json"
 	});
 
+	const biglabelBlob = new Blob([JSON.stringify(bigLabels)], {
+		type: "application/json"
+	});
+
 	const blob = new Blob([JSON.stringify(geojson)], {
 		type: "application/json"
 	});
@@ -163,6 +167,15 @@ require([
 		}
 	};
 
+	let bigLabelsRenderer = {
+		type: "simple",  // autocasts as new SimpleRenderer()
+		symbol: {
+			type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+			size: 0,
+			color: [0, 0, 0, 0.0]
+		}
+	};
+
 	let gridlabelClass = {
 		symbol: {
 			type: "text",
@@ -170,8 +183,25 @@ require([
 			haloColor: [221, 218, 215, 0.6],
 			haloSize: "3pt",
 			font: {
-				family: "Redressed",
+				family: "Oregano",
 				size: 13
+			}
+		},
+		labelPlacement: "center-center",
+		labelExpressionInfo: {
+			expression: "$feature.TextString"
+		}
+
+	};
+
+	let bigLabelClass = {
+		symbol: {
+			type: "text",
+			color: "#706860",
+			haloColor: [0, 0, 0, 0.0],
+			font: {
+				family: "Oregano",
+				size: 24
 			}
 		},
 		labelPlacement: "center-center",
@@ -189,8 +219,8 @@ require([
 			haloColor: [221, 218, 215, 0.6],
 			haloSize: "3pt",
 			font: {
-				family: "Redressed",
-				size: 16
+				family: "Oregano",
+				size: 16.5
 			}
 		},
 		labelPlacement: "above-center",
@@ -202,64 +232,79 @@ require([
 
 	labelClass.symbol.yoffset = 14;
 
-	const labelGridJsonUrl = URL.createObjectURL(labelBlob);
 	const labelGrid = new GeoJSONLayer({
-		url: labelGridJsonUrl,
+		url: URL.createObjectURL(labelBlob),
 		renderer: labelsRenderer,
 		labelingInfo: [gridlabelClass]
 	});
 
-	const routeJsonUrl = URL.createObjectURL(routeBlob);
+	const biglabel = new GeoJSONLayer({
+		url: URL.createObjectURL(biglabelBlob),
+		renderer: bigLabelsRenderer,
+		labelingInfo: [bigLabelClass]
+	});
+
+	biglabel.maxScale = 4000000;
+	biglabel.blendMode = "color-burn";
+
 	route = new GeoJSONLayer({
-		url: routeJsonUrl,
+		url: URL.createObjectURL(routeBlob),
 		renderer: routeRenderer
 	});
 
-	const gridJsonUrl = URL.createObjectURL(gridBlob);
+	route.blendMode = "color-burn";
+
 	const grid = new GeoJSONLayer({
-		url: gridJsonUrl,
+		url: URL.createObjectURL(gridBlob),
 		renderer: gridRenderer
 	});
 
-	const ufGridJsonUrl = URL.createObjectURL(ufGridBlob);
 	const ufGrid = new GeoJSONLayer({
-		url: ufGridJsonUrl,
+		url: URL.createObjectURL(ufGridBlob),
 		renderer: ufGridRenderer
 	});
 
 	ufGrid.minScale = 800000;
 	ufGrid.blendMode = "color-burn";
 
-	const fGridJsonUrl = URL.createObjectURL(fGridBlob);
 	const fGrid = new GeoJSONLayer({
-		url: fGridJsonUrl,
+		url: URL.createObjectURL(fGridBlob),
 		renderer: fGridRenderer
 	});
 
 	fGrid.minScale = 3000000;
 
-	const geojsonUrl = URL.createObjectURL(blob);
-
 	const layer = new GeoJSONLayer({
-		url: geojsonUrl,
+		url: URL.createObjectURL(blob),
 		renderer: renderer,
 		labelingInfo: [labelClass]
 	});
 
 	const map = new ArcGISMap({
-		layers: [route, layer, grid, fGrid, ufGrid, labelGrid]
+		layers: [route, layer, grid, fGrid, ufGrid, labelGrid, biglabel]
 	});
 
 	const view = new MapView({
 		container: "viewDiv",
 		map: map,
-		center: [1, 36]
+		center: [1, 36],
+		constraints: {
+			minScale: 16000000,
+			maxScale: 20000,
+			extent: {
+				xmin: -90,
+				ymin: -90,
+				xmax: 90,
+				ymax: 90
+			}
+		}
 	});
 
 	view.ui._removeComponents(["attribution"]);
 	view.scale = 6000000;
 
-	edgeLayer = new GraphicsLayer();
+
+	//edgeLayer = new GraphicsLayer();
 	gridLayer = new GraphicsLayer();
 	graphicsLayer = new GraphicsLayer();
 	lineGraphicsLayer = new GraphicsLayer();

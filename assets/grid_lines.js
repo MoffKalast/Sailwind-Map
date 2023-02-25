@@ -1,19 +1,22 @@
-let maxLat = 44;
-let minLat = 27;
-let maxLong = 12;
-let minLong = -12;
+//let maxLat = 44;
+//let minLat = 27;
+//let maxLong = 12;
+//let minLong = -12;
+let maxLat = 90;
+let minLat = -90;
+let maxLong = 90;
+let minLong = -90;
 
 let latdif = maxLat - minLat;
 let longdif = maxLong - minLong;
 
-var json = {
+var gridJson = {
 	"type": "FeatureCollection",
 	"features": []
 }
 
-
 for (i = 0; i <= longdif; i++) {
-	json.features.push({
+	gridJson.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "LineString",
@@ -23,7 +26,7 @@ for (i = 0; i <= longdif; i++) {
 }
 
 for (i = 0; i <= latdif; i++) {
-	json.features.push({
+	gridJson.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "LineString",
@@ -32,15 +35,13 @@ for (i = 0; i <= latdif; i++) {
 	});
 }
 
-var gridJson = json
-
-var fjson = {
+var fineGrid = {
 	"type": "FeatureCollection",
 	"features": []
 }
 
 for (i = 0; i <= longdif; i += .25) {
-	fjson.features.push({
+	fineGrid.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "LineString",
@@ -50,7 +51,7 @@ for (i = 0; i <= longdif; i += .25) {
 }
 
 for (i = 0; i <= latdif; i += .25) {
-	fjson.features.push({
+	fineGrid.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "LineString",
@@ -58,15 +59,14 @@ for (i = 0; i <= latdif; i += .25) {
 		}
 	});
 }
-var fineGrid = fjson
 
-var ujson = {
+var ufineGrid = {
 	"type": "FeatureCollection",
 	"features": []
 }
 
 for (i = 0; i <= longdif; i += .05) {
-	ujson.features.push({
+	ufineGrid.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "LineString",
@@ -76,7 +76,7 @@ for (i = 0; i <= longdif; i += .05) {
 }
 
 for (i = 0; i <= latdif; i += .05) {
-	ujson.features.push({
+	ufineGrid.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "LineString",
@@ -84,16 +84,14 @@ for (i = 0; i <= latdif; i += .05) {
 		}
 	});
 }
-var ufineGrid = ujson
 
-var labeljson = {
+var labels = {
 	"type": "FeatureCollection",
 	"features": []
 }
 
-
 for (i = 0; i <= longdif; i++) {
-	labeljson.features.push({
+	labels.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "Point",
@@ -102,7 +100,7 @@ for (i = 0; i <= longdif; i++) {
 			"TextString": minLong + i + "°",
 		}
 	});
-	labeljson.features.push({
+	labels.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "Point",
@@ -114,7 +112,7 @@ for (i = 0; i <= longdif; i++) {
 }
 
 for (i = 0; i <= latdif; i++) {
-	labeljson.features.push({
+	labels.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "Point",
@@ -123,7 +121,7 @@ for (i = 0; i <= latdif; i++) {
 			"TextString": minLat + i + "°",
 		}
 	});
-	labeljson.features.push({
+	labels.features.push({
 		"type": "Feature",
 		"geometry": {
 			"type": "Point",
@@ -133,5 +131,49 @@ for (i = 0; i <= latdif; i++) {
 		}
 	});
 }
-//console.log(labeljson)
-var labels = labeljson
+
+
+var bigLabels = {
+	"type": "FeatureCollection",
+	"features": []
+}
+
+bigLabels.features.push({
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [-4, 32.4]
+	}, "properties": {
+		"TextString": "Al'Ankh",
+	}
+});
+
+bigLabels.features.push({
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [0.5, 38.8]
+	}, "properties": {
+		"TextString": "Aestrin",
+	}
+});
+
+bigLabels.features.push({
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [2.85, 32]
+	}, "properties": {
+		"TextString": "Emerald\nArchipelago",
+	}
+});
+
+bigLabels.features.push({
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [15.1, 35.5]
+	}, "properties": {
+		"TextString": "Here be dragons",
+	}
+});
