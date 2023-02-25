@@ -357,4 +357,6 @@ button:active {
 
 .checkbox {
     accent-color: darkorange;
+    height: 20px;
+    width: 20px;
 }

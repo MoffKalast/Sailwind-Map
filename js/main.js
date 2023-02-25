@@ -567,11 +567,11 @@ require([
 		//would be better to just reuse objects, but there's no way to iterate over existing ones
 		edgeLayer.removeAll();
 
-		let lat_min = parseInt(ymin);
-		let lat_max = parseInt(ymax);
+		let lat_min = parseInt(ymin)-1;
+		let lat_max = parseInt(ymax)+1;
 
-		let long_min = parseInt(xmin);
-		let long_max = parseInt(xmax);
+		let long_min = parseInt(xmin)-1;
+		let long_max = parseInt(xmax)+1;
 
 		if(lat_min < 0)
 			lat_min = 0;
@@ -585,19 +585,37 @@ require([
 		if(long_max > 60)
 			long_max = 60;
 
-		for(let i = lat_min; i <= lat_max; i++){
+		let step = 1;
+		let decimals = 0;
+
+		if(view.extent.height < 0.5){
+			step = 0.05;
+			decimals = 2;
+		}
+		else if(view.extent.height < 2){
+			step = 0.25;
+			decimals = 2;
+		}
+		else if(view.extent.height < 5){
+			step = 0.5;
+			decimals = 1;
+		}
+
+
+
+		for(let i = lat_min; i <= lat_max; i+=step){
 			let testpoint = degreeSideLabelGraphic.clone();
 			testpoint.geometry.latitude = i;
 			testpoint.geometry.longitude = xmin+width_offset;
-			testpoint.symbol.text = i+"°";
+			testpoint.symbol.text = i.toFixed(decimals)+"°";
 			edgeLayer.add(testpoint);
 		}
 
-		for(let i = long_min; i <= long_max; i++){
+		for(let i = long_min; i <= long_max; i+=step){
 			let testpoint = degreeTopLabelGraphic.clone();
 			testpoint.geometry.latitude = ymax-height_offset;
 			testpoint.geometry.longitude = i;
-			testpoint.symbol.text = i+"°";
+			testpoint.symbol.text = i.toFixed(decimals)+"°";
 			edgeLayer.add(testpoint);
 		}
 
