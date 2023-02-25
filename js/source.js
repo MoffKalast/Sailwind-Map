@@ -12,6 +12,11 @@ var route;
 
 var extents_checksum = 0;
 
+var plotlineGraphic;
+var polylineGraphic;
+var pointGraphic;
+var plotPointGraphic;
+
 require([
 	"esri/Map",
 	"esri/views/MapView",
@@ -330,24 +335,24 @@ require([
 		width: 2
 	};
 
-	let plotlineGraphic = new Graphic({
+	plotlineGraphic = new Graphic({
 		geometry: polyline,
 		symbol: plotlineSymbol,
 		attributes: polylineAtt
 	});
 
-	let polylineGraphic = new Graphic({
+	polylineGraphic = new Graphic({
 		geometry: polyline,
 		symbol: polylineSymbol
 	});
 
-	let pointGraphic = new Graphic({
+	pointGraphic = new Graphic({
 		geometry: point,
 		symbol: markerSymbol,
 		attributes: polylineAtt
 	});
 
-	let plotPointGraphic = new Graphic({
+	plotPointGraphic = new Graphic({
 		geometry: point,
 		symbol: plotSymbol
 	});
