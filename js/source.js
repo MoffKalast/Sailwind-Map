@@ -205,14 +205,14 @@ require([
 	});
 
 	biglabel.maxScale = 4000000;
-	biglabel.blendMode = "color-burn";
+	//biglabel.blendMode = "color-burn"; this lags on mobile, like A LOT
 
 	route = new GeoJSONLayer({
 		url: URL.createObjectURL(routeBlob),
 		renderer: routeRenderer
 	});
 
-	route.blendMode = "color-burn";
+	//route.blendMode = "color-burn";
 
 	const grid = new GeoJSONLayer({
 		url: URL.createObjectURL(gridBlob),
@@ -225,7 +225,7 @@ require([
 	});
 
 	ufGrid.minScale = 800000;
-	ufGrid.blendMode = "color-burn";
+	//ufGrid.blendMode = "color-burn";
 
 	const fGrid = new GeoJSONLayer({
 		url: URL.createObjectURL(fGridBlob),
