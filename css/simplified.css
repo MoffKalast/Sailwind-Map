@@ -79,7 +79,7 @@ body {
 /* THIS BOX IS RE-USABLE */
 
 .box {
-    font-size: 2vh;
+    font-size: 1.8vh;
     background: #c5b26300;
     background-image: url("../assets/img/zenbg1.png"), url("../assets/img/zenbg2.png");
     background-repeat: repeat-x, repeat;

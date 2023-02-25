@@ -424,8 +424,10 @@ require([
 			line = plotLayer.graphics.items
 			lastPoint = []
 			if (line.length > 0) {
-				lastPoint = line[0].geometry.paths[0].at(-1)
-				plotCourse(lastPoint[1], lastPoint[0])
+				lastPoint = line[0].geometry.paths[0].at(-1);
+
+				if(lastPoint != undefined)
+					plotCourse(lastPoint[1], lastPoint[0]);
 			}
 
 
@@ -505,7 +507,7 @@ require([
 		symbol: {
 			type: "text",
 			color: "black",
-			haloColor: [198, 191, 185, 0.95],
+			haloColor: [205, 200, 196, 0.95],
 			haloSize: "4pt",
 			font: {
 				family: "Montserrat",
@@ -526,7 +528,7 @@ require([
 		symbol: {
 			type: "text",
 			color: "black",
-			haloColor: [189, 179, 170, 0.95],
+			haloColor: [192, 183, 175, 0.95],
 			haloSize: "4pt",
 			font: {
 				family: "Montserrat",
@@ -562,7 +564,7 @@ require([
 		let ymin = view.extent.ymin;
 		let ymax = view.extent.ymax;
 		let width_offset = view.extent.width * 0.03;
-		let height_offset = view.extent.height * 0.03;
+		let height_offset = view.extent.height * 0.04;
 
 		//would be better to just reuse objects, but there's no way to iterate over existing ones
 		edgeLayer.removeAll();
@@ -588,7 +590,7 @@ require([
 		let step = 1;
 		let decimals = 0;
 
-		if(view.extent.height < 0.5){
+		if(view.extent.height < 0.4){
 			step = 0.05;
 			decimals = 2;
 		}
@@ -606,14 +608,14 @@ require([
 		for(let i = lat_min; i <= lat_max; i+=step){
 			let testpoint = degreeSideLabelGraphic.clone();
 			testpoint.geometry.latitude = i;
-			testpoint.geometry.longitude = xmin+width_offset;
+			testpoint.geometry.longitude = xmin + width_offset;
 			testpoint.symbol.text = i.toFixed(decimals)+"°";
 			edgeLayer.add(testpoint);
 		}
 
 		for(let i = long_min; i <= long_max; i+=step){
 			let testpoint = degreeTopLabelGraphic.clone();
-			testpoint.geometry.latitude = ymax-height_offset;
+			testpoint.geometry.latitude = ymax - height_offset;
 			testpoint.geometry.longitude = i;
 			testpoint.symbol.text = i.toFixed(decimals)+"°";
 			edgeLayer.add(testpoint);
@@ -847,24 +849,33 @@ function plotCourse(destLat, destLong) {
 		//console.log(line[0].geometry.paths[0].at(-1))
 		lastPoint = line[0].geometry.paths[0].at(-1)
 	}
-	else { alert("Must Select a starting location") }
-	var newPlotGraphi = plotlineGraphic.clone();
-	var newPointGraphic = plotPointGraphic.clone();
+	else { 
+		alert("Must Select a starting location") 
+	}
+
+	let newPlotGraphi = plotlineGraphic.clone();
+	let newPointGraphic = plotPointGraphic.clone();
+
 	newPointGraphic.geometry.latitude = destLat;
 	newPointGraphic.geometry.longitude = destLong;
+
 	pat = []
+
 	pat.push([lastPoint[0], lastPoint[1]])
 	pat.push([destLong, destLat])
+
 	distToTarget = getDistanceFromLatLonInKm(lastPoint[1], lastPoint[0], destLat, destLong)
 	newPlotGraphi.geometry.paths = pat;
 	plotLayer.add(newPlotGraphi);
 	plotLayer.add(newPointGraphic);
+
 	bob = bearing(lastPoint[1], lastPoint[0], destLat, destLong)
 	bob = Math.round(bob * 10) / 10;
-	console.log(bob)
+
 	document.getElementById("heading").innerHTML = String(bob + "&#176;");
 	document.getElementById("distance").innerHTML = String(Math.round(distToTarget * 10) / 10 + "nm");
 	setArrow(bob);
+
 	plotBool = false;
 	drawBool = true;
 
