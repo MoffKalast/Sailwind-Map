@@ -568,17 +568,17 @@ require([
 		let long_min = parseInt(xmin);
 		let long_max = parseInt(xmax);
 
-		if(lat_min < -90)
-			lat_min = -90;
+		if(lat_min < 0)
+			lat_min = 0;
 
-		if(lat_max > 90)
-			lat_max = 90;
+		if(lat_max > 70)
+			lat_max = 70;
 
-		if(long_min < -90)
-			long_min = -90;
+		if(long_min < -60)
+			long_min = -60;
 
-		if(long_max > 90)
-			long_max = 90;
+		if(long_max > 60)
+			long_max = 60;
 
 		for(let i = lat_min; i <= lat_max; i++){
 			let testpoint = degreeSideLabelGraphic.clone();

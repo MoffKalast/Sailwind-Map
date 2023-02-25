@@ -1,8 +1,8 @@
-let maxLat = 90;
-let minLat = -90;
+let maxLat = 70;
+let minLat = 0;
 
-let maxLong = 90;
-let minLong = -90;
+let maxLong = 60;
+let minLong = -60;
 
 var gridJson = {
 	"type": "FeatureCollection",
