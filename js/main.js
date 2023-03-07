@@ -6,7 +6,7 @@ var destination_set = false;
 var plotBool = false;
 var drawBool = true;
 var loaded = false;
-var checkBool = false;
+var showDetails = false;
 
 var buttonpressed = false;
 
@@ -20,7 +20,42 @@ var polylineGraphic;
 var pointGraphic;
 var plotPointGraphic;
 
-var compass_labels = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+var compassLabels = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+
+const DrawMode ={
+	None: "none",
+	Line: "line",
+	Path: "path",
+	Point: "point",
+	Goal: "goal",
+	Erase: "erase"
+}
+var drawMode = DrawMode.None;
+
+var mapObjects = {
+	lines: [],
+	path: [],
+	points: [],
+	goals: []
+}
+
+function setMode(event, newMode){
+
+	if(drawMode == newMode){
+		drawMode = DrawMode.None;
+	}else{
+		drawMode = newMode;
+	}
+
+	let buttons = document.getElementsByClassName("iconbutton");
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].style.backgroundColor = "#ffd8c273";
+	}
+
+	if(drawMode != DrawMode.None){
+		event.target.style.backgroundColor = "#FFFBEE";
+	}
+}
 
 require([
 	"esri/Map",
@@ -329,107 +364,19 @@ require([
 	lineGraphicsLayer = new GraphicsLayer();
 	plotLayer = new GraphicsLayer();
 	plotPoint = new GraphicsLayer();
+	imageLayer = new GraphicsLayer();
+	renderLayer = new GraphicsLayer();
 
 	map.add(edgeLayer);
 	map.add(plotPoint);
 	map.add(plotLayer);
-	map.add(graphicsLayer);
 	map.add(lineGraphicsLayer);
+	map.add(graphicsLayer);
+	map.add(imageLayer);
+	map.add(renderLayer);
 
 	// Boat svg
-	testLayer = new GraphicsLayer();
- 	map.add(testLayer);
-
-	let boat = new Graphic({
-		geometry: {
-			type: "point",
-			longitude: -18,
-			latitude: 42
-		},
-		symbol: {
-			type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-			url: "assets/img/boat.svg",
-			width: "200px",
-			height: "200px"
-		  }
-	});
-	testLayer.add(boat);
-
-	let point = {
-		type: "point",
-		longitude: 0,
-		latitude: 0
-	};
-
-	let polyline = {
-		type: "polyline",
-		paths: [[0, 0]]
-	};
-
-	let polylineAtt = {
-		day: null,
-		time: null,
-		windForce: null,
-		windDir: null
-	};
-
-	const plotSymbol = {
-		type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-		style: "x",
-		color: [72, 6, 7, .75],
-		outline: {
-			// autocasts as new SimpleLineSymbol()
-			color: [72, 6, 7, .75],
-			width: 3
-		}
-	};
-
-	const markerSymbol = {
-		type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-		style: "circle",
-		color: [255, 82, 29, 0.808],
-		outline: {
-			// autocasts as new SimpleLineSymbol()
-			color: [60, 20, 20, .75],
-			width: 2
-		}
-	};
-
-	let polylineSymbol = {
-		type: "simple-line",  // autocasts as SimpleLineSymbol()
-		color: [72, 6, 7, .75],
-		style: 'dash-dot',
-		width: 2
-	};
-
-	let plotlineSymbol = {
-		type: "simple-line",  // autocasts as SimpleLineSymbol()
-		color: [225, 55, 0, .75],
-		style: 'short-dot',
-		width: 2
-	};
-
-	plotlineGraphic = new Graphic({
-		geometry: polyline,
-		symbol: plotlineSymbol,
-		attributes: polylineAtt
-	});
-
-	polylineGraphic = new Graphic({
-		geometry: polyline,
-		symbol: polylineSymbol
-	});
-
-	pointGraphic = new Graphic({
-		geometry: point,
-		symbol: markerSymbol,
-		attributes: polylineAtt
-	});
-
-	plotPointGraphic = new Graphic({
-		geometry: point,
-		symbol: plotSymbol
-	});
+	imageLayer.add(new Graphic(GraphicsLibrary.boat));
 
 	view.on('pointer-move', function (event) {
 		const opts = {
@@ -460,106 +407,227 @@ require([
 	});
 
 	view.on("immediate-click", function (event) {
-		buttonpressed = false;
-		//console.log(event)
-		if (drawBool) {
 
-			if (checkBool) {
-				openDetails()
-			}
-			var lat = event.mapPoint.y;
-			var long = event.mapPoint.x;
-			var newPointGraphic = pointGraphic.clone();
-			var newLineGraphic = polylineGraphic.clone();
-			newPointGraphic.geometry.latitude = lat;
-			newPointGraphic.geometry.longitude = long;
-			if (loaded == true) {
-				var nemo = localStorage.getItem("paths")
-				paths = JSON.parse(nemo);
-				paths = paths[0]
-				for (i = 0; i < paths.length; i++) {
-					path.push(paths[i]);
-				}
-				loaded = false;
-			}
-			path.push([long, lat])
-			var totalDist = 0;
-			if (path.length > 1) {
-				for (i = 0; i < path.length; i++) {
-					//console.log(path[i][1], path[i][0], path[i+1][1], path[i+1][0])
-					if (i != path.length - 1) {
-						totalDist += getDistanceFromLatLonInKm(path[i][1], path[i][0], path[i + 1][1], path[i + 1][0])
-					}
-				}
-			}
-			document.getElementById("traveldist").innerHTML = String(Math.round(totalDist * 10) / 10 + "nm");
-			newLineGraphic.geometry.paths = path;
-			graphicsLayer.add(newPointGraphic);
-			lineGraphicsLayer.removeAll();
-			lineGraphicsLayer.add(newLineGraphic);
-			line = plotLayer.graphics.items
-			lastPoint = []
-			if (line.length > 0) {
-				lastPoint = line[0].geometry.paths[0].at(-1);
+		let lat = event.mapPoint.y;
+		let long = event.mapPoint.x;
 
-				if(lastPoint != undefined)
-					plotCourse(lastPoint[1], lastPoint[0]);
-			}
-
-
+		if(drawMode == DrawMode.Path){
+			mapObjects.path.push([long, lat]);
+			if (showDetails)
+				openDetails();
 		}
-		if (plotBool) {
-			var lat = event.mapPoint.y;
-			var long = event.mapPoint.x;
-			plotCourse(lat, long)
+		else if(drawMode == DrawMode.Point){
+			mapObjects.points.push([long, lat]);
+			if (showDetails)
+				openDetails();
 		}
-		//console.log(graphicsLayer)
+		else if(drawMode == DrawMode.Goal){
+			mapObjects.goals = [[long, lat]];
+		}
+		else if(drawMode == DrawMode.Erase){
+			eraseObjectAt(long, lat);
+		}
+
+		redrawMap();
+		computeInfo();
 	});
 
 	view.on("hold", function (event) {
-		if (drawBool) {
-			const opts = {
-				include: graphicsLayer
-			}
-			view.hitTest(event, opts).then((response) => {
-				// check if a feature is returned from the hurricanesLayer
-				if (response.results.length) {
-					const graphic = response.results[0].graphic;
-					bob = []
-					bob[0] = graphic.geometry.longitude;
-					bob[1] = graphic.geometry.latitude;
-					stuff = lineGraphicsLayer.graphics.items[0].geometry.paths[0]
-					graphicsLayer.removeAll()
-					for (i = 0; i < stuff.length; i++) {
-						if (arraysEqual(bob, stuff[i])) {
-							stuff.splice(i, 1)
-						}
-					}
-					for (i = 0; i < stuff.length; i++) {
-						var newPointGraphic = pointGraphic.clone();
-						newPointGraphic.geometry.latitude = stuff[i][1];
-						newPointGraphic.geometry.longitude = stuff[i][0];
-						graphicsLayer.add(newPointGraphic);
-					}
-					var newLinGraphic = polylineGraphic.clone();
-					newLinGraphic.geometry.paths = stuff;
-					path = stuff;
-					lineGraphicsLayer.removeAll();
-					lineGraphicsLayer.add(newLinGraphic);
-				}
-			});
-		}
+
+		let lat = event.mapPoint.y;
+		let long = event.mapPoint.x;
+
+		let result = findObjectAt(long, lat);
+
+
+		document.getElementById("viewDiv").cursor = "move";
+		//document.getElementById("viewDiv").cursor = "crosshair";
+
+
 	});
 
-	document.getElementById('detailscheck').onclick = function () {
-		// access properties using this keyword
-		if (this.checked) {
-			checkBool = true
-		} else {
-			checkBool = false
+	function findObjectAt(long, lat){
+		let degreesPerPixel = view.extent.width/window.screen.width;
+
+		//check route
+		for (i = 0; i < mapObjects.path.length; i++) {
+
+			let pLong = mapObjects.path[i][0];
+			let pLat = mapObjects.path[i][1];
+
+			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
+				return {
+					array: mapObjects.path,
+					index: i
+				}
+			}
+		}
+
+		//check points
+		for (i = 0; i < mapObjects.points.length; i++) {
+
+			let pLong = mapObjects.points[i][0];
+			let pLat = mapObjects.points[i][1];
+
+			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
+				return {
+					array: mapObjects.points,
+					index: i
+				}
+			}
+		}
+
+		//check destination(s?)
+		for (i = 0; i < mapObjects.goals.length; i++) {
+
+			let pLong = mapObjects.goals[i][0];
+			let pLat = mapObjects.goals[i][1];
+
+			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
+				return {
+					array: mapObjects.goals,
+					index: i
+				}
+			}
 		}
 	}
 
+	function eraseObjectAt(long, lat){
+		let degreesPerPixel = view.extent.width/window.screen.width;
+
+		//check route
+		for (i = 0; i < mapObjects.path.length; i++) {
+
+			let pLong = mapObjects.path[i][0];
+			let pLat = mapObjects.path[i][1];
+
+			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
+				mapObjects.path.splice(i, 1)
+				return;
+			}
+		}
+
+		//check points
+		for (i = 0; i < mapObjects.points.length; i++) {
+
+			let pLong = mapObjects.points[i][0];
+			let pLat = mapObjects.points[i][1];
+
+			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
+				mapObjects.points.splice(i, 1)
+				return;
+			}
+		}
+
+		//check destination(s?)
+		for (i = 0; i < mapObjects.goals.length; i++) {
+
+			let pLong = mapObjects.goals[i][0];
+			let pLat = mapObjects.goals[i][1];
+
+			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
+				mapObjects.goals.splice(i, 1)
+				return;
+			}
+		}
+	}
+
+	function redrawMap(){
+
+		renderLayer.removeAll();
+
+		//draw route line
+		if(mapObjects.path.length > 1){
+			let line = new Graphic(GraphicsLibrary.orangeLine);
+			line.geometry.paths = mapObjects.path;
+			renderLayer.add(line);
+		}
+
+		// draw goal leg
+		if(mapObjects.path.length > 0 && mapObjects.goals.length > 0){
+			let line = new Graphic(GraphicsLibrary.dottedOrangeLine);
+			line.geometry.paths = [
+				mapObjects.path[mapObjects.path.length-1],
+				mapObjects.goals[0]
+			];
+			renderLayer.add(line);
+		}
+
+		//draw route dots
+		if(mapObjects.path.length > 0){
+			for (i = 0; i < mapObjects.path.length; i++) {
+				let point = new Graphic(GraphicsLibrary.orangePoint);
+				point.geometry.latitude = mapObjects.path[i][1];
+				point.geometry.longitude = mapObjects.path[i][0];
+				renderLayer.add(point);
+			}
+		}
+
+		//draw scatter dots
+		if(mapObjects.points.length > 0){
+			for (i = 0; i < mapObjects.points.length; i++) {
+				let point = new Graphic(GraphicsLibrary.bluePoint);
+				point.geometry.latitude = mapObjects.points[i][1];
+				point.geometry.longitude = mapObjects.points[i][0];
+				renderLayer.add(point);
+			}
+		}
+
+		//draw destinations
+		if(mapObjects.goals.length > 0){
+			for (i = 0; i < mapObjects.goals.length; i++) {
+				let point = new Graphic(GraphicsLibrary.destinationPoint);
+				point.geometry.latitude = mapObjects.goals[i][1];
+				point.geometry.longitude = mapObjects.goals[i][0];
+				renderLayer.add(point);
+			}
+		}
+	}
+
+	function computeInfo(){
+
+		// Total travel distance
+		let totalDist = 0;
+		if (mapObjects.path.length > 1) {
+			for (i = 0; i <  mapObjects.path.length; i++) {
+				if (i !=  mapObjects.path.length - 1) {
+					totalDist += getDistanceFromLatLonInNm(
+						mapObjects.path[i][1],
+						mapObjects.path[i][0], 
+						mapObjects.path[i + 1][1], 
+						mapObjects.path[i + 1][0]
+					)
+				}
+			}
+		}
+		document.getElementById("traveldist").innerHTML = String(Math.round(totalDist * 10) / 10 + " NM");	
+
+		// Heading and distance to target
+		if(mapObjects.path.length > 0 && mapObjects.goals.length > 0){
+
+			let pos = mapObjects.path[mapObjects.path.length-1];
+			let tgt = mapObjects.goals[0];
+
+			let dist = getDistanceFromLatLonInNm(pos[1], pos[0], tgt[1], tgt[0])
+			
+			let bearing = getBearing(pos[1], pos[0], tgt[1], tgt[0]);
+			bearing = Math.round(bearing * 10) / 10;
+
+			document.getElementById("distance").innerHTML = String(Math.round(dist * 10) / 10 + "NM");
+			document.getElementById("heading").innerHTML = String(bearing + "°");
+
+			setArrow(bearing);
+		}
+		else{
+			document.getElementById("heading").innerHTML = "¯\\_(ツ)_/¯";
+			document.getElementById("distance").innerHTML = "";
+			setArrow(0);
+		}
+	}
+
+	document.getElementById('detailscheck').onclick = function () {
+		showDetails = this.checked
+	}
 
 	document.getElementById('routescheck').onclick = function () {
 		route.visible = this.checked;
@@ -570,48 +638,6 @@ require([
 		wind.visible = this.checked;
 		localStorage.setItem("wind_visible", this.checked);
 	}
-
-	let degreeSideLabelGraphic = new Graphic({
-		geometry: {
-			type: "point",
-			longitude: 0,
-			latitude: 0
-		},
-		symbol: {
-			type: "text",
-			color: "black",
-			haloColor: [192, 183, 175, 0.95],
-			haloSize: "4pt",
-			font: {
-				family: "Montserrat",
-				size: 14
-			},
-			text: "0°",
-			xoffset: 0,
-			yoffset: -5,
-		  }
-	});
-
-	let degreeTopLabelGraphic = new Graphic({
-		geometry: {
-			type: "point",
-			longitude: 0,
-			latitude: 0
-		},
-		symbol: {
-			type: "text",
-			color: "black",
-			haloColor: [192, 183, 175, 0.95],
-			haloSize: "4pt",
-			font: {
-				family: "Montserrat",
-				size: 14
-			},
-			text: "0°",
-			xoffset: 3,
-			yoffset: 0,
-		  }
-	});
 
 	// dynamic degree number renderer
 	view.watch('extent', function(newextent, oldextent) {
@@ -680,7 +706,7 @@ require([
 		}
 
 		for(let i = lat_min; i <= lat_max; i+=step){
-			let testpoint = degreeSideLabelGraphic.clone();
+			let testpoint = new Graphic(GraphicsLibrary.degreeSideLabel);
 			testpoint.geometry.latitude = i;
 			testpoint.geometry.longitude = xmin + width_offset;
 			testpoint.symbol.text = i.toFixed(decimals)+"°";
@@ -688,7 +714,7 @@ require([
 		}
 
 		for(let i = long_min; i <= long_max; i+=step){
-			let testpoint = degreeTopLabelGraphic.clone();
+			let testpoint = new Graphic(GraphicsLibrary.degreeTopLabel);
 			testpoint.geometry.latitude = ymax - height_offset;
 			testpoint.geometry.longitude = i;
 			testpoint.symbol.text = i.toFixed(decimals)+"°";
@@ -763,239 +789,13 @@ function arraysEqual(a, b) {
 	return true;
 };
 
-function saveLocal() {
-	bob = lineGraphicsLayer.graphics.items[0]
-	console.log(bob.geometry.paths)
-	localStorage.setItem("paths", JSON.stringify(bob.geometry.paths));
-};
 
-function getLocal() {
-	loaded = true;
-	var nemo = localStorage.getItem("paths")
-	paths = JSON.parse(nemo);
-
-	var newLineGraphic = polylineGraphic.clone();
-	newLineGraphic.geometry.paths = JSON.parse(nemo);
-	paths = paths[0]
-
-	for (i = 0; i < paths.length; i++) {
-		var newPointGraphic = pointGraphic.clone();
-		part = paths[i]
-		newPointGraphic.geometry.latitude = part[1];
-		newPointGraphic.geometry.longitude = part[0];
-		graphicsLayer.add(newPointGraphic)
-	}
-
-	var totalDist = 0;
-	if (paths.length > 1) {
-		for (i = 0; i < paths.length; i++) {
-			if (i != paths.length - 1) {
-				totalDist += getDistanceFromLatLonInKm(paths[i][1], paths[i][0], paths[i + 1][1], paths[i + 1][0])
-			}
-		}
-		document.getElementById("traveldist").innerHTML = String(Math.round(totalDist * 10) / 10 + "nm");
-	}
-	lineGraphicsLayer.add(newLineGraphic);
-
-};
 function clearLocal() {
 	lineGraphicsLayer.removeAll();
 	graphicsLayer.removeAll();
 }
 
-function toggleDestination() {
-
-	if(destination_set){
-		plotLayer.removeAll();
-		document.getElementById("heading").innerHTML = null;
-		document.getElementById("distance").innerHTML = null;
-		setArrow(0);
-		plotBool = false;
-		drawBool = true;
-		document.getElementById("destination_button").style.backgroundColor = "#ffd8c273";
-		document.getElementById("destination_icon").src = "assets/img/tools/destination.svg";
-	}
-	else{
-		plotBool = true;
-		drawBool = false;
-		document.getElementById("destination_button").style.backgroundColor = "#ffAF9D5F";
-		document.getElementById("destination_icon").src = "assets/img/tools/destination_set.svg";
-	}
-
-	destination_set = !destination_set;
-
-
-};
-
-function getCoords() {
-	var lat = document.getElementById("latin").value;
-	var long = document.getElementById("longin").value;
-	if (!lat || !long) {
-		alert("Enter Numbers")
-		return
-	}
-	var newPointGraphic = pointGraphic.clone();
-	var newLineGraphi = polylineGraphic.clone();
-	newPointGraphic.geometry.latitude = lat;
-	newPointGraphic.geometry.longitude = long;
-	path.push([long, lat])
-	newLineGraphi.geometry.paths = path;
-	var totalDist = 0;
-	if (path.length > 1) {
-		for (i = 0; i < path.length; i++) {
-			//console.log(path[i][1], path[i][0], path[i+1][1], path[i+1][0])
-			if (i != path.length - 1) {
-				totalDist += getDistanceFromLatLonInKm(path[i][1], path[i][0], path[i + 1][1], path[i + 1][0])
-			}
-		}
-	}
-	document.getElementById("traveldist").innerHTML = String(Math.round(totalDist * 10) / 10 + "nm");
-	lineGraphicsLayer.add(newLineGraphi);
-	graphicsLayer.add(newPointGraphic);
-	lineGraphicsLayer.removeAll();
-	lineGraphicsLayer.add(newLineGraphi);
-	line = plotLayer.graphics.items
-	lastPoint = []
-	if (line.length > 0) {
-		lastPoint = line[0].geometry.paths[0].at(-1)
-		plotCourse(lastPoint[1], lastPoint[0])
-	}
-	document.getElementById("latin").value = null;
-	document.getElementById("longin").value = null;
-};
-
 function setArrow(degree) {
-
-	var img = $('.arrow');
-	var img2 = $('.arrow2');
-	var img3 = $('.arrow3');
-	var imgc = $('.arrowc');
-	if (img.length > 0) {
-		img.css('-moz-transform', 'rotate(' + degree + 'deg)');
-		img.css('-webkit-transform', 'rotate(' + degree + 'deg)');
-		img.css('-o-transform', 'rotate(' + degree + 'deg)');
-		img.css('-ms-transform', 'rotate(' + degree + 'deg)');
-		img2.css('-moz-transform', 'rotate(' + degree + 'deg)');
-		img2.css('-webkit-transform', 'rotate(' + degree + 'deg)');
-		img2.css('-o-transform', 'rotate(' + degree + 'deg)');
-		img2.css('-ms-transform', 'rotate(' + degree + 'deg)');
-		img3.css('-moz-transform', 'rotate(' + degree + 'deg)');
-		img3.css('-webkit-transform', 'rotate(' + degree + 'deg)');
-		img3.css('-o-transform', 'rotate(' + degree + 'deg)');
-		img3.css('-ms-transform', 'rotate(' + degree + 'deg)');
-		imgc.css('-moz-transform', 'rotate(' + degree + 'deg)');
-		imgc.css('-webkit-transform', 'rotate(' + degree + 'deg)');
-		imgc.css('-o-transform', 'rotate(' + degree + 'deg)');
-		imgc.css('-ms-transform', 'rotate(' + degree + 'deg)');
-
-	}
-
+	document.getElementById("compass_needle").style.transform = 'rotate(' + degree + 'deg)';
 };
 
-
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-	//var R =  5765; // Radius of the earth in km
-	//var dLat = deg2rad(lat2-lat1);  // deg2rad below
-	//var dLon = deg2rad(lon2-lon1); 
-	//var a = 
-	//  Math.sin(dLat/2) * Math.sin(dLat/2) +
-	//  Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-	// Math.sin(dLon/2) * Math.sin(dLon/2)
-	//  ; 
-	//var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-	// var d = R * c; // Distance in km
-
-	var d = Math.sqrt(Math.pow((lat2 - lat1), 2) + Math.pow((lon2 - lon1), 2)) * 90
-	return d;
-}
-function deg2rad(deg) {
-	return deg * (Math.PI / 180)
-}
-function calcDistance(coordPair) {
-	var degUnit = 10000;
-
-};
-
-function calcSpeed(coords) {
-
-};
-
-function clearCoords() {
-	coords = []
-	document.getElementById("traveldist").innerHTML = null
-	graphicsLayer.removeAll();
-	lineGraphicsLayer.removeAll();
-	plotLayer.removeAll();
-	path = []
-	plotBool = false;
-	drawBool = true;
-};
-
-function plotCourse(destLat, destLong) {
-	plotLayer.removeAll();
-	line = lineGraphicsLayer.graphics.items;
-	lastPoint = []
-	//console.log(line)
-	if (line.length > 0) {
-		//console.log(line[0].geometry.paths[0].at(-1))
-		lastPoint = line[0].geometry.paths[0].at(-1)
-	}
-	else { 
-		alert("Must Select a starting location") 
-	}
-
-	let newPlotGraphi = plotlineGraphic.clone();
-	let newPointGraphic = plotPointGraphic.clone();
-
-	newPointGraphic.geometry.latitude = destLat;
-	newPointGraphic.geometry.longitude = destLong;
-
-	pat = []
-
-	pat.push([lastPoint[0], lastPoint[1]])
-	pat.push([destLong, destLat])
-
-	distToTarget = getDistanceFromLatLonInKm(lastPoint[1], lastPoint[0], destLat, destLong)
-	newPlotGraphi.geometry.paths = pat;
-	plotLayer.add(newPlotGraphi);
-	plotLayer.add(newPointGraphic);
-
-	bob = bearing(lastPoint[1], lastPoint[0], destLat, destLong)
-	bob = Math.round(bob * 10) / 10;
-
-	document.getElementById("heading").innerHTML = String(bob + "&#176;");
-	document.getElementById("distance").innerHTML = String(Math.round(distToTarget * 10) / 10 + "nm");
-	setArrow(bob);
-
-	plotBool = false;
-	drawBool = true;
-
-};
-
-function toRadians(degrees) {
-	return degrees * Math.PI / 180;
-};
-
-function toDegrees(radians) {
-	return radians * 180 / Math.PI;
-};
-
-function bearing(startLat, startLng, destLat, destLng) {
-	var deltaX = destLat - startLat;
-	var deltaY = destLng - startLng;
-
-	var radians = Math.atan2(deltaY, deltaX)
-	var degrees = ((radians * 180) / Math.PI);
-
-	//startLat = toRadians(startLat);
-	//startLng = toRadians(startLng);
-	//destLat = toRadians(destLat);
-	//destLng = toRadians(destLng);
-
-	//y = Math.sin(destLng - startLng) * Math.cos(destLat);
-	//x = Math.cos(startLat) * Math.sin(destLat) -
-	//      Math.sin(startLat) * Math.cos(destLat) * Math.cos(destLng - startLng);
-	//brng = Math.atan2(y, x);
-	//brng = toDegrees(brng);
-	return (degrees + 360) % 360;
-};

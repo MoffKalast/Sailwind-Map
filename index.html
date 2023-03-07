@@ -24,15 +24,8 @@
 	<link rel="stylesheet" href="css/simplified.css" />
 	<link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
 
-	<script src="js/grid_routes.js"></script>
-	<script src="js/grid_lines.js"></script>
-	<script src="js/grid_winds.js"></script>
-	<script src="js/polygon_definitions.js"></script>
 	<script src="https://js.arcgis.com/4.21/"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="js/modal.js"></script>
-	<script src="js/misc.js"></script>
-	
 </head>
 
 <body>
@@ -94,7 +87,8 @@
 		</div>
 	</div>
 
-	<div id="sidepanel" class="box noselect" >		
+	<!-- Menu panel -->
+	<div id="menupanel" class="box noselect" >		
 		<div class="row">
 			<button type="button" style="width:100%" onclick="Modal.open('modal_tutorial')">Tutorial</button>
 		</div>
@@ -109,38 +103,39 @@
 		</div>
 	</div>
 
-	<div id="bottompanel" class="box noselect" >
+	<!-- Tool panel -->
+	<div id="toolpanel" class="box noselect" >
 
-		<button type="button" class="iconbutton" onclick="//TODO">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Line)">
 			<img class="icon" src="assets/img/tools/line_black.svg" />
 		</button>
 
-		<button type="button" class="iconbutton" onclick="//TODO">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Line)">
 			<img class="icon" src="assets/img/tools/line_gray.svg" />
 		</button>
 
-		<button type="button" class="iconbutton" onclick="//TODO">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Line)">
 			<img class="icon" src="assets/img/tools/line_red.svg" />
 		</button>
 
-		<button type="button" class="iconbutton" onclick="//TODO">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Path)">
 			<img class="icon" src="assets/img/tools/path.svg" />
 		</button>
 
-		<button type="button" class="iconbutton" onclick="//TODO">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Point)">
 			<img class="icon" src="assets/img/tools/path_nolines.svg" />
 		</button>
 
-		<button id="destination_button" type="button" class="iconbutton" onclick="toggleDestination()">
-			<img id="destination_icon" class="icon" src="assets/img/tools/destination.svg" />
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Goal)">
+			<img class="icon" src="assets/img/tools/destination.svg" />
 		</button>
 
-		<button type="button" class="iconbutton" style="background-color: rgb(77, 33, 33);" onclick="//TODO">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Erase)">
 			<img class="icon" src="assets/img/tools/eraser.svg" />
 		</button>
 	</div>
 
-
+	<!-- Modal window definitions -->
 
 	<div id="modal_tutorial" class="modal noselect">
 		<div class="box modal-content noselect">
@@ -218,14 +213,6 @@
 			<h1>Plotting</h1>
 			<hr>
 			<div class="row">
-				<label for="latin" class="left">Latitude:</label>
-				<input id="latin" class="right" type="text" maxlength="6">
-			</div>
-			<div class="row">
-				<label for="longin" class="left">Longitude:</label>
-				<input id="longin" class="right" type="text">
-			</div>
-			<div class="row">
 				<label for="traveldist" class="left">Travel Distance:</label>
 				<span id="traveldist" class="right"></span>
 			</div>
@@ -234,7 +221,6 @@
 				<input id="detailscheck" type="checkbox" class="checkbox">
 			</div>
 			<div class="buttons">
-				<button type="button" onclick="getCoords()">Enter Ye Coords</button>
 				<button type="button" style="background-color: rgb(208, 137, 114);" onclick="clearCoords()">Clear All Coords</button>
 			</div>
 			<div class="buttons">
@@ -252,28 +238,31 @@
 			<div class="row">
 				<label>Distance: <span class="right" id="distance"></span></label>
 			</div>
-			<div class="buttons">
-				<button type="button" onclick="getDestination()">
-					Set
-				</button>
-				<button type="button" onclick="clearDestination()">
-					Clear
-				</button>
-			</div>
 		</div>
 
 		<div class="compass_container" id="compass">
-			<img src="assets/img/compass2.png" alt="compass" id="image">
-			<span class="arrow2"></span>
+			<img src="assets/img/compass2.png" alt="compass" id="compass_image">
+			<img src="assets/img/compass_needle.png" alt="compassneedle" id="compass_needle">
+
+			<!--<span class="arrow2"></span>
 			<span class="arrow3"></span>
 			<span class="arrow"></span>
-			<span class="arrowc"></span>
+			<span class="arrowc"></span>-->
 		</div>
 		<br>
 
 	</div>
 
 </body>
+
+<script src="js/grid_routes.js"></script>
+<script src="js/grid_lines.js"></script>
+<script src="js/grid_winds.js"></script>
+<script src="js/polygon_definitions.js"></script>
+<script src="js/modal.js"></script>	
+<script src="js/misc.js"></script>
+<script src="js/persistent.js"></script>
+<script src="js/graphics.js"></script>	
 <script src="js/main.js"></script>
 
 </html>
