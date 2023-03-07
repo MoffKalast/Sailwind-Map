@@ -1,6 +1,8 @@
 var path = [];
 var times = [];
 
+var destination_set = false;
+
 var plotBool = false;
 var drawBool = true;
 var loaded = false;
@@ -311,7 +313,8 @@ require([
 				ymin: -90,
 				xmax: 90,
 				ymax: 90
-			}
+			},
+			rotationEnabled: false
 		}
 	});
 
@@ -573,7 +576,7 @@ require([
 		symbol: {
 			type: "text",
 			color: "black",
-			haloColor: [205, 200, 196, 0.95],
+			haloColor: [192, 183, 175, 0.95],
 			haloSize: "4pt",
 			font: {
 				family: "Montserrat",
@@ -625,6 +628,9 @@ require([
 	// dynamic degree number renderer
 	view.watch('stationary', function(newextent, oldextent) {
 
+		if(view.extent == undefined)
+			return;
+
 		let xmin = view.extent.xmin;
 		let xmax = view.extent.xmax;
 		let ymin = view.extent.ymin;
@@ -669,8 +675,6 @@ require([
 			decimals = 1;
 		}
 
-
-
 		for(let i = lat_min; i <= lat_max; i+=step){
 			let testpoint = degreeSideLabelGraphic.clone();
 			testpoint.geometry.latitude = i;
@@ -713,9 +717,8 @@ function openDetails() {
 	document.getElementById("form_position_details").style.left = event.x;
 	document.getElementById("form_position_details").style.display = "block";
 	wait()
-
-
 }
+
 function openSum(graphic) {
 	document.getElementById("form_position_summary").style.top = event.y;
 	document.getElementById("form_position_summary").style.left = event.x;
@@ -724,15 +727,12 @@ function openSum(graphic) {
 	document.getElementById("winddout").innerHTML = graphic.attributes.windDir;
 	document.getElementById("windfout").innerHTML = graphic.attributes.windForce;
 	document.getElementById("form_position_summary").style.display = "block";
-
-
-
 }
+
 function closeSum() {
-
 	document.getElementById("form_position_summary").style.display = "none";
-
 }
+
 function getDetails() {
 	buttonpressed = true;
 	item = graphicsLayer.graphics.items[graphicsLayer.graphics.items.length - 1]
@@ -748,7 +748,6 @@ function getDetails() {
 };
 
 
-
 function arraysEqual(a, b) {
 	if (a === b) return true;
 	if (a == null || b == null) return false;
@@ -762,6 +761,7 @@ function arraysEqual(a, b) {
 
 function saveLocal() {
 	bob = lineGraphicsLayer.graphics.items[0]
+	console.log(bob.geometry.paths)
 	localStorage.setItem("paths", JSON.stringify(bob.geometry.paths));
 };
 
@@ -773,6 +773,7 @@ function getLocal() {
 	var newLineGraphic = polylineGraphic.clone();
 	newLineGraphic.geometry.paths = JSON.parse(nemo);
 	paths = paths[0]
+
 	for (i = 0; i < paths.length; i++) {
 		var newPointGraphic = pointGraphic.clone();
 		part = paths[i]
@@ -780,6 +781,7 @@ function getLocal() {
 		newPointGraphic.geometry.longitude = part[0];
 		graphicsLayer.add(newPointGraphic)
 	}
+
 	var totalDist = 0;
 	if (paths.length > 1) {
 		for (i = 0; i < paths.length; i++) {
@@ -795,21 +797,30 @@ function getLocal() {
 function clearLocal() {
 	lineGraphicsLayer.removeAll();
 	graphicsLayer.removeAll();
-
 }
 
-function getDestination() {
-	plotBool = true;
-	drawBool = false;
-};
+function toggleDestination() {
 
-function clearDestination() {
-	plotLayer.removeAll();
-	document.getElementById("heading").innerHTML = null;
-	document.getElementById("distance").innerHTML = null;
-	setArrow(0);
-	plotBool = false;
-	drawBool = true;
+	if(destination_set){
+		plotLayer.removeAll();
+		document.getElementById("heading").innerHTML = null;
+		document.getElementById("distance").innerHTML = null;
+		setArrow(0);
+		plotBool = false;
+		drawBool = true;
+		document.getElementById("destination_button").style.backgroundColor = "#ffd8c273";
+		document.getElementById("destination_icon").src = "assets/img/tools/destination.svg";
+	}
+	else{
+		plotBool = true;
+		drawBool = false;
+		document.getElementById("destination_button").style.backgroundColor = "#ffAF9D5F";
+		document.getElementById("destination_icon").src = "assets/img/tools/destination_set.svg";
+	}
+
+	destination_set = !destination_set;
+
+
 };
 
 function getCoords() {

@@ -1,8 +1,8 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
-  <title class="lang" id="web_title">Sailwind Interactive Map</title>
+	<meta charset="utf-8" />
+	<title class="lang" id="web_title">Sailwind Interactive Map</title>
 	<link rel="icon" type="image/png" href="assets/img/16x16.png" sizes="16x16">
 	<link rel="icon" type="image/png" href="assets/img/32x32.png" sizes="32x32">
 	<link rel="icon" type="image/png" href="assets/img/96x96.png" sizes="96x96">
@@ -21,150 +21,253 @@
 	<link rel="icon" href="assets/img/pwa_icons/96x96.png" sizes="96x96" />
 	<link rel="icon" href="assets/img/pwa_icons/144x144.png" sizes="144x144" />
 
-  <link rel="stylesheet" href="css/simplified.css" />
-  <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
+	<link rel="stylesheet" href="css/simplified.css" />
+	<link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
 
-  <script src="js/grid_routes.js"></script>
-  <script src="js/grid_lines.js"></script>
-  <script src="js/grid_winds.js"></script>
-  <script src="js/polygon_definitions.js"></script>
-  <script src="https://js.arcgis.com/4.21/"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  
+	<script src="js/grid_routes.js"></script>
+	<script src="js/grid_lines.js"></script>
+	<script src="js/grid_winds.js"></script>
+	<script src="js/polygon_definitions.js"></script>
+	<script src="https://js.arcgis.com/4.21/"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="js/modal.js"></script>
+	
 </head>
 
 <body>
-  <!-- THIS IS THE FORM THAT POPS UP WHEN YOU ADD A NEW POINT AND HAVE ADDITIONAL DETAILS TICKED -->
-  <form class="form-popup" id="form_position_details">
-    <h1>Enter Position Details</h1>
-    <hr>
-    <div class="row">
-      <label for="day" class="left">Day</label>
-      <input id="day" class="right" type="text" maxlength="6" placeholder="Enter Day (1,2,3)">
-    </div>
-    <div class="row">
-      <label for="time" class="left">Time</label>
-      <input id="time" class="right" type="text" maxlength="4" placeholder="Enter Time (0600)">
-    </div>
-    <div class="row">
-      <label for="windd" class="left">Wind Dir</label>
-      <input id="windd" class="right" type="text" maxlength="3" placeholder="Wind Direction (270)">
-    </div>
-    <div class="row">
-      <label for="windf" class="left">Wind Force</label>
-      <input id="windf" class="right" type="text" maxlength="1" placeholder="Wind Force (1-5)">
-    </div>
-    <button id="save_point_details" type="button" onclick="getDetails()">Save</button>
-  </form>
+	<!-- THIS IS THE FORM THAT POPS UP WHEN YOU ADD A NEW POINT AND HAVE ADDITIONAL DETAILS TICKED -->
+	<form class="form-popup" id="form_position_details">
+		<h1>Enter Position Details</h1>
+		<hr>
+		<div class="row">
+			<label for="day" class="left">Day</label>
+			<input id="day" class="right" type="text" maxlength="6" placeholder="Enter Day (1,2,3)">
+		</div>
+		<div class="row">
+			<label for="time" class="left">Time</label>
+			<input id="time" class="right" type="text" maxlength="4" placeholder="Enter Time (0600)">
+		</div>
+		<div class="row">
+			<label for="windd" class="left">Wind Dir</label>
+			<input id="windd" class="right" type="text" maxlength="3" placeholder="Wind Direction (270)">
+		</div>
+		<div class="row">
+			<label for="windf" class="left">Wind Force</label>
+			<input id="windf" class="right" type="text" maxlength="1" placeholder="Wind Force (1-5)">
+		</div>
+		<button id="save_point_details" type="button" onclick="getDetails()">Save</button>
+	</form>
 
-  <!-- THIS IS THE FORM THAT POPS UP WHEN YOU HOVER OVER A POINT -->
-  <form class="form-popup" id="form_position_summary">
-    <h1>Position Details</h1>
-    <hr>
-    <div class="row">
-      <label class="left">Day: </label><span class="right" id="dayout"></span>
-    </div>
-    <div class="row">
-      <label class="left">Time: </label><span class="right" id="timeout"></span>
-    </div>
-    <div class="row">
-      <label class="left">Wind Dir: </label><span class="right" id="winddout"></span>
-    </div>
-    <div class="row">
-      <label class="left">Wind Force: </label><span class="right" id="windfout"></span>
-    </div>
-  </form>
+	<!-- THIS IS THE FORM THAT POPS UP WHEN YOU HOVER OVER A POINT -->
+	<form class="form-popup" id="form_position_summary">
+		<h1>Position Details</h1>
+		<hr>
+		<div class="row">
+			<label class="left">Day: </label><span class="right" id="dayout"></span>
+		</div>
+		<div class="row">
+			<label class="left">Time: </label><span class="right" id="timeout"></span>
+		</div>
+		<div class="row">
+			<label class="left">Wind Dir: </label><span class="right" id="winddout"></span>
+		</div>
+		<div class="row">
+			<label class="left">Wind Force: </label><span class="right" id="windfout"></span>
+		</div>
+	</form>
 
-  <!-- MAP VIEW DIV -->
-  <div id="viewDiv"></div>
+	<!-- MAP VIEW DIV -->
+	<div id="viewDiv"></div>
 
-  <!-- Cursor Details-->
+	<!-- Cursor Details-->
 
-  <div class="box" id="cursor_details">
-    <div class="row">
-      <label>Latitude: </label><span class="right" id="yposition"></span>
-    </div>
-    <div class="row">
-      <label>Longitude: </label><span class="right" id="xposition"></span>
-    </div>
-  </div>
+	<div class="box noselect" id="cursor_details">
+		<div class="row">
+			<label>Latitude: </label><span class="right" id="yposition"></span>
+		</div>
+		<div class="row">
+			<label>Longitude: </label><span class="right" id="xposition"></span>
+		</div>
+	</div>
 
-  <!-- WRAPPED SIDEBAR -->
-  <div id="sidebar">
-    <div class="box" id="CoordEntry">
-      <h1>Plotting</h1>
-      <hr>
-      <div class="row">
-        <label for="latin" class="left">Latitude:</label>
-        <input id="latin" class="right" type="text" maxlength="6">
-      </div>
-      <div class="row">
-        <label for="longin" class="left">Longitude:</label>
-        <input id="longin" class="right" type="text">
-      </div>
-      <div class="row">
-        <label for="traveldist" class="left">Travel Distance:</label>
-        <span id="traveldist" class="right"></span>
-      </div>
-      <div class="row">
-        <label for="detailscheck" class="left">Add Extra Details</label>
-        <input id="detailscheck" type="checkbox" class="checkbox">
-      </div>
-      <div class="buttons">
-        <button type="button" onclick="getCoords()">Enter Ye Coords</button>
-        <button type="button" style="background-color: rgb(208, 137, 114);" onclick="clearCoords()">Clear All Coords</button>
-      </div>
-      <div class="buttons">
-        <button type="button" onclick="saveLocal()">Save Map</button>
-        <button type="button" onclick="getLocal()">Load Map</button>
-      </div>
-    </div>
+	<div id="sidepanel" class="box noselect" >		
+		<div class="row">
+			<button type="button" style="width:100%" onclick="Modal.open('modal_tutorial')">Tutorial</button>
+		</div>
+		<div class="row">
+			<button type="button" style="width:100%" onclick="Modal.open('modal_settings')">Settings</button>
+		</div>
+		<div class="row">
+			<button type="button" style="width:100%" onclick="window.open('https://sailwind.fandom.com/wiki/Sailwind_Wiki', '_blank');">Wiki</button>
+		</div>
+		<div class="row">
+			<button type="button" style="width:100%" onclick="Modal.open('modal_about')">About</button>
+		</div>
+	</div>
 
-    <div class="box" id="DestEntry">
-      <h1>Destination</h1>
-      <hr>
-      <div class="row">
-        <label>Heading: <span class="right" id="heading"></span></label>
-      </div>
-      <div class="row">
-        <label>Distance: <span class="right" id="distance"></span></label>
-      </div>
-      <div class="buttons">
-        <button type="button" onclick="getDestination()">
-          Set
-        </button>
-        <button type="button" onclick="clearDestination()">
-          Clear
-        </button>
-      </div>
-    </div>
+	<div id="bottompanel" class="box noselect" >
 
-    <div class="compass_container" id="compass">
-      <img src="assets/img/compass2.png" alt="compass" id="image">
-      <span class="arrow2"></span>
-      <span class="arrow3"></span>
-      <span class="arrow"></span>
-      <span class="arrowc"></span>
-    </div>
-    <br>
+		<button type="button" class="iconbutton" onclick="//TODO">
+			<img class="icon" src="assets/img/tools/line_black.svg" />
+		</button>
 
-    <div class="box" id="TipsAndInfo">
-      <h1>Info</h1>
-      <hr>
-      <div class="row">
-        <label>Click to place plot points, click and hold to delete them. Shift drag to area zoom.</label>
-      </div>
-        <div class="row">
-        <label for="routescheck" class="left">Show Trade Routes</label>
-        <input id="routescheck" type="checkbox" checked class="checkbox">
-      </div>
-      <div class="row">
-        <label for="windscheck" class="left">Show Trade Winds</label>
-        <input id="windscheck" type="checkbox" checked class="checkbox">
-      </div>
-    </div>
+		<button type="button" class="iconbutton" onclick="//TODO">
+			<img class="icon" src="assets/img/tools/line_gray.svg" />
+		</button>
 
-  </div>
+		<button type="button" class="iconbutton" onclick="//TODO">
+			<img class="icon" src="assets/img/tools/line_red.svg" />
+		</button>
+
+		<button type="button" class="iconbutton" onclick="//TODO">
+			<img class="icon" src="assets/img/tools/path.svg" />
+		</button>
+
+		<button type="button" class="iconbutton" onclick="//TODO">
+			<img class="icon" src="assets/img/tools/path_nolines.svg" />
+		</button>
+
+		<button id="destination_button" type="button" class="iconbutton" onclick="toggleDestination()">
+			<img id="destination_icon" class="icon" src="assets/img/tools/destination.svg" />
+		</button>
+
+		<button type="button" class="iconbutton" style="background-color: rgb(77, 33, 33);" onclick="//TODO">
+			<img class="icon" src="assets/img/tools/eraser.svg" />
+		</button>
+	</div>
+
+
+
+	<div id="modal_tutorial" class="modal noselect">
+		<div class="box modal-content noselect">
+			<h1>Interface Tutorial</h1>
+			<hr>
+			<div class="row">
+				<label>Select a drawing element (line, dot, etc.) to begin.</label>
+			</div>
+
+			<div class="row">
+				<label>Click to place elements, click and hold to delete them.</label>
+			</div>
+
+			<div class="row">
+				<label>Shift drag to area zoom.</label>
+			</div>	
+
+			<div class="row">
+				Modal windows can be closed by clicking in the area around them.
+			</div>			
+		</div>
+	</div>
+
+	<div id="modal_settings" class="modal noselect">
+		<div class="box modal-content noselect">
+			<h1>Settings</h1>
+			<hr>
+			<div class="row">
+				<label style="font-weight: bold;" for="routescheck">Trade Routes</label>
+				<input id="routescheck" type="checkbox" checked class="checkbox">
+				<br>
+				<label style="color:rgb(40, 33, 22)">Common shipping lanes with favorable winds and profitable trade.</label>
+				<a href="https://sailwind.fandom.com/wiki/Trade_winds?file=World_Trade_Map.png" target="_blank">More info.</a>
+			</div>
+			<hr>
+			<div class="row">
+				<label style="font-weight: bold;" for="windscheck" >Trade Winds</label>
+				<input id="windscheck" type="checkbox" checked class="checkbox">
+				<br>
+				<label style="color:rgb(40, 33, 22)">Premanent prevailing winds that have been used by captains of sailing ships to cross the world's oceans for centuries. </label>
+				<a href="https://sailwind.fandom.com/wiki/Trade_winds" target="_blank">More info.</a>
+			</div>
+			<hr>
+			<div class="row">
+				<label style="font-weight: bold;" for="secretcheck" >Secrets</label>
+				<input id="secretcheck" type="checkbox" class="checkbox">
+				<br>
+				<label style="color:rgb(40, 33, 22)">Have ye not heard the stories?</label>
+			</div>
+			<hr>
+		</div>
+	</div>
+
+	<div id="modal_about" class="modal noselect">
+		<div class="box modal-content noselect" style="height: 15vh;">
+			<h1>About</h1>
+			<hr>
+			<div class="row">
+				<label style="width: 100%; text-align: center;"> Made by MoffKalast and Sycosys/Fizzygig with a lot of community help.</label>
+			</div>
+			<div class="row">
+				<label style="text-align: center;"> See code on the </label>
+				<a href="https://github.com/MoffKalast/Sailwind-Map" target="_blank">Github Repository</a>.
+			</div>
+			<div class="row">
+				<label>Map rendering powered by </label><a href="https://developers.arcgis.com/javascript/latest/" target="_blank">Esri ArcGIS</a>.
+			</div>
+			<hr>
+		</div>
+	</div>
+
+	<!-- WRAPPED SIDEBAR -->
+	<div id="sidebar">
+		<div class="box" id="CoordEntry">
+			<h1>Plotting</h1>
+			<hr>
+			<div class="row">
+				<label for="latin" class="left">Latitude:</label>
+				<input id="latin" class="right" type="text" maxlength="6">
+			</div>
+			<div class="row">
+				<label for="longin" class="left">Longitude:</label>
+				<input id="longin" class="right" type="text">
+			</div>
+			<div class="row">
+				<label for="traveldist" class="left">Travel Distance:</label>
+				<span id="traveldist" class="right"></span>
+			</div>
+			<div class="row">
+				<label for="detailscheck" class="left">Add Extra Details</label>
+				<input id="detailscheck" type="checkbox" class="checkbox">
+			</div>
+			<div class="buttons">
+				<button type="button" onclick="getCoords()">Enter Ye Coords</button>
+				<button type="button" style="background-color: rgb(208, 137, 114);" onclick="clearCoords()">Clear All Coords</button>
+			</div>
+			<div class="buttons">
+				<button type="button" onclick="saveLocal()">Save Map</button>
+				<button type="button" onclick="getLocal()">Load Map</button>
+			</div>
+		</div>
+
+		<div class="box" id="DestEntry">
+			<h1>Destination</h1>
+			<hr>
+			<div class="row">
+				<label>Heading: <span class="right" id="heading"></span></label>
+			</div>
+			<div class="row">
+				<label>Distance: <span class="right" id="distance"></span></label>
+			</div>
+			<div class="buttons">
+				<button type="button" onclick="getDestination()">
+					Set
+				</button>
+				<button type="button" onclick="clearDestination()">
+					Clear
+				</button>
+			</div>
+		</div>
+
+		<div class="compass_container" id="compass">
+			<img src="assets/img/compass2.png" alt="compass" id="image">
+			<span class="arrow2"></span>
+			<span class="arrow3"></span>
+			<span class="arrow"></span>
+			<span class="arrowc"></span>
+		</div>
+		<br>
+
+	</div>
 
 </body>
 <script src="js/main.js"></script>
