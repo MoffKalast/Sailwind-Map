@@ -40,6 +40,7 @@ body {
     height: 2vh; 
     width: 3px; 
     background-color: #f87035;
+    box-shadow: 0.2vh 0.3vh 2vh black, 0 0 12.5vh #f87035 inset;
     pointer-events:none;
 }
 
@@ -50,6 +51,7 @@ body {
     height: 3px; 
     width: 2vh; 
     background-color:#FF6E30;
+    box-shadow: 0.2vh 0.3vh 2vh black, 0 0 12.5vh #FF6E30 inset;
     pointer-events:none;
 }
 

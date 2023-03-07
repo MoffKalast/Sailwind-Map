@@ -441,8 +441,8 @@ require([
 		document.getElementById("yposition").innerHTML = String(Math.round(point.latitude * 100) / 100) + "&#176;";
 		document.getElementById("xposition").innerHTML = String(Math.round(point.longitude * 100) / 100) + "&#176;";
 
-		document.getElementById("horizCursorline").style.top = event.y;
-		document.getElementById("vertCursorline").style.left = event.x;
+		//document.getElementById("horizCursorline").style.top = event.y;
+		//document.getElementById("vertCursorline").style.left = event.x;
 
 		view.hitTest(event, opts).then((response) => {
 			// check if a feature is returned from the hurricanesLayer
