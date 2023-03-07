@@ -33,6 +33,26 @@ body {
     outline: none;
 }
 
+#vertCursorline{
+    position: fixed; 
+    top: 0;
+    left: 0;
+    height: 2vh; 
+    width: 3px; 
+    background-color: #f87035;
+    pointer-events:none;
+}
+
+#horizCursorline{
+    position: fixed; 
+    left: 0;
+    top: 0;
+    height: 3px; 
+    width: 2vh; 
+    background-color:#FF6E30;
+    pointer-events:none;
+}
+
 /* Zoom icons */
 .esri-zoom{
     font-size: 2vh;
