@@ -355,32 +355,13 @@ require([
 	imageLayer.add(new Graphic(GraphicsLibrary.boat));
 
 	view.on('pointer-move', function (event) {
-/* 		const opts = {
-			include: graphicsLayer
-		} */
 
 		let point = view.toMap({ x: event.x, y: event.y });
 
-		document.getElementById("yposition").innerHTML = String(Math.round(point.latitude * 100) / 100) + "&#176;";
-		document.getElementById("xposition").innerHTML = String(Math.round(point.longitude * 100) / 100) + "&#176;";
+		document.getElementById("yposition").innerHTML = String(Math.round(point.latitude * 100) / 100) + "°";
+		document.getElementById("xposition").innerHTML = String(Math.round(point.longitude * 100) / 100) + "°";
 
-		//document.getElementById("horizCursorline").style.top = event.y;
-		//document.getElementById("vertCursorline").style.left = event.x;
-
-/* 		view.hitTest(event, opts).then((response) => {
-			// check if a feature is returned from the hurricanesLayer
-			if (response.results.length) {
-				const graphic = response.results[0].graphic;
-				//console.log(graphic);
-				if (document.getElementById("form_position_details").style.display != "block") { openSum(graphic) }
-
-			}
-			else {
-				closeSum()
-			}
-
-		}); */
-
+		topTempLayer.removeAll();
 		tempLayer.removeAll();
 
 		//draw temp line
@@ -391,11 +372,34 @@ require([
 				let line = new Graphic(GraphicsLibrary.lines[linedata.type]);
 				line.geometry.paths = [linedata.p0, [point.longitude, point.latitude]];
 				tempLayer.add(line);
+
+				let start_bearing = getBearing(point.latitude, point.longitude, linedata.p0[1], linedata.p0[0]);
+				let end_bearing = getBearing(linedata.p0[1], linedata.p0[0], point.latitude, point.longitude);
+
+				let start_point = clamp(parseInt((start_bearing + 11.5) / 22.5), 0, 16);
+				let end_point = clamp(parseInt((end_bearing + 11.5) / 22.5), 0, 16);
+
+				if(start_point < 0 || start_point > 15)
+					start_point = 0;
+
+				if(end_point < 0 || end_point > 15)
+					end_point = 0;
+
+				let start_text = new Graphic(GraphicsLibrary.headingLabel);
+				start_text.geometry.longitude = linedata.p0[0];
+				start_text.geometry.latitude = linedata.p0[1];
+				start_text.symbol.text = compassLabels[start_point];
+				topTempLayer.add(start_text);
+
+				let end_text = new Graphic(GraphicsLibrary.headingLabel);
+				end_text.geometry.longitude = point.longitude;
+				end_text.geometry.latitude = point.latitude;
+				end_text.symbol.text = compassLabels[end_point];
+				topTempLayer.add(end_text);
 			}
 		}
 
 		if(drawMode == DrawMode.Erase){
-			topTempLayer.removeAll();
 			let result = findObjectAt(point.longitude, point.latitude);
 			if(result != undefined){
 				let offset = (view.extent.width/window.screen.width)*11;
@@ -417,9 +421,10 @@ require([
 		let long = event.mapPoint.x;
 
 		if(drawMode == DrawMode.Path){
+
+			distancePointToLineSegment([long, lat], p0, p1) < degreesPerPixel * 7
+
 			mapObjects.path.push([long, lat]);
-			//if (showDetails)
-				//openDetails();
 		}
 		else if(drawMode == DrawMode.Point){
 			mapObjects.points.push([long, lat]);
@@ -543,6 +548,7 @@ require([
 
 	function redrawMap(){
 
+		topTempLayer.removeAll();
 		tempLayer.removeAll();
 		renderLayer.removeAll();
 

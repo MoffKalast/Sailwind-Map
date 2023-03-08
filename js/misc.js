@@ -53,6 +53,14 @@ function toDegrees(radians) {
 	return radians * 180 / Math.PI;
 };
 
+function clamp(val, from, to){
+    if(val > to)
+        return to;
+    if(val < from)
+        return from;
+    return val;
+}
+
 function getBearing(startLat, startLng, destLat, destLng) {
 	var deltaX = destLat - startLat;
 	var deltaY = destLng - startLng;
@@ -60,15 +68,5 @@ function getBearing(startLat, startLng, destLat, destLng) {
 	var radians = Math.atan2(deltaY, deltaX)
 	var degrees = ((radians * 180) / Math.PI);
 
-	//startLat = toRadians(startLat);
-	//startLng = toRadians(startLng);
-	//destLat = toRadians(destLat);
-	//destLng = toRadians(destLng);
-
-	//y = Math.sin(destLng - startLng) * Math.cos(destLat);
-	//x = Math.cos(startLat) * Math.sin(destLat) -
-	//      Math.sin(startLat) * Math.cos(destLat) * Math.cos(destLng - startLng);
-	//brng = Math.atan2(y, x);
-	//brng = toDegrees(brng);
 	return (degrees + 360) % 360;
 };

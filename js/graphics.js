@@ -192,6 +192,28 @@ class GraphicsLibrary{
 		  }
 	};
 
+    //Line heading text
+    static headingLabel = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "black",
+			haloColor: [221, 218, 215, 0.7],
+			haloSize: "6pt",
+			font: {
+				family: "Oregano",
+				size: 12
+			},
+			text: "",
+			xoffset: 3,
+			yoffset: 0,
+		  }
+	};
+
 
     // Images
     static boat = {
