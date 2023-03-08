@@ -1,30 +1,11 @@
-var path = [];
-var times = [];
-
-var destination_set = false;
-
-var plotBool = false;
-var drawBool = true;
-var loaded = false;
-var showDetails = false;
-
-var buttonpressed = false;
-
-var route;
-var wind;
-
 var extents_checksum = 0;
-
-var plotlineGraphic;
-var polylineGraphic;
-var pointGraphic;
-var plotPointGraphic;
-
 var compassLabels = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 
 const DrawMode ={
 	None: "none",
-	Line: "line",
+	BlackLine: "blackline",
+	GrayLine: "grayline",
+	RedLine: "redline",
 	Path: "path",
 	Point: "point",
 	Goal: "goal",
@@ -359,29 +340,24 @@ require([
 	view.scale = 6000000;
 
 	edgeLayer = new GraphicsLayer();
-	gridLayer = new GraphicsLayer();
-	graphicsLayer = new GraphicsLayer();
-	lineGraphicsLayer = new GraphicsLayer();
-	plotLayer = new GraphicsLayer();
-	plotPoint = new GraphicsLayer();
 	imageLayer = new GraphicsLayer();
+	tempLayer = new GraphicsLayer();
 	renderLayer = new GraphicsLayer();
+	topTempLayer = new GraphicsLayer();
 
 	map.add(edgeLayer);
-	map.add(plotPoint);
-	map.add(plotLayer);
-	map.add(lineGraphicsLayer);
-	map.add(graphicsLayer);
 	map.add(imageLayer);
+	map.add(tempLayer);
 	map.add(renderLayer);
+	map.add(topTempLayer);
 
 	// Boat svg
 	imageLayer.add(new Graphic(GraphicsLibrary.boat));
 
 	view.on('pointer-move', function (event) {
-		const opts = {
+/* 		const opts = {
 			include: graphicsLayer
-		}
+		} */
 
 		let point = view.toMap({ x: event.x, y: event.y });
 
@@ -391,7 +367,7 @@ require([
 		//document.getElementById("horizCursorline").style.top = event.y;
 		//document.getElementById("vertCursorline").style.left = event.x;
 
-		view.hitTest(event, opts).then((response) => {
+/* 		view.hitTest(event, opts).then((response) => {
 			// check if a feature is returned from the hurricanesLayer
 			if (response.results.length) {
 				const graphic = response.results[0].graphic;
@@ -403,7 +379,36 @@ require([
 				closeSum()
 			}
 
-		});
+		}); */
+
+		tempLayer.removeAll();
+
+		//draw temp line
+		for (let i = mapObjects.lines.length-1; i >= 0; i--) {
+			let linedata = mapObjects.lines[i];
+
+			if(linedata.p1 == undefined){
+				let line = new Graphic(GraphicsLibrary.lines[linedata.type]);
+				line.geometry.paths = [linedata.p0, [point.longitude, point.latitude]];
+				tempLayer.add(line);
+			}
+		}
+
+		if(drawMode == DrawMode.Erase){
+			topTempLayer.removeAll();
+			let result = findObjectAt(point.longitude, point.latitude);
+			if(result != undefined){
+				let offset = (view.extent.width/window.screen.width)*11;
+				let eraser = new Graphic(GraphicsLibrary.eraser);
+				eraser.geometry.longitude = point.longitude + offset;
+				eraser.geometry.latitude = point.latitude + offset;
+				topTempLayer.add(eraser);
+				document.getElementById("viewDiv").style.cursor = "none";
+			}
+			else{
+				document.getElementById("viewDiv").style.cursor = "crosshair";
+			}
+		}
 	});
 
 	view.on("immediate-click", function (event) {
@@ -413,19 +418,41 @@ require([
 
 		if(drawMode == DrawMode.Path){
 			mapObjects.path.push([long, lat]);
-			if (showDetails)
-				openDetails();
+			//if (showDetails)
+				//openDetails();
 		}
 		else if(drawMode == DrawMode.Point){
 			mapObjects.points.push([long, lat]);
-			if (showDetails)
-				openDetails();
+			//if (showDetails)
+				//openDetails();
 		}
 		else if(drawMode == DrawMode.Goal){
 			mapObjects.goals = [[long, lat]];
 		}
 		else if(drawMode == DrawMode.Erase){
-			eraseObjectAt(long, lat);
+			let result = findObjectAt(long, lat);
+			if(result != undefined){
+				result.array.splice(result.index, 1);
+			}
+		}
+		else if(drawMode.includes("line")){
+			let unfinished = undefined;
+			for (let i = mapObjects.lines.length-1; i >= 0; i--) {
+				if(mapObjects.lines[i].p1 == undefined){
+					unfinished = mapObjects.lines[i];
+					break;
+				}
+			}
+
+			if(unfinished == undefined){
+				mapObjects.lines.push({
+					type: drawMode,
+					p0: [long, lat],
+					p1: undefined
+				});
+			}else{
+				unfinished.p1 = [long, lat];
+			}
 		}
 
 		redrawMap();
@@ -438,9 +465,12 @@ require([
 		let long = event.mapPoint.x;
 
 		let result = findObjectAt(long, lat);
+		if(result == undefined){
+			return;
+		}
 
 
-		document.getElementById("viewDiv").cursor = "move";
+		//document.getElementById("viewDiv").cursor = "move";
 		//document.getElementById("viewDiv").cursor = "crosshair";
 
 
@@ -490,51 +520,43 @@ require([
 				}
 			}
 		}
-	}
 
-	function eraseObjectAt(long, lat){
-		let degreesPerPixel = view.extent.width/window.screen.width;
+		//check line segments
+		distancePointToLineSegment
+		for (i = 0; i < mapObjects.lines.length; i++) {
 
-		//check route
-		for (i = 0; i < mapObjects.path.length; i++) {
+			let p0 = mapObjects.lines[i].p0;
+			let p1 = mapObjects.lines[i].p1;
 
-			let pLong = mapObjects.path[i][0];
-			let pLat = mapObjects.path[i][1];
-
-			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
-				mapObjects.path.splice(i, 1)
-				return;
+			if (p1 != undefined){	
+				if(distancePointToLineSegment([long, lat], p0, p1) < degreesPerPixel * 7){
+					return {
+						array: mapObjects.lines,
+						index: i
+					}
+				}
 			}
 		}
 
-		//check points
-		for (i = 0; i < mapObjects.points.length; i++) {
-
-			let pLong = mapObjects.points[i][0];
-			let pLat = mapObjects.points[i][1];
-
-			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
-				mapObjects.points.splice(i, 1)
-				return;
-			}
-		}
-
-		//check destination(s?)
-		for (i = 0; i < mapObjects.goals.length; i++) {
-
-			let pLong = mapObjects.goals[i][0];
-			let pLat = mapObjects.goals[i][1];
-
-			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
-				mapObjects.goals.splice(i, 1)
-				return;
-			}
-		}
+		return undefined;
 	}
 
 	function redrawMap(){
 
+		tempLayer.removeAll();
 		renderLayer.removeAll();
+
+		// draw lines
+		if(mapObjects.lines.length > 0){
+			for (i = 0; i < mapObjects.lines.length; i++) {
+				let linedata = mapObjects.lines[i];
+				if (linedata.p1 != undefined){
+					let line = new Graphic(GraphicsLibrary.lines[linedata.type]);
+					line.geometry.paths = [linedata.p0, linedata.p1];
+					renderLayer.add(line);
+				}
+			}
+		}
 
 		//draw route line
 		if(mapObjects.path.length > 1){
@@ -619,14 +641,10 @@ require([
 			setArrow(bearing);
 		}
 		else{
-			document.getElementById("heading").innerHTML = "¯\\_(ツ)_/¯";
+			document.getElementById("heading").innerHTML = "";
 			document.getElementById("distance").innerHTML = "";
 			setArrow(0);
 		}
-	}
-
-	document.getElementById('detailscheck').onclick = function () {
-		showDetails = this.checked
 	}
 
 	document.getElementById('routescheck').onclick = function () {
@@ -637,6 +655,18 @@ require([
 	document.getElementById('windscheck').onclick = function () {
 		wind.visible = this.checked;
 		localStorage.setItem("wind_visible", this.checked);
+	}
+
+	document.getElementById('clearcoords').onclick = function () {
+		mapObjects = {
+			lines: [],
+			path: [],
+			points: [],
+			goals: []
+		}
+	
+		redrawMap();
+		computeInfo();	
 	}
 
 	// dynamic degree number renderer
@@ -734,19 +764,10 @@ require([
 	}
 });
 
-function wait() {
-	if (!buttonpressed) {
-		setTimeout(wait, 2500);
-	}
-	else {
-		console.log("exit menu")
-	}
-}
-function openDetails() {
+/* function openDetails() {
 	document.getElementById("form_position_details").style.top = event.y;
 	document.getElementById("form_position_details").style.left = event.x;
 	document.getElementById("form_position_details").style.display = "block";
-	wait()
 }
 
 function openSum(graphic) {
@@ -761,39 +782,12 @@ function openSum(graphic) {
 
 function closeSum() {
 	document.getElementById("form_position_summary").style.display = "none";
-}
+} */
 
-function getDetails() {
-	buttonpressed = true;
-	item = graphicsLayer.graphics.items[graphicsLayer.graphics.items.length - 1]
-	item.attributes.day = document.getElementById("day").value
-	item.attributes.time = document.getElementById("time").value;
-	item.attributes.windDir = document.getElementById("windd").value;
-	item.attributes.windForce = document.getElementById("windf").value;
-	document.getElementById("day").value = null;
-	document.getElementById("time").value = null;
-	document.getElementById("windd").value = null;
-	document.getElementById("windf").value = null;
-	document.getElementById("form_position_details").style.display = "none";
-};
-
-
-function arraysEqual(a, b) {
-	if (a === b) return true;
-	if (a == null || b == null) return false;
-	if (a.length !== b.length) return false;
-
-	for (var i = 0; i < a.length; ++i) {
-		if (a[i] !== b[i]) return false;
-	}
-	return true;
-};
-
-
-function clearLocal() {
+/* function clearLocal() {
 	lineGraphicsLayer.removeAll();
 	graphicsLayer.removeAll();
-}
+} */
 
 function setArrow(degree) {
 	document.getElementById("compass_needle").style.transform = 'rotate(' + degree + 'deg)';

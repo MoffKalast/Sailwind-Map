@@ -20,6 +20,27 @@ function getDistanceFromLatLonInNm(lat1, lon1, lat2, lon2) {
 	var d = Math.sqrt(Math.pow((lat2 - lat1), 2) + Math.pow((lon2 - lon1), 2)) * 90
 	return d;
 }
+
+function distancePointToLineSegment(point, segmentStart, segmentEnd) {
+    const [px, py] = point;
+    const [x1, y1] = segmentStart;
+    const [x2, y2] = segmentEnd;
+
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const lengthSquared = dx * dx + dy * dy;
+
+    let t = ((px - x1) * dx + (py - y1) * dy) / lengthSquared;
+    t = Math.max(0, Math.min(1, t));
+
+    const closestX = x1 + t * dx;
+    const closestY = y1 + t * dy;
+
+    const distanceSquared = (px - closestX) * (px - closestX) + (py - closestY) * (py - closestY);
+
+    return Math.sqrt(distanceSquared);
+}
+
 function deg2rad(deg) {
 	return deg * (Math.PI / 180)
 }

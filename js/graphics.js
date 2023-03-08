@@ -35,7 +35,7 @@ class GraphicsLibrary{
         symbol: {
             type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
             style: "circle",
-            color: [29, 82, 255, 0.95],
+            color: [90, 118, 170, 0.95],
             size: 10,
             outline: {
                 // autocasts as new SimpleLineSymbol()
@@ -69,6 +69,51 @@ class GraphicsLibrary{
         }
     };
 
+    static points = {
+        "orangepoint": GraphicsLibrary.orangePoint,
+        "bluepoint": GraphicsLibrary.bluePoint,
+        "goalpoint": GraphicsLibrary.destinationPoint
+    }
+
+    static blackLine = {
+		geometry: {
+            type: "polyline",
+            paths: [[0, 0]]
+        },
+		symbol: {
+            type: "simple-line",  // autocasts as SimpleLineSymbol()
+            color: [0, 0, 0, 0.6],
+            style: 'solid',
+            width: 1
+        }
+	};
+
+    static redLine = {
+		geometry: {
+            type: "polyline",
+            paths: [[0, 0]]
+        },
+		symbol: {
+            type: "simple-line",  // autocasts as SimpleLineSymbol()
+            color: [255, 0, 0, 0.5],
+            style: 'solid',
+            width: 1
+        }
+	};
+
+    static grayLine = {
+		geometry: {
+            type: "polyline",
+            paths: [[0, 0]]
+        },
+		symbol: {
+            type: "simple-line",  // autocasts as SimpleLineSymbol()
+            color: [0, 0, 0, 0.4],
+            style: 'dash',
+            width: 1
+        }
+	};
+
     static orangeLine = {
 		geometry: {
             type: "polyline",
@@ -94,6 +139,14 @@ class GraphicsLibrary{
             width: 2
         }
 	}
+
+    static lines = {
+        "blackline": GraphicsLibrary.blackLine,
+        "grayline": GraphicsLibrary.grayLine,
+        "redline": GraphicsLibrary.redLine,
+        "orangeline": GraphicsLibrary.orangeLine,
+        "orangedottedline": GraphicsLibrary.dottedOrangeLine
+    }
 
 
     //Graticule indicator numbers
@@ -152,6 +205,20 @@ class GraphicsLibrary{
 			url: "assets/img/boat.svg",
 			width: "200px",
 			height: "200px"
+		  }
+	};
+
+    static eraser = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+			url: "assets/img/tools/eraser.svg",
+			width: 20,
+			height: 18
 		  }
 	};
 }

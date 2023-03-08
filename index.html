@@ -50,7 +50,6 @@
 			<label for="windf" class="left">Wind Force</label>
 			<input id="windf" class="right" type="text" maxlength="1" placeholder="Wind Force (1-5)">
 		</div>
-		<button id="save_point_details" type="button" onclick="getDetails()">Save</button>
 	</form>
 
 	<!-- THIS IS THE FORM THAT POPS UP WHEN YOU HOVER OVER A POINT -->
@@ -106,15 +105,15 @@
 	<!-- Tool panel -->
 	<div id="toolpanel" class="box noselect" >
 
-		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Line)">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.BlackLine)">
 			<img class="icon" src="assets/img/tools/line_black.svg" />
 		</button>
 
-		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Line)">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.GrayLine)">
 			<img class="icon" src="assets/img/tools/line_gray.svg" />
 		</button>
 
-		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Line)">
+		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.RedLine)">
 			<img class="icon" src="assets/img/tools/line_red.svg" />
 		</button>
 
@@ -181,7 +180,7 @@
 			<hr>
 			<div class="row">
 				<label style="font-weight: bold;" for="secretcheck" >Secrets</label>
-				<input id="secretcheck" type="checkbox" class="checkbox">
+				<input id="secretcheck" type="checkbox" disabled class="checkbox">
 				<br>
 				<label style="color:rgb(40, 33, 22)">Have ye not heard the stories?</label>
 			</div>
@@ -210,33 +209,25 @@
 	<!-- WRAPPED SIDEBAR -->
 	<div id="sidebar">
 		<div class="box" id="CoordEntry">
-			<h1>Plotting</h1>
-			<hr>
-			<div class="row">
-				<label for="traveldist" class="left">Travel Distance:</label>
-				<span id="traveldist" class="right"></span>
-			</div>
-			<div class="row">
-				<label for="detailscheck" class="left">Add Extra Details</label>
-				<input id="detailscheck" type="checkbox" class="checkbox">
-			</div>
-			<div class="buttons">
-				<button type="button" style="background-color: rgb(208, 137, 114);" onclick="clearCoords()">Clear All Coords</button>
-			</div>
-			<div class="buttons">
-				<button type="button" onclick="saveLocal()">Save Map</button>
-				<button type="button" onclick="getLocal()">Load Map</button>
-			</div>
-		</div>
-
-		<div class="box" id="DestEntry">
-			<h1>Destination</h1>
+			<h1>Info</h1>
 			<hr>
 			<div class="row">
 				<label>Heading: <span class="right" id="heading"></span></label>
 			</div>
 			<div class="row">
-				<label>Distance: <span class="right" id="distance"></span></label>
+				<label>Remaining: <span class="right" id="distance"></span></label>
+			</div>
+			<hr>
+			<div class="row">
+				<label for="traveldist" class="left">Total Distance:</label>
+				<span id="traveldist" class="right"></span>
+			</div>
+			<div class="buttons">
+				<button id="clearcoords" type="button" style="background-color: rgb(208, 137, 114);">Clear All Drawings</button>
+			</div>
+			<div class="buttons">
+				<button type="button" onclick="saveLocal()">Save Map</button>
+				<button type="button" onclick="getLocal()">Load Map</button>
 			</div>
 		</div>
 
