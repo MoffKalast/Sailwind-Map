@@ -429,7 +429,7 @@ require([
 		let lat = event.mapPoint.y;
 		let long = event.mapPoint.x;
 
-		if(drawMode != DrawMode.Erase){
+		if(drawMode != DrawMode.Erase && !drawMode.includes("line")){
 			let result = findObjectAt(long, lat);
 			if(result != undefined && (result.array == mapObjects.path || result.array == mapObjects.points)){
 				openDetails(result);
@@ -664,7 +664,7 @@ require([
 		//draw scatter dots
 		if(mapObjects.points.length > 0){
 			for (i = 0; i < mapObjects.points.length; i++) {
-				let point = new Graphic(GraphicsLibrary.points[mapObjects.path[i].colour]);
+				let point = new Graphic(GraphicsLibrary.points[mapObjects.points[i].colour]);
 				point.geometry.latitude = mapObjects.points[i].pos[1];
 				point.geometry.longitude = mapObjects.points[i].pos[0];
 				renderLayer.add(point);
@@ -882,6 +882,11 @@ require([
 	if(localStorage.hasOwnProperty("wind_visible")){
 		wind.visible = localStorage.getItem("wind_visible") === 'true';
 		document.getElementById("windscheck").checked = wind.visible;
+	}
+
+	if(!localStorage.hasOwnProperty("modal_tutorial")){
+		Modal.open('modal_tutorial');
+		localStorage.setItem("modal_tutorial", true);
 	}
 });
 

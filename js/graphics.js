@@ -92,7 +92,12 @@ class GraphicsLibrary{
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
 			color: [0, 0, 0, 0.6],
 			style: 'solid',
-			width: 1
+			width: 1,
+			marker: { // autocasts from LineSymbolMarker
+				style: "arrow",
+				color: [0, 0, 0, 0.6],
+				placement: "end"
+			}
 		}
 	};
 
@@ -105,7 +110,12 @@ class GraphicsLibrary{
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
 			color: [255, 0, 0, 0.5],
 			style: 'solid',
-			width: 1
+			width: 1,
+			marker: { // autocasts from LineSymbolMarker
+				style: "arrow",
+				color: [255, 0, 0, 0.5],
+				placement: "end"
+			}
 		}
 	};
 
@@ -118,7 +128,12 @@ class GraphicsLibrary{
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
 			color: [0, 0, 0, 0.4],
 			style: 'dash',
-			width: 1
+			width: 1,
+			marker: { // autocasts from LineSymbolMarker
+				style: "arrow",
+				color: [0, 0, 0, 0.4],
+				placement: "end"
+			}
 		}
 	};
 
