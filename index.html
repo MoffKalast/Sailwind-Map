@@ -32,23 +32,37 @@
 
 	<!-- THIS IS THE FORM THAT POPS UP WHEN YOU ADD A NEW POINT AND HAVE ADDITIONAL DETAILS TICKED -->
 	<form class="form-popup" id="form_position_details">
-		<h1>Enter Position Details</h1>
+		<h1>Position Details</h1>
 		<hr>
 		<div class="row">
-			<label for="day" class="left">Day</label>
-			<input id="day" class="right" type="text" maxlength="6" placeholder="Enter Day (1,2,3)">
+			<label for="details_lattitude" class="left">Lattitude</label>
+			<input id="details_lattitude" class="right" type="number" placeholder="" min="-90" max="90">
 		</div>
 		<div class="row">
-			<label for="time" class="left">Time</label>
-			<input id="time" class="right" type="text" maxlength="4" placeholder="Enter Time (0600)">
+			<label for="details_longitude" class="left">Longitude</label>
+			<input id="details_longitude" class="right" type="number" placeholder="" min="-90" max="90">
+		</div>
+
+		<div class="row">
+			<label for="details_colour">Colour</label>
+			<select class="right" id="details_colour">
+			  <option value="orangepoint">Orange</option>
+			  <option value="bluepoint">Blue</option>
+			  <option value="greenpoint">Green</option>
+			</select>
+		</div>
+
+		<div class="row">
+			<label for="details_day" class="left">Day</label>
+			<input id="details_day" class="right" type="text" maxlength="6" placeholder="">
 		</div>
 		<div class="row">
-			<label for="windd" class="left">Wind Dir</label>
-			<input id="windd" class="right" type="text" maxlength="3" placeholder="Wind Direction (270)">
+			<label for="details_time" class="left">Time</label>
+			<input id="details_time" class="right" type="text" maxlength="4" placeholder="">
 		</div>
 		<div class="row">
-			<label for="windf" class="left">Wind Force</label>
-			<input id="windf" class="right" type="text" maxlength="1" placeholder="Wind Force (1-5)">
+			<label for="details_winddir" class="left">Wind Dir</label>
+			<input id="details_winddir" class="right" type="text" maxlength="3" placeholder="">
 		</div>
 	</form>
 
@@ -153,7 +167,7 @@
 			<h3>Plotting</h3>
 
 			<div class="row">
-				<label>Select a drawing element (line, dot, etc.) to begin. You can also drag and drop plot points.</label>
+				<label>Select a drawing element (line, dot, etc.) to begin. Click on a point to edit details. You can also drag and drop plot points.</label>
 			</div>
 
 			<hr>
@@ -285,8 +299,8 @@
 				<button id="clearcoords" type="button" style="background-color: rgb(208, 137, 114);">Clear All Drawings</button>
 			</div>
 			<div class="buttons">
-				<button type="button" onclick="saveLocal()">Save Map</button>
-				<button type="button" onclick="getLocal()">Load Map</button>
+				<button id="save_map" type="button">Save Map</button>
+				<button id="load_map" type="button">Load Map</button>
 			</div>
 		</div>
 
@@ -311,7 +325,6 @@
 <script src="js/polygon_definitions.js"></script>
 <script src="js/modal.js"></script>	
 <script src="js/misc.js"></script>
-<script src="js/persistent.js"></script>
 <script src="js/graphics.js"></script>	
 <script src="js/main.js"></script>
 

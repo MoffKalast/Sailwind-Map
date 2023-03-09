@@ -184,6 +184,14 @@ h3{
     background: radial-gradient( #dfe1e1ce 20%, #7e99a065 80%);
 }
 
+select {
+    font-family: 'Oregano-Regular';
+    font-size: 2vh;
+    border-radius: .5vw;
+    border-width : 0.2vh;
+    background: radial-gradient( #dfe1e1ce 20%, #7e99a065 80%);
+}
+
 .box .buttons {
     display: flex;
     justify-content: space-between;

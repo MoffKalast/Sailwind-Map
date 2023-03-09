@@ -2,6 +2,7 @@ var extents_checksum = 0;
 var compassLabels = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 
 var mouseGrabMoving = undefined;
+var menuPoint = undefined;
 
 const DrawMode ={
 	None: "none",
@@ -418,9 +419,8 @@ require([
 
 
 		if(mouseGrabMoving != undefined){
-			mouseGrabMoving.array[mouseGrabMoving.index] = [point.longitude, point.latitude];
+			mouseGrabMoving.array[mouseGrabMoving.index].pos = [point.longitude, point.latitude];
 			redrawMap();
-			computeInfo();
 		}
 	});
 
@@ -428,6 +428,19 @@ require([
 
 		let lat = event.mapPoint.y;
 		let long = event.mapPoint.x;
+
+		if(drawMode != DrawMode.Erase){
+			let result = findObjectAt(long, lat);
+			if(result != undefined && (result.array == mapObjects.path || result.array == mapObjects.points)){
+				openDetails(result);
+				return;
+			}
+		}
+		
+		if(menuPoint != undefined){
+			closeDetails();
+			return;
+		}
 
 		if(drawMode == DrawMode.Path){
 
@@ -437,25 +450,45 @@ require([
 
 			for (let i = 0; i+1 < mapObjects.path.length; i++) {
 
-				let p0 = mapObjects.path[i];
-				let p1 = mapObjects.path[i+1];
+				let p0 = mapObjects.path[i].pos;
+				let p1 = mapObjects.path[i+1].pos;
 
 				if(distancePointToLineSegment([long, lat], p0, p1) < degreesPerPixel * 7){
-					mapObjects.path.splice(i+1, 0, [long, lat]);
+					mapObjects.path.splice(i+1, 0, {
+						pos: [long, lat],
+						colour: "orangepoint",
+						day: 0,
+						time: 0,
+						winddir: "NE",
+					});
 					inserted = true;
 					break;
 				}
 			}
 
 			if(!inserted){
-				mapObjects.path.push([long, lat]);	
-			}		
+				mapObjects.path.push({
+					pos: [long, lat],
+					colour: "orangepoint",
+					day: 0,
+					time: 0,
+					winddir: "NE",
+				});	
+			}
 		}
 		else if(drawMode == DrawMode.Point){
-			mapObjects.points.push([long, lat]);
+			mapObjects.points.push({
+				pos: [long, lat],
+				colour: "bluepoint",
+				day: 0,
+				time: 0,
+				winddir: "NE",
+			});	
 		}
 		else if(drawMode == DrawMode.Goal){
-			mapObjects.goals = [[long, lat]];
+			mapObjects.goals = [{
+				pos: [long, lat]
+			}];
 		}
 		else if(drawMode == DrawMode.Erase){
 			let result = findObjectAt(long, lat);
@@ -484,7 +517,6 @@ require([
 		}
 
 		redrawMap();
-		computeInfo();
 	});
 
 	view.on("drag", (event) => {
@@ -522,8 +554,8 @@ require([
 		//check route
 		for (let i = 0; i < mapObjects.path.length; i++) {
 
-			let pLong = mapObjects.path[i][0];
-			let pLat = mapObjects.path[i][1];
+			let pLong = mapObjects.path[i].pos[0];
+			let pLat = mapObjects.path[i].pos[1];
 
 			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
 				return {
@@ -536,8 +568,8 @@ require([
 		//check points
 		for (let i = 0; i < mapObjects.points.length; i++) {
 
-			let pLong = mapObjects.points[i][0];
-			let pLat = mapObjects.points[i][1];
+			let pLong = mapObjects.points[i].pos[0];
+			let pLat = mapObjects.points[i].pos[1];
 
 			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
 				return {
@@ -550,8 +582,8 @@ require([
 		//check destination(s?)
 		for (let i = 0; i < mapObjects.goals.length; i++) {
 
-			let pLong = mapObjects.goals[i][0];
-			let pLat = mapObjects.goals[i][1];
+			let pLong = mapObjects.goals[i].pos[0];
+			let pLat = mapObjects.goals[i].pos[1];
 
 			if(Math.hypot(long - pLong,lat - pLat) < degreesPerPixel * 15){
 				return {
@@ -601,8 +633,11 @@ require([
 
 		//draw route line
 		if(mapObjects.path.length > 1){
+			let linedata = [];
+			mapObjects.path.forEach(e => linedata.push(e.pos));
+
 			let line = new Graphic(GraphicsLibrary.orangeLine);
-			line.geometry.paths = mapObjects.path;
+			line.geometry.paths = linedata;
 			renderLayer.add(line);
 		}
 
@@ -610,8 +645,8 @@ require([
 		if(mapObjects.path.length > 0 && mapObjects.goals.length > 0){
 			let line = new Graphic(GraphicsLibrary.dottedOrangeLine);
 			line.geometry.paths = [
-				mapObjects.path[mapObjects.path.length-1],
-				mapObjects.goals[0]
+				mapObjects.path[mapObjects.path.length-1].pos,
+				mapObjects.goals[0].pos
 			];
 			renderLayer.add(line);
 		}
@@ -619,9 +654,9 @@ require([
 		//draw route dots
 		if(mapObjects.path.length > 0){
 			for (i = 0; i < mapObjects.path.length; i++) {
-				let point = new Graphic(GraphicsLibrary.orangePoint);
-				point.geometry.latitude = mapObjects.path[i][1];
-				point.geometry.longitude = mapObjects.path[i][0];
+				let point = new Graphic(GraphicsLibrary.points[mapObjects.path[i].colour]);
+				point.geometry.latitude = mapObjects.path[i].pos[1];
+				point.geometry.longitude = mapObjects.path[i].pos[0];
 				renderLayer.add(point);
 			}
 		}
@@ -629,9 +664,9 @@ require([
 		//draw scatter dots
 		if(mapObjects.points.length > 0){
 			for (i = 0; i < mapObjects.points.length; i++) {
-				let point = new Graphic(GraphicsLibrary.bluePoint);
-				point.geometry.latitude = mapObjects.points[i][1];
-				point.geometry.longitude = mapObjects.points[i][0];
+				let point = new Graphic(GraphicsLibrary.points[mapObjects.path[i].colour]);
+				point.geometry.latitude = mapObjects.points[i].pos[1];
+				point.geometry.longitude = mapObjects.points[i].pos[0];
 				renderLayer.add(point);
 			}
 		}
@@ -640,11 +675,13 @@ require([
 		if(mapObjects.goals.length > 0){
 			for (i = 0; i < mapObjects.goals.length; i++) {
 				let point = new Graphic(GraphicsLibrary.destinationPoint);
-				point.geometry.latitude = mapObjects.goals[i][1];
-				point.geometry.longitude = mapObjects.goals[i][0];
+				point.geometry.latitude = mapObjects.goals[i].pos[1];
+				point.geometry.longitude = mapObjects.goals[i].pos[0];
 				renderLayer.add(point);
 			}
 		}
+
+		computeInfo();
 	}
 
 	function computeInfo(){
@@ -655,10 +692,10 @@ require([
 			for (i = 0; i <  mapObjects.path.length; i++) {
 				if (i !=  mapObjects.path.length - 1) {
 					totalDist += getDistanceFromLatLonInNm(
-						mapObjects.path[i][1],
-						mapObjects.path[i][0], 
-						mapObjects.path[i + 1][1], 
-						mapObjects.path[i + 1][0]
+						mapObjects.path[i].pos[1],
+						mapObjects.path[i].pos[0], 
+						mapObjects.path[i + 1].pos[1], 
+						mapObjects.path[i + 1].pos[0]
 					)
 				}
 			}
@@ -668,8 +705,8 @@ require([
 		// Heading and distance to target
 		if(mapObjects.path.length > 0 && mapObjects.goals.length > 0){
 
-			let pos = mapObjects.path[mapObjects.path.length-1];
-			let tgt = mapObjects.goals[0];
+			let pos = mapObjects.path[mapObjects.path.length-1].pos;
+			let tgt = mapObjects.goals[0].pos;
 
 			let dist = getDistanceFromLatLonInNm(pos[1], pos[0], tgt[1], tgt[0])
 			
@@ -688,6 +725,7 @@ require([
 		}
 	}
 
+	//Settings checkboxes
 	document.getElementById('routescheck').onclick = function () {
 		route.visible = this.checked;
 		localStorage.setItem("route_visible", this.checked);
@@ -698,6 +736,7 @@ require([
 		localStorage.setItem("wind_visible", this.checked);
 	}
 
+	//Info Menu
 	document.getElementById('clearcoords').onclick = function () {
 		mapObjects = {
 			lines: [],
@@ -707,7 +746,48 @@ require([
 		}
 	
 		redrawMap();
-		computeInfo();	
+	}
+
+	document.getElementById('save_map').onclick = function () {
+		localStorage.setItem("mapObjects", JSON.stringify(mapObjects));
+	}
+
+
+	document.getElementById('load_map').onclick = function () {
+		mapObjects = JSON.parse(localStorage.getItem("mapObjects"));	
+		redrawMap();
+	}
+
+	//Details menu
+	document.getElementById('details_lattitude').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_lattitude").value;
+		menuPoint.array[menuPoint.index].pos[1] = val;
+
+	
+		redrawMap();
+	}
+
+	document.getElementById('details_longitude').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_longitude").value;
+		menuPoint.array[menuPoint.index].pos[0] = val;
+	
+		redrawMap();
+	}
+
+	document.getElementById('details_colour').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_colour").value;
+		menuPoint.array[menuPoint.index].colour = val;
+	
+		redrawMap();
 	}
 
 	// dynamic degree number renderer
@@ -805,25 +885,27 @@ require([
 	}
 });
 
-/* function openDetails() {
+function openDetails(result) {
 	document.getElementById("form_position_details").style.top = event.y;
 	document.getElementById("form_position_details").style.left = event.x;
 	document.getElementById("form_position_details").style.display = "block";
+
+	let entry = result.array[result.index];
+	document.getElementById("details_longitude").value = entry.pos[0];
+	document.getElementById("details_lattitude").value = entry.pos[1];
+	document.getElementById("details_colour").value = entry.colour;
+
+	document.getElementById("details_day").value = entry.day;
+	document.getElementById("details_time").value = entry.time;
+	document.getElementById("details_winddir").value = entry.winddir;
+
+	menuPoint = result;	
 }
 
-function openSum(graphic) {
-	document.getElementById("form_position_summary").style.top = event.y;
-	document.getElementById("form_position_summary").style.left = event.x;
-	document.getElementById("dayout").innerHTML = graphic.attributes.day;
-	document.getElementById("timeout").innerHTML = graphic.attributes.time;
-	document.getElementById("winddout").innerHTML = graphic.attributes.windDir;
-	document.getElementById("windfout").innerHTML = graphic.attributes.windForce;
-	document.getElementById("form_position_summary").style.display = "block";
-}
-
-function closeSum() {
-	document.getElementById("form_position_summary").style.display = "none";
-} */
+function closeDetails() {
+	document.getElementById("form_position_details").style.display = "none";
+	menuPoint = undefined;
+} 
 
 /* function clearLocal() {
 	lineGraphicsLayer.removeAll();
