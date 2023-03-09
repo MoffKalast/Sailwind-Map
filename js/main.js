@@ -713,14 +713,31 @@ require([
 			let bearing = getBearing(pos[1], pos[0], tgt[1], tgt[0]);
 			bearing = Math.round(bearing * 10) / 10;
 
-			document.getElementById("distance").innerHTML = String(Math.round(dist * 10) / 10 + "NM");
+			document.getElementById("distance").innerHTML = String(Math.round(dist * 10) / 10 + " NM");
 			document.getElementById("heading").innerHTML = String(bearing + "°");
+			document.getElementById("compass_needle").src = "assets/img/downscaled_needle.png";
+
+			setArrow(bearing);
+		}
+		else if(mapObjects.path.length > 1){
+
+			let pos = mapObjects.path[mapObjects.path.length-2].pos;
+			let tgt = mapObjects.path[mapObjects.path.length-1].pos;
+			
+			let bearing = getBearing(pos[1], pos[0], tgt[1], tgt[0]);
+			bearing = Math.round(bearing * 10) / 10;
+
+			document.getElementById("heading").innerHTML = String(bearing + "°");
+			document.getElementById("distance").innerHTML = "";
+			document.getElementById("compass_needle").src = "assets/img/downscaled_needle2.png";
 
 			setArrow(bearing);
 		}
 		else{
 			document.getElementById("heading").innerHTML = "";
 			document.getElementById("distance").innerHTML = "";
+			document.getElementById("compass_needle").src = "assets/img/downscaled_needle2.png";
+
 			setArrow(0);
 		}
 	}

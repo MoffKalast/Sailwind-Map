@@ -305,6 +305,22 @@ select {
     background: radial-gradient( #dfe1e1ce 20%, #7e99a065 80%);
 }
 
+input[type=number] {
+    font-family: 'Montserrat';
+}
+
+#heading{
+    font-family: 'Montserrat';
+}
+
+#distance{
+    font-family: 'Montserrat';
+}
+
+#traveldist{
+    font-family: 'Montserrat';
+}
+
 .form-popup button {
     width: 90%;
     margin-left: auto;

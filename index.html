@@ -21,6 +21,7 @@
 	<link rel="icon" href="assets/img/pwa_icons/96x96.png" sizes="96x96" />
 	<link rel="icon" href="assets/img/pwa_icons/144x144.png" sizes="144x144" />
 
+	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 	<link rel="stylesheet" href="css/simplified.css" />
 	<link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
 
@@ -63,24 +64,6 @@
 		<div class="row">
 			<label for="details_winddir" class="left">Wind Dir</label>
 			<input id="details_winddir" class="right" type="text" maxlength="3" placeholder="">
-		</div>
-	</form>
-
-	<!-- THIS IS THE FORM THAT POPS UP WHEN YOU HOVER OVER A POINT -->
-	<form class="form-popup" id="form_position_summary">
-		<h1>Position Details</h1>
-		<hr>
-		<div class="row">
-			<label class="left">Day: </label><span class="right" id="dayout"></span>
-		</div>
-		<div class="row">
-			<label class="left">Time: </label><span class="right" id="timeout"></span>
-		</div>
-		<div class="row">
-			<label class="left">Wind Dir: </label><span class="right" id="winddout"></span>
-		</div>
-		<div class="row">
-			<label class="left">Wind Force: </label><span class="right" id="windfout"></span>
 		</div>
 	</form>
 
@@ -305,8 +288,8 @@
 		</div>
 
 		<div class="compass_container" id="compass">
-			<img src="assets/img/compass2.png" alt="compass" id="compass_image">
-			<img src="assets/img/compass_needle.png" alt="compassneedle" id="compass_needle">
+			<img src="assets/img/downscaled_compass.png" alt="compass" id="compass_image">
+			<img src="assets/img/downscaled_needle.png" alt="compassneedle" id="compass_needle">
 
 			<!--<span class="arrow2"></span>
 			<span class="arrow3"></span>
