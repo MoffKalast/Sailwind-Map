@@ -754,6 +754,9 @@ require([
 
 
 	document.getElementById('load_map').onclick = function () {
+		if(!localStorage.hasOwnProperty("mapObjects"))
+			return;
+
 		mapObjects = JSON.parse(localStorage.getItem("mapObjects"));	
 		redrawMap();
 	}
