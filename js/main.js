@@ -1,6 +1,8 @@
 var extents_checksum = 0;
 var compassLabels = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 
+var mouseGrabMoving = undefined;
+
 const DrawMode ={
 	None: "none",
 	BlackLine: "blackline",
@@ -413,6 +415,13 @@ require([
 				document.getElementById("viewDiv").style.cursor = "crosshair";
 			}
 		}
+
+
+		if(mouseGrabMoving != undefined){
+			mouseGrabMoving.array[mouseGrabMoving.index] = [point.longitude, point.latitude];
+			redrawMap();
+			computeInfo();
+		}
 	});
 
 	view.on("immediate-click", function (event) {
@@ -422,14 +431,28 @@ require([
 
 		if(drawMode == DrawMode.Path){
 
-			distancePointToLineSegment([long, lat], p0, p1) < degreesPerPixel * 7
+			// do we insert the point between other two points?
+			let inserted = false;
+			let degreesPerPixel = view.extent.width/window.screen.width;
 
-			mapObjects.path.push([long, lat]);
+			for (let i = 0; i+1 < mapObjects.path.length; i++) {
+
+				let p0 = mapObjects.path[i];
+				let p1 = mapObjects.path[i+1];
+
+				if(distancePointToLineSegment([long, lat], p0, p1) < degreesPerPixel * 7){
+					mapObjects.path.splice(i+1, 0, [long, lat]);
+					inserted = true;
+					break;
+				}
+			}
+
+			if(!inserted){
+				mapObjects.path.push([long, lat]);	
+			}		
 		}
 		else if(drawMode == DrawMode.Point){
 			mapObjects.points.push([long, lat]);
-			//if (showDetails)
-				//openDetails();
 		}
 		else if(drawMode == DrawMode.Goal){
 			mapObjects.goals = [[long, lat]];
@@ -464,28 +487,40 @@ require([
 		computeInfo();
 	});
 
+	view.on("drag", (event) => {
+		if(mouseGrabMoving != undefined){
+			event.stopPropagation();
+		}
+	});
+
 	view.on("hold", function (event) {
+
+		if(drawMode == DrawMode.Erase){
+			return;
+		}
 
 		let lat = event.mapPoint.y;
 		let long = event.mapPoint.x;
 
 		let result = findObjectAt(long, lat);
-		if(result == undefined){
-			return;
+		if(result != undefined && result.array != mapObjects.lines){
+			mouseGrabMoving = result;
+			document.getElementById("viewDiv").style.cursor = "move";
 		}
+	});
 
-
-		//document.getElementById("viewDiv").cursor = "move";
-		//document.getElementById("viewDiv").cursor = "crosshair";
-
-
+	view.on("pointer-up", function (event) {
+		if(mouseGrabMoving != undefined){
+			mouseGrabMoving = undefined;
+			document.getElementById("viewDiv").style.cursor = "crosshair";
+		}
 	});
 
 	function findObjectAt(long, lat){
 		let degreesPerPixel = view.extent.width/window.screen.width;
 
 		//check route
-		for (i = 0; i < mapObjects.path.length; i++) {
+		for (let i = 0; i < mapObjects.path.length; i++) {
 
 			let pLong = mapObjects.path[i][0];
 			let pLat = mapObjects.path[i][1];
@@ -499,7 +534,7 @@ require([
 		}
 
 		//check points
-		for (i = 0; i < mapObjects.points.length; i++) {
+		for (let i = 0; i < mapObjects.points.length; i++) {
 
 			let pLong = mapObjects.points[i][0];
 			let pLat = mapObjects.points[i][1];
@@ -513,7 +548,7 @@ require([
 		}
 
 		//check destination(s?)
-		for (i = 0; i < mapObjects.goals.length; i++) {
+		for (let i = 0; i < mapObjects.goals.length; i++) {
 
 			let pLong = mapObjects.goals[i][0];
 			let pLat = mapObjects.goals[i][1];
@@ -528,7 +563,7 @@ require([
 
 		//check line segments
 		distancePointToLineSegment
-		for (i = 0; i < mapObjects.lines.length; i++) {
+		for (let i = 0; i < mapObjects.lines.length; i++) {
 
 			let p0 = mapObjects.lines[i].p0;
 			let p1 = mapObjects.lines[i].p1;

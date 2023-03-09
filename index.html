@@ -137,23 +137,82 @@
 	<!-- Modal window definitions -->
 
 	<div id="modal_tutorial" class="modal noselect">
-		<div class="box modal-content noselect">
-			<h1>Interface Tutorial</h1>
+		<div id="tutorial_content" class="box modal-content noselect">
+			<h1>Tutorial</h1>
+
 			<hr>
+
+			<h3>Interface</h3>
+
 			<div class="row">
-				<label>Select a drawing element (line, dot, etc.) to begin.</label>
+				<label>Click and drag to move the map, scroll wheel to zoom. Shift drag to zoom to an area.</label>
+			</div>
+
+			<hr>
+
+			<h3>Plotting</h3>
+
+			<div class="row">
+				<label>Select a drawing element (line, dot, etc.) to begin. You can also drag and drop plot points.</label>
+			</div>
+
+			<hr>
+
+			<div class="row">
+				<label>Pencil tools can be used to draw lines on the map. Click once to place the first point and once more to complete the line.</label>
+
 			</div>
 
 			<div class="row">
-				<label>Click to place elements, click and hold to delete them.</label>
+				<img class="icon" src="assets/img/tools/line_black.svg" />
+				<img class="icon" src="assets/img/tools/line_gray.svg" />
+				<img class="icon" src="assets/img/tools/line_red.svg" />
+			</div>
+
+			<hr>
+
+			<div class="row">
+				<label>Use the connected points tool to draw a connected path.</label>
 			</div>
 
 			<div class="row">
-				<label>Shift drag to area zoom.</label>
-			</div>	
+				<img class="icon" src="assets/img/tools/path.svg" />
+			</div>
+
+			<hr>
 
 			<div class="row">
-				Modal windows can be closed by clicking in the area around them.
+				<label>Use the dot plotter tool to draw unconnected points.</label>
+			</div>
+
+			<div class="row">
+				<img class="icon" src="assets/img/tools/path_nolines.svg" />
+			</div>
+
+			<hr>
+
+			<div class="row">
+				<label>Use the destination tool to mark the path destination.</label>
+			</div>
+
+			<div class="row">
+				<img class="icon" src="assets/img/tools/destination.svg" />
+			</div>
+
+			<hr>
+
+			<div class="row">
+				<label>Use the eraser tool to remove drawings.</label>
+			</div>
+
+			<div class="row">
+				<img class="icon" src="assets/img/tools/eraser.svg" />
+			</div>
+
+			<hr>
+
+			<div class="row">
+				Modal windows (like this one) can be closed by clicking in the dark area around them.
 			</div>			
 		</div>
 	</div>

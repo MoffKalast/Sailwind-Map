@@ -17,6 +17,10 @@ body {
     overflow: hidden;
 }
 
+h3{
+    margin: 0;
+}
+
 #viewDiv {
     background: #f7f7f7;
     box-shadow: 0.2vh 0.3vh 2vh black, 0 0 12.5vh #86694c inset;
@@ -128,6 +132,13 @@ body {
     height: 35vh;
     top: 30vh;
     left: 35vw;
+}
+
+#tutorial_content{
+    width: 35vw;
+    height: 60vh;
+    top: 20vh;
+    left: 32.5vw;
 }
 
 /* THIS BOX IS RE-USABLE */
