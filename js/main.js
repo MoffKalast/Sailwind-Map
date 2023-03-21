@@ -170,7 +170,6 @@ require([
 		field: "Region",
 		defaultSymbol: { type: "simple-fill" },  // autocasts as new SimpleFillSymbol()
 		uniqueValueInfos: [{
-			// All features with value of "North" will be blue
 			value: "Emerald Archipelago",
 			symbol: {
 				type: "simple-fill",  // autocasts as new SimpleFillSymbol()
@@ -181,7 +180,6 @@ require([
 				}
 			}
 		}, {
-			// All features with value of "East" will be green
 			value: "Al'Ankh",
 			symbol: {
 				type: "simple-fill",  // autocasts as new SimpleFillSymbol()
@@ -192,7 +190,6 @@ require([
 				}
 			}
 		}, {
-			// All features with value of "South" will be red
 			value: "Happy Bay",
 			symbol: {
 				type: "simple-fill",  // autocasts as new SimpleFillSymbol()
@@ -203,7 +200,6 @@ require([
 				}
 			}
 		}, {
-			// All features with value of "South" will be red
 			value: "City",
 			symbol: {
 				type: "simple-fill",  // autocasts as new SimpleFillSymbol()
@@ -214,7 +210,6 @@ require([
 				}
 			}
 		}, {
-			// All features with value of "West" will be yellow
 			value: "Aestrin",
 			symbol: {
 				type: "simple-fill",  // autocasts as new SimpleFillSymbol()
@@ -972,3 +967,27 @@ function setArrow(degree) {
 	document.getElementById("compass_needle").style.transform = 'rotate(' + degree + 'deg)';
 };
 
+function pathToData(){
+	
+
+	let outstring = "					[\n";
+
+	for(let i = 0; i < mapObjects.path.length-1; i++){
+
+		let lat = parseFloat(mapObjects.path[i].pos[1]).toFixed(14);
+		let long = parseFloat(mapObjects.path[i].pos[0]).toFixed(14);
+
+		outstring += "						[\n";
+		outstring += "							"+long+",\n";
+		outstring += "							"+lat+"\n";
+
+		if(i == mapObjects.path.length-2)
+			outstring += "						]\n";
+		else
+			outstring += "						],\n";
+	}
+
+	outstring += "					]\n";
+
+	console.log(outstring);
+}

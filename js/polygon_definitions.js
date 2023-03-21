@@ -3,7 +3,6 @@ var geojson = {
 	"features": [
 		{
 			"type": "Feature",
-			"id": 0,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -412,11 +411,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 0,
-				"OBJECTID": 1,
 				"Region": "Al'Ankh",
 				"Name": "Gold Rock City",
-				"SHAPE_Leng": 0.412548700105,
 				"SHAPE_Area": 0.00668691435267,
 				"Latitude": 31.16029930114746,
 				"Longitude": -4.879169940948486
@@ -424,7 +420,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 1,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -541,11 +536,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 1,
-				"OBJECTID": 2,
 				"Region": "Al'Ankh",
 				"Name": "",
-				"SHAPE_Leng": 0.0933439672747,
 				"SHAPE_Area": 0.000377517534703,
 				"Latitude": 31.047199249267578,
 				"Longitude": -4.879519939422607
@@ -553,7 +545,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 2,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -746,11 +737,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 2,
-				"OBJECTID": 3,
 				"Region": "Al'Ankh",
 				"Name": "",
-				"SHAPE_Leng": 0.203537627,
 				"SHAPE_Area": 0.00124219744339,
 				"Latitude": 31.068899154663086,
 				"Longitude": -4.911530017852783
@@ -758,7 +746,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 3,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -863,11 +850,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 3,
-				"OBJECTID": 4,
 				"Region": "Al'Ankh",
 				"Name": "Albacore Town",
-				"SHAPE_Leng": 0.0750149531616,
 				"SHAPE_Area": 0.000298913169468,
 				"Latitude": 30.82229995727539,
 				"Longitude": -4.504280090332031
@@ -875,7 +859,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 4,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -948,11 +931,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 4,
-				"OBJECTID": 5,
 				"Region": "Al'Ankh",
 				"Name": "",
-				"SHAPE_Leng": 0.0450087956021,
 				"SHAPE_Area": 0.000129284597151,
 				"Latitude": 30.807100296020508,
 				"Longitude": -4.520440101623535
@@ -960,7 +940,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 5,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -997,11 +976,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 5,
-				"OBJECTID": 6,
 				"Region": "Al'Ankh",
 				"Name": "",
-				"SHAPE_Leng": 0.00753829374013,
 				"SHAPE_Area": 0.00000401084386525,
 				"Latitude": 30.66119956970215,
 				"Longitude": -4.902989864349365
@@ -1009,7 +985,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 6,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -1126,11 +1101,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 6,
-				"OBJECTID": 7,
 				"Region": "Al'Ankh",
 				"Name": "",
-				"SHAPE_Leng": 0.0693084388507,
 				"SHAPE_Area": 0.000227660107537,
 				"Latitude": 30.655899047851562,
 				"Longitude": -4.88185977935791
@@ -1138,7 +1110,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 7,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -1303,11 +1274,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 7,
-				"OBJECTID": 8,
 				"Region": "Al'Ankh",
 				"Name": "Alchemist's Island",
-				"SHAPE_Leng": 0.102227648278,
 				"SHAPE_Area": 0.000359459695227,
 				"Latitude": 30.65250015258789,
 				"Longitude": -4.83480978012085
@@ -1315,7 +1283,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 8,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -1424,11 +1391,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 8,
-				"OBJECTID": 10,
 				"Region": "Al'Ankh",
 				"Name": "Lion's Fang",
-				"SHAPE_Leng": 0.0509417392035,
 				"SHAPE_Area": 0.000160773101582,
 				"Latitude": 30.75790023803711,
 				"Longitude": -5.175099849700928
@@ -1436,7 +1400,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 9,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -1621,11 +1584,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 9,
-				"OBJECTID": 11,
 				"Region": "Al'Ankh",
 				"Name": "Neverdin",
-				"SHAPE_Leng": 0.105114565077,
 				"SHAPE_Area": 0.000485208607373,
 				"Latitude": 30.878299713134766,
 				"Longitude": -5.431359767913818
@@ -1633,7 +1593,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 10,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -1666,11 +1625,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 10,
-				"OBJECTID": 12,
 				"Region": "Al'Ankh",
 				"Name": "",
-				"SHAPE_Leng": 0.00748778622775,
 				"SHAPE_Area": 0.00000379342938834,
 				"Latitude": 30.89550018310547,
 				"Longitude": -5.4373297691345215
@@ -1678,7 +1634,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 11,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -1715,11 +1670,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 11,
-				"OBJECTID": 13,
 				"Region": "Al'Ankh",
 				"Name": "",
-				"SHAPE_Leng": 0.00696040621148,
 				"SHAPE_Area": 0.00000332632946338,
 				"Latitude": 30.891599655151367,
 				"Longitude": -5.4324798583984375
@@ -1727,7 +1679,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 12,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -1764,11 +1715,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 12,
-				"OBJECTID": 14,
 				"Region": "Al'Ankh",
 				"Name": "",
-				"SHAPE_Leng": 0.00642116853836,
 				"SHAPE_Area": 0.0000029246921859,
 				"Latitude": 30.865800857543945,
 				"Longitude": -5.433159828186035
@@ -1776,7 +1724,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 13,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -1889,11 +1836,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 13,
-				"OBJECTID": 15,
 				"Region": "Al'Ankh",
 				"Name": "Isle of Clear Mind",
-				"SHAPE_Leng": 0.0557365050378,
 				"SHAPE_Area": 0.000169551570459,
 				"Latitude": 31.078100204467773,
 				"Longitude": -5.36076021194458
@@ -1901,7 +1845,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 14,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -2114,11 +2057,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 14,
-				"OBJECTID": 16,
 				"Region": "Al'Ankh",
 				"Name": "Al'Nilem",
-				"SHAPE_Leng": 0.102990726904,
 				"SHAPE_Area": 0.000549736971627,
 				"Latitude": 31.253799438476562,
 				"Longitude": -5.445310115814209
@@ -2126,7 +2066,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 15,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -2211,11 +2150,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 15,
-				"OBJECTID": 17,
 				"Region": "Al'Ankh",
 				"Name": "Al'Ankh Academy",
-				"SHAPE_Leng": 0.0160645815367,
 				"SHAPE_Area": 0.0000114360205688,
 				"Latitude": 31.5575008392334,
 				"Longitude": -5.378220081329346
@@ -2223,96 +2159,100 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 16,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
 					[
 						[
-							-5.082531958999937,
-							32.70867980400004
+							-5.07628000000000,
+							32.74818000000000
 						],
 						[
-							-5.068017246999943,
-							32.72248067800007
+							-5.08479783207752,
+							32.75717960352527
 						],
 						[
-							-5.063496270999963,
-							32.73866101300007
+							-5.08029665189303,
+							32.76861363594863
 						],
 						[
-							-5.068731084999968,
-							32.74913064100008
+							-5.06668963593302,
+							32.76685455403728
 						],
 						[
-							-5.080152497999961,
-							32.75960027000008
+							-5.05975678369484,
+							32.77352871775911
 						],
 						[
-							-5.089670341999977,
-							32.770783736000055
+							-5.06286104589104,
+							32.78159979946923
 						],
 						[
-							-5.096332832999963,
-							32.785536395000065
+							-5.07413986520390,
+							32.78460058625889
 						],
 						[
-							-5.105374784999981,
-							32.787677909000024
+							-5.08179704528786,
+							32.78103068473326
 						],
 						[
-							-5.113227005999931,
-							32.78101541900003
+							-5.09809442181792,
+							32.77968550444798
 						],
 						[
-							-5.1148926289999395,
-							32.770783736000055
+							-5.10787284773595,
+							32.78475579936844
 						],
 						[
-							-5.122506903999977,
-							32.762217677000024
+							-5.11521960160029,
+							32.77999593066760
 						],
 						[
-							-5.128693502999965,
-							32.755793132000065
+							-5.11247750332699,
+							32.77151094733155
 						],
 						[
-							-5.14439794499998,
-							32.74151636600004
+							-5.11196012629429,
+							32.74745291531101
 						],
 						[
-							-5.152726058999974,
-							32.72486013900004
+							-5.11573697863300,
+							32.73927835819457
 						],
 						[
-							-5.152964004999944,
-							32.71201104900007
+							-5.11506438849049,
+							32.72137711286315
 						],
 						[
-							-5.141542591999951,
-							32.69725839100005
+							-5.10590681501169,
+							32.71506511306450
 						],
 						[
-							-5.11893771299998,
-							32.685836978000054
+							-5.08148661906824,
+							32.72851691591447
 						],
 						[
-							-5.107516299999929,
-							32.68774054700003
+							-5.07754000000000,
+							32.73456000000000
 						],
 						[
-							-5.082531958999937,
-							32.70867980400004
+							-5.07662327496086,
+							32.73912314508537
+						],
+						[
+							-5.07315684884177,
+							32.74243435809466
+						],
+						[
+							-5.07450202912679,
+							32.74574557110393
 						]
 					]
 				]
 			},
 			"properties": {
-				"FID": 16,
-				"OBJECTID": 18,
 				"Region": "Al'Ankh",
 				"Name": "Oasis",
-				"SHAPE_Leng": 0.28609557281,
 				"SHAPE_Area": 0.00544943098376,
 				"Latitude": 32.73189926147461,
 				"Longitude": -5.108850002288818
@@ -2320,7 +2260,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 17,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -2417,11 +2356,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 17,
-				"OBJECTID": 19,
 				"Region": "Happy Bay",
 				"Name": "Happy Bay",
-				"SHAPE_Leng": 0.36993143372,
 				"SHAPE_Area": 0.0072122573143,
 				"Latitude": 35.305599212646484,
 				"Longitude": 3.5627200603485107
@@ -2429,7 +2365,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 18,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -2518,11 +2453,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 18,
-				"OBJECTID": 20,
 				"Region": "Happy Bay",
 				"Name": "",
-				"SHAPE_Leng": 0.296539757836,
 				"SHAPE_Area": 0.00415015313998,
 				"Latitude": 35.21049880981445,
 				"Longitude": 3.5721800327301025
@@ -2530,7 +2462,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 19,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -2655,11 +2586,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 19,
-				"OBJECTID": 21,
 				"Region": "Aestrin",
 				"Name": "Mount Malefic",
-				"SHAPE_Leng": 0.390600321164,
 				"SHAPE_Area": 0.00972861730526,
 				"Latitude": 39.90409851074219,
 				"Longitude": 1.2058500051498413
@@ -2667,7 +2595,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 20,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -2744,11 +2671,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 20,
-				"OBJECTID": 22,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.128932663237,
 				"SHAPE_Area": 0.000972906671872,
 				"Latitude": 40.26300048828125,
 				"Longitude": 0.8467820286750793
@@ -2756,7 +2680,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 21,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -2937,11 +2860,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 21,
-				"OBJECTID": 23,
 				"Region": "Aestrin",
 				"Name": "Sunspire",
-				"SHAPE_Leng": 0.297435674831,
 				"SHAPE_Area": 0.00420121405057,
 				"Latitude": 40.22999954223633,
 				"Longitude": 0.9163960218429565
@@ -2949,7 +2869,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 22,
 			"geometry": {
 				"type": "MultiPolygon",
 				"coordinates": [
@@ -3092,11 +3011,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 22,
-				"OBJECTID": 24,
 				"Region": "Aestrin",
 				"Name": "Fort Aestrin",
-				"SHAPE_Leng": 0.164651440426,
 				"SHAPE_Area": 0.00164230642015,
 				"Latitude": 40.30780029296875,
 				"Longitude": 0.6444510221481323
@@ -3104,7 +3020,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 23,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3229,11 +3144,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 23,
-				"OBJECTID": 25,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.134841716904,
 				"SHAPE_Area": 0.000594265023163,
 				"Latitude": 40.312400817871094,
 				"Longitude": 0.6092010140419006
@@ -3241,7 +3153,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 24,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3286,11 +3197,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 24,
-				"OBJECTID": 26,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0338505794272,
 				"SHAPE_Area": 0.0000774742826483,
 				"Latitude": 40.35820007324219,
 				"Longitude": 0.6494240164756775
@@ -3298,7 +3206,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 25,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3335,11 +3242,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 25,
-				"OBJECTID": 27,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0216051870513,
 				"SHAPE_Area": 0.0000323064274881,
 				"Latitude": 40.34489822387695,
 				"Longitude": 0.6109049916267395
@@ -3347,7 +3251,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 26,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3436,11 +3339,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 26,
-				"OBJECTID": 29,
 				"Region": "Aestrin",
 				"Name": "Oracle",
-				"SHAPE_Leng": 0.0467985618275,
 				"SHAPE_Area": 0.0000749131509987,
 				"Latitude": 40.448299407958984,
 				"Longitude": 0.24155400693416595
@@ -3448,7 +3348,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 27,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3617,11 +3516,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 27,
-				"OBJECTID": 30,
 				"Region": "Aestrin",
 				"Name": "Siren Song",
-				"SHAPE_Leng": 0.176658181511,
 				"SHAPE_Area": 0.00159889324631,
 				"Latitude": 40.765899658203125,
 				"Longitude": 0.5723919868469238
@@ -3629,7 +3525,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 28,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3714,11 +3609,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 28,
-				"OBJECTID": 31,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0773588012518,
 				"SHAPE_Area": 0.000411345548382,
 				"Latitude": 40.72880172729492,
 				"Longitude": 0.5980029702186584
@@ -3726,7 +3618,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 29,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3775,11 +3666,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 29,
-				"OBJECTID": 32,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0309687647574,
 				"SHAPE_Area": 0.000061815737816,
 				"Latitude": 40.746700286865234,
 				"Longitude": 0.6080819964408875
@@ -3787,7 +3675,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 30,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3860,11 +3747,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 30,
-				"OBJECTID": 33,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0502547930738,
 				"SHAPE_Area": 0.000172818666315,
 				"Latitude": 40.760101318359375,
 				"Longitude": 0.6194090247154236
@@ -3872,7 +3756,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 31,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -3917,11 +3800,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 31,
-				"OBJECTID": 34,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0349212637318,
 				"SHAPE_Area": 0.0000796195522265,
 				"Latitude": 40.77859878540039,
 				"Longitude": 0.5958449840545654
@@ -3929,7 +3809,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 32,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -4042,11 +3921,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 32,
-				"OBJECTID": 35,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0532818140393,
 				"SHAPE_Area": 0.000102649060941,
 				"Latitude": 40.88970184326172,
 				"Longitude": 0.23791299760341644
@@ -4054,7 +3930,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 33,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -4291,11 +4166,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 33,
-				"OBJECTID": 36,
 				"Region": "Aestrin",
 				"Name": "Eastwind",
-				"SHAPE_Leng": 0.147481648551,
 				"SHAPE_Area": 0.000533132515274,
 				"Latitude": 40.912601470947266,
 				"Longitude": 0.22415900230407715
@@ -4303,7 +4175,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 34,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -4352,11 +4223,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 34,
-				"OBJECTID": 37,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0187363857904,
 				"SHAPE_Area": 0.0000191228471747,
 				"Latitude": 40.924198150634766,
 				"Longitude": 0.23485000431537628
@@ -4364,7 +4232,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 35,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -4393,11 +4260,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 35,
-				"OBJECTID": 38,
 				"Region": "Aestrin",
 				"Name": "",
-				"SHAPE_Leng": 0.0058747508058,
 				"SHAPE_Area": 0.00000178347915225,
 				"Latitude": 40.905799865722656,
 				"Longitude": 0.23493899405002594
@@ -4405,7 +4269,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 36,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -4778,11 +4641,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 36,
-				"OBJECTID": 39,
 				"Region": "Emerald Archipelago",
 				"Name": "Dragon Cliffs",
-				"SHAPE_Leng": 0.700150597252,
 				"SHAPE_Area": 0.00957891753368,
 				"Latitude": 31.317899703979492,
 				"Longitude": 4.7566399574279785
@@ -4790,7 +4650,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 37,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -4859,11 +4718,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 37,
-				"OBJECTID": 40,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.0991825171943,
 				"SHAPE_Area": 0.000739776208037,
 				"Latitude": 31.328100204467773,
 				"Longitude": 4.7761101722717285
@@ -4871,7 +4727,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 38,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -4908,11 +4763,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 38,
-				"OBJECTID": 41,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.0316625297976,
 				"SHAPE_Area": 0.0000621585447034,
 				"Latitude": 31.307100296020508,
 				"Longitude": 4.787350177764893
@@ -4920,7 +4772,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 39,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -4965,11 +4816,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 39,
-				"OBJECTID": 42,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.0411386472836,
 				"SHAPE_Area": 0.000121231824074,
 				"Latitude": 31.290800094604492,
 				"Longitude": 4.799860000610352
@@ -4977,7 +4825,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 40,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -5202,11 +5049,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 40,
-				"OBJECTID": 43,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.365524647074,
 				"SHAPE_Area": 0.00533687632216,
 				"Latitude": 31.351200103759766,
 				"Longitude": 4.808579921722412
@@ -5214,7 +5058,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 41,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -5251,11 +5094,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 41,
-				"OBJECTID": 44,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.019528542135,
 				"SHAPE_Area": 0.0000255224883784,
 				"Latitude": 31.353900909423828,
 				"Longitude": 4.757150173187256
@@ -5263,7 +5103,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 42,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -5328,11 +5167,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 42,
-				"OBJECTID": 45,
 				"Region": "Emerald Archipelago",
 				"Name": "Sage Hils",
-				"SHAPE_Leng": 0.128940914314,
 				"SHAPE_Area": 0.00107592977215,
 				"Latitude": 30.893699645996094,
 				"Longitude": 4.472690105438232
@@ -5340,7 +5176,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 43,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -5425,11 +5260,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 43,
-				"OBJECTID": 46,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.120208770417,
 				"SHAPE_Area": 0.000924138244694,
 				"Latitude": 30.890899658203125,
 				"Longitude": 4.505149841308594
@@ -5437,7 +5269,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 44,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -5610,11 +5441,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 44,
-				"OBJECTID": 47,
 				"Region": "Emerald Archipelago",
 				"Name": "Crab Beach",
-				"SHAPE_Leng": 0.273370319366,
 				"SHAPE_Area": 0.0013827870699,
 				"Latitude": 31.698999404907227,
 				"Longitude": 4.934169769287109
@@ -5622,7 +5450,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 45,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -5703,11 +5530,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 45,
-				"OBJECTID": 48,
 				"Region": "Emerald Archipelago",
 				"Name": "Sanctuary",
-				"SHAPE_Leng": 0.0771017560588,
 				"SHAPE_Area": 0.000286439299205,
 				"Latitude": 31.868000030517578,
 				"Longitude": 5.158860206604004
@@ -5715,7 +5539,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 46,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -5836,11 +5659,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 46,
-				"OBJECTID": 49,
 				"Region": "Emerald Archipelago",
 				"Name": "New Port",
-				"SHAPE_Leng": 0.208685251402,
 				"SHAPE_Area": 0.00181220379411,
 				"Latitude": 32.09149932861328,
 				"Longitude": 4.755259990692139
@@ -5848,7 +5668,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 47,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -5929,11 +5748,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 47,
-				"OBJECTID": 50,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.0929037286285,
 				"SHAPE_Area": 0.000495849889463,
 				"Latitude": 32.05440139770508,
 				"Longitude": 4.6857099533081055
@@ -5941,7 +5757,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 48,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -6022,11 +5837,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 48,
-				"OBJECTID": 51,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.105196905422,
 				"SHAPE_Area": 0.000670252507454,
 				"Latitude": 32.12080001831055,
 				"Longitude": 4.753210067749023
@@ -6034,7 +5846,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 49,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -6095,11 +5906,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 49,
-				"OBJECTID": 52,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.107401020527,
 				"SHAPE_Area": 0.000540395574976,
 				"Latitude": 31.683000564575195,
 				"Longitude": 4.3518500328063965
@@ -6107,7 +5915,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 50,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -6188,11 +5995,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 50,
-				"OBJECTID": 53,
 				"Region": "Emerald Archipelago",
 				"Name": "Serpent Isle",
-				"SHAPE_Leng": 0.145738027559,
 				"SHAPE_Area": 0.000974543287436,
 				"Latitude": 31.794099807739258,
 				"Longitude": 4.386549949645996
@@ -6200,7 +6004,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 51,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -6241,11 +6044,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 51,
-				"OBJECTID": 54,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.0419791500059,
 				"SHAPE_Area": 0.000111246214267,
 				"Latitude": 31.80229949951172,
 				"Longitude": 4.422679901123047
@@ -6253,7 +6053,6 @@ var geojson = {
 		},
 		{
 			"type": "Feature",
-			"id": 52,
 			"geometry": {
 				"type": "Polygon",
 				"coordinates": [
@@ -6294,11 +6093,8 @@ var geojson = {
 				]
 			},
 			"properties": {
-				"FID": 52,
-				"OBJECTID": 55,
 				"Region": "Emerald Archipelago",
 				"Name": "",
-				"SHAPE_Leng": 0.0363790973227,
 				"SHAPE_Area": 0.0000939068416346,
 				"Latitude": 31.766700744628906,
 				"Longitude": 4.38592004776001
@@ -6314,8 +6110,6 @@ var geojson = {
 				"fill-opacity": 0.5,
 				"Region": "City",
 				"Name": "",
-				"FID": 53,
-				"OBJECTID": 56
 			},
 			"geometry": {
 				"type": "Polygon",
@@ -6366,8 +6160,6 @@ var geojson = {
 			"properties": {
 				"Region": "City",
 				"Name": "",
-				"FID": 55,
-				"OBJECTID": 58
 			},
 			"geometry": {
 				"type": "Polygon",
@@ -6416,8 +6208,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 56,
-				"OBJECTID": 59,
 				"Region": "City",
 				"Name": ""
 			},
@@ -6472,8 +6262,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 57,
-				"OBJECTID": 60,
 				"Region": "City",
 				"Name": ""
 			},
@@ -6512,8 +6300,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 58,
-				"OBJECTID": 61,
 				"Region": "Sand",
 				"Name": ""
 			},
@@ -6556,8 +6342,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 59,
-				"OBJECTID": 62,
 				"Region": "City",
 				"Name": ""
 			},
@@ -6648,8 +6432,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 60,
-				"OBJECTID": 63,
 				"Region": "City",
 				"Name": ""
 			},
@@ -6696,8 +6478,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 61,
-				"OBJECTID": 64,
 				"Region": "City",
 				"Name": ""
 			},
@@ -6752,9 +6532,7 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"OBJECTID": 65,
 				"Region": "Sand",
-				"FID": 62
 			},
 			"geometry": {
 				"type": "Polygon",
@@ -6791,8 +6569,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 63,
-				"OBJECTID": 66,
 				"Region": "Sand"
 			},
 			"geometry": {
@@ -6830,8 +6606,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 64,
-				"OBJECTID": 67,
 				"Region": "Sand"
 			},
 			"geometry": {
@@ -6873,8 +6647,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 65,
-				"OBJECTID": 68,
 				"Region": "City"
 			},
 			"geometry": {
@@ -6916,8 +6688,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 66,
-				"OBJECTID": 69,
 				"Region": "City"
 			},
 			"geometry": {
@@ -6959,8 +6729,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 67,
-				"OBJECTID": 70,
 				"Region": "City"
 			},
 			"geometry": {
@@ -6968,28 +6736,40 @@ var geojson = {
 				"coordinates": [
 					[
 						[
-							-5.063495635986327,
-							32.73877198768001
+							-5.07448000000000,
+							32.74574000000000
 						],
 						[
-							-5.071048736572266,
-							32.73862759545252
+							-5.07637623266297,
+							32.74827812535543
 						],
 						[
-							-5.0749969482421875,
-							32.73097447261565
+							-5.07994613418860,
+							32.75200323999083
 						],
 						[
-							-5.07293701171875,
-							32.72288744019713
+							-5.08703000000000,
+							32.74762000000000
 						],
 						[
-							-5.067787170410156,
-							32.723320692672495
+							-5.08850000000000,
+							32.74367000000000
 						],
 						[
-							-5.063495635986327,
-							32.73877198768001
+							-5.08638000000000,
+							32.73956000000000
+						],
+						[
+							-5.08030829811149,
+							32.73839622403086
+						],
+						[
+							-5.07663492117932,
+							32.73906881417337
+						],
+						[
+							-5.07311675735696,
+							32.74248350258920
 						]
 					]
 				]
@@ -6998,8 +6778,35 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 68,
-				"OBJECTID": 71,
+				"Region": "City"
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[
+							-5.05772209768712,
+							32.71908777199149
+						],
+						[
+							-5.05585954036940,
+							32.71908777199149
+						],
+						[
+							-5.05591127807267,
+							32.72069164079286
+						],
+						[
+							-5.05777383539039,
+							32.72079511619940
+						]
+					]
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
 				"Region": "Sand"
 			},
 			"geometry": {
@@ -7007,52 +6814,36 @@ var geojson = {
 				"coordinates": [
 					[
 						[
-							-5.113792419433594,
-							32.796221512079626
+							-5.06441036210671,
+							32.72154182875700
 						],
 						[
-							-5.109500885009766,
-							32.79102659804327
+							-5.06699724727021,
+							32.71357422245358
 						],
 						[
-							-5.102291107177734,
-							32.79333548619193
+							-5.06508295224922,
+							32.71274641920126
 						],
 						[
-							-5.094394683837891,
-							32.794201303793194
+							-5.05504583781484,
+							32.71326379623387
 						],
 						[
-							-5.091304779052734,
-							32.79752019316996
+							-5.05080334614670,
+							32.71812714034125
 						],
 						[
-							-5.090789794921875,
-							32.81108306194782
+							-5.04982032978457,
+							32.72123140253746
 						],
 						[
-							-5.089759826660155,
-							32.81440132108833
+							-5.05509757551811,
+							32.72568084501867
 						],
 						[
-							-5.0928497314453125,
-							32.8223357861436
-						],
-						[
-							-5.100574493408203,
-							32.82536512222339
-						],
-						[
-							-5.108814239501953,
-							32.8191620851559
-						],
-						[
-							-5.114135742187499,
-							32.812670070909164
-						],
-						[
-							-5.113792419433594,
-							32.796221512079626
+							-5.06409000000000,
+							32.72494000000000
 						]
 					]
 				]
@@ -7061,55 +6852,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 69,
-				"OBJECTID": 72,
-				"Region": "Sand"
-			},
-			"geometry": {
-				"type": "Polygon",
-				"coordinates": [
-					[
-						[
-							-5.115509033203125,
-							32.82752887045379
-						],
-						[
-							-5.114135742187499,
-							32.8219030154127
-						],
-						[
-							-5.110187530517578,
-							32.82406684798284
-						],
-						[
-							-5.102634429931641,
-							32.82752887045379
-						],
-						[
-							-5.101604461669922,
-							32.82962044363495
-						],
-						[
-							-5.105123519897461,
-							32.83099075797512
-						],
-						[
-							-5.114564895629883,
-							32.828899217067935
-						],
-						[
-							-5.115509033203125,
-							32.82752887045379
-						]
-					]
-				]
-			}
-		},
-		{
-			"type": "Feature",
-			"properties": {
-				"FID": 70,
-				"OBJECTID": 73,
 				"Region": "City"
 			},
 			"geometry": {
@@ -7167,8 +6909,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 71,
-				"OBJECTID": 74,
 				"Region": "City"
 			},
 			"geometry": {
@@ -7222,8 +6962,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 72,
-				"OBJECTID": 75,
 				"Region": "City"
 			},
 			"geometry": {
@@ -7277,8 +7015,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 73,
-				"OBJECTID": 76,
 				"Region": "City"
 			},
 			"geometry": {
@@ -7340,8 +7076,6 @@ var geojson = {
 		{
 			"type": "Feature",
 			"properties": {
-				"FID": 54,
-				"OBJECTID": 57,
 				"Region": "City"
 			},
 			"geometry": {
