@@ -894,6 +894,37 @@ require([
 
 	});
 
+	document.getElementById('coordsfile').addEventListener('change', (event) => {
+		let file = event.target.files[0];
+		let reader = new FileReader();
+		reader.readAsText(file);
+		reader.addEventListener('load', (event) => {
+
+			let day = 0;
+			let contents = event.target.result.split('\n');
+			for(let i = 0; i < contents.length; i++){
+				let line = contents[i];
+
+				if(line.startsWith("Day")){
+					day = Number(line.split(":")[1]);
+				}
+				else{
+					let coords = line.split(" ");
+					mapObjects.path.push({
+						pos: [coords[1], coords[0]],
+						colour: "greenpoint",
+						day: day,
+						time: 0,
+						winddir: "",
+					});	
+				}
+			}
+
+			Modal.close('modal_import');
+			redrawMap();
+		});
+	});
+
 	if(localStorage.hasOwnProperty("route_visible")){
 		route.visible = localStorage.getItem("route_visible") === 'true';
 		document.getElementById("routescheck").checked = route.visible;

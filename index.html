@@ -95,6 +95,9 @@
 			<button type="button" style="width:100%" onclick="window.open('https://sailwind.fandom.com/wiki/Sailwind_Wiki', '_blank');">Wiki</button>
 		</div>
 		<div class="row">
+			<button type="button" style="width:100%" onclick="Modal.open('modal_import')">Import Coords</button>
+		</div>
+		<div class="row">
 			<button type="button" style="width:100%" onclick="Modal.open('modal_about')">About</button>
 		</div>
 	</div>
@@ -258,6 +261,23 @@
 			<div class="row">
 				<label>Map rendering powered by </label><a href="https://developers.arcgis.com/javascript/latest/" target="_blank">Esri ArcGIS</a>.
 			</div>
+			<hr>
+		</div>
+	</div>
+
+	<div id="modal_import" class="modal noselect">
+		<div class="box modal-content noselect" style="height: 18vh; width: 40vw;">
+			<h1>Import Coordinate Viewer Mod Coords File</h1>
+			<hr>
+			<br>
+			<input id="coordsfile" type="file"/>
+			<br>
+			<br>
+			<label>The files can be usually found under the following path on Windows:</label>
+			<br>
+			<label>C:\Program Files (x86)\Steam\steamapps\common\Sailwind\Mods\CoordinateViewer</label>
+			<br>
+
 			<hr>
 		</div>
 	</div>
