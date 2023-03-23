@@ -258,8 +258,8 @@ require([
 		symbol: {
 			type: "text",
 			color: "black",
-			haloColor: [221, 218, 215, 0.6],
-			haloSize: "3pt",
+			haloColor: [221, 218, 215, 1.0],
+			haloSize: "2pt",
 			font: {
 				family: "Oregano",
 				size: 16.5

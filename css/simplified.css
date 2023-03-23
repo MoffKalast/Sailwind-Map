@@ -129,7 +129,7 @@ h3{
 .modal-content {
     position: fixed;
     width: 28vw;
-    height: 35vh;
+    height: auto;
     top: 30vh;
     left: 35vw;
 }
@@ -308,6 +308,11 @@ select {
 input[type=number] {
     font-family: 'Montserrat';
 }
+
+input[type=file] {
+    font-family: 'Oregano-Regular';
+}
+
 
 #heading{
     font-family: 'Montserrat';
