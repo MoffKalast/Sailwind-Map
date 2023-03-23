@@ -902,8 +902,7 @@ require([
 
 				if(line.startsWith("Day")){
 					day = Number(line.split(":")[1]);
-				}
-				else{
+				}else if(line.includes(" ") && line.includes(".")){
 					let coords = line.split(" ");
 					mapObjects.path.push({
 						pos: [coords[1], coords[0]],
@@ -972,7 +971,7 @@ function pathToData(){
 
 	let outstring = "					[\n";
 
-	for(let i = 0; i < mapObjects.path.length-1; i++){
+	for(let i = 0; i < mapObjects.path.length; i++){
 
 		let lat = parseFloat(mapObjects.path[i].pos[1]).toFixed(14);
 		let long = parseFloat(mapObjects.path[i].pos[0]).toFixed(14);
@@ -981,7 +980,7 @@ function pathToData(){
 		outstring += "							"+long+",\n";
 		outstring += "							"+lat+"\n";
 
-		if(i == mapObjects.path.length-2)
+		if(i == mapObjects.path.length-1)
 			outstring += "						]\n";
 		else
 			outstring += "						],\n";
