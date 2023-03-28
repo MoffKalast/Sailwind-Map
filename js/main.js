@@ -401,7 +401,7 @@ require([
 				);
 
 				let degreesPerPixel = view.extent.width/window.screen.width;
-				
+
 				if(length/degreesPerPixel > 140){
 					let minicompass = new Graphic(GraphicsLibrary.minicompass);
 					minicompass.geometry.longitude = (linedata.p0[0] + point.longitude)/2;
