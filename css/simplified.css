@@ -396,12 +396,12 @@ button:active {
 
 .compass_container {
     height: 30vh;
-    width: 100%;
+    width: 30vh;
     z-index: 10;
     border-radius: 100%;
     -webkit-border-radius: 100%;
     background-image: url("../assets/img/endgrain.png");
-    background-position: calc(50%) calc(50%);
+    background-size: 30vh 30vh;
     transform: translate(0%, 0%);
     scale: 1vh;
     overflow: hidden;

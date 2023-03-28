@@ -225,8 +225,8 @@ class GraphicsLibrary{
 		symbol: {
 			type: "text",
 			color: "black",
-			haloColor: [221, 218, 215, 0.7],
-			haloSize: "6pt",
+			haloColor: [221, 218, 215, 1.0],
+			haloSize: "2pt",
 			font: {
 				family: "Oregano",
 				size: 12
