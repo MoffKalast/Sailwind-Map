@@ -394,6 +394,20 @@ require([
 				end_text.geometry.latitude = point.latitude;
 				end_text.symbol.text = compassLabels[end_point];
 				topTempLayer.add(end_text);
+
+				let length  = Math.hypot(
+					linedata.p0[0] - point.longitude,
+					linedata.p0[1] - point.latitude,
+				);
+
+				let degreesPerPixel = view.extent.width/window.screen.width;
+				
+				if(length/degreesPerPixel > 140){
+					let minicompass = new Graphic(GraphicsLibrary.minicompass);
+					minicompass.geometry.longitude = (linedata.p0[0] + point.longitude)/2;
+					minicompass.geometry.latitude = (linedata.p0[1] + point.latitude)/2;
+					topTempLayer.add(minicompass);
+				}
 			}
 		}
 

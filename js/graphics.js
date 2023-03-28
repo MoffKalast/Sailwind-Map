@@ -253,6 +253,20 @@ class GraphicsLibrary{
 		}
 	};
 
+	static minicompass = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+			url: "assets/img/downscaled_simpel_compass.png",
+			width: "70pt",
+			height: "70pt"
+		}
+	};
+
 	static eraser = {
 		geometry: {
 			type: "point",
