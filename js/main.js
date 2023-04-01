@@ -323,7 +323,7 @@ require([
 		center: [1, 36],
 		constraints: {
 			minScale: 16000000,
-			maxScale: 10000,
+			maxScale: 8000,
 			extent: {
 				xmin: -90,
 				ymin: -90,
