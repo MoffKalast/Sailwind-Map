@@ -4,6 +4,16 @@ window.onmousemove = function (element) {
 	document.getElementById("vertCursorline").style.left = event.x;
 };
 
+function getCompassStringFromDeg(deg){
+	const compassLabels = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+	let index = clamp(parseInt((deg + 11.5) / 22.5), 0, 16);
+
+	if(index < 0 || index > 15)
+		index = 0;
+
+	return compassLabels[index];
+}
+
 // utils
 function getDistanceFromLatLonInNm(lat1, lon1, lat2, lon2) {
 	//var R =  5765; // Radius of the earth in km

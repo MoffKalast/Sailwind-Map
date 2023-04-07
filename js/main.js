@@ -1,5 +1,4 @@
 var extents_checksum = 0;
-var compassLabels = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 
 var mouseGrabMoving = undefined;
 var menuPoint = undefined;
@@ -50,15 +49,27 @@ require([
 	"esri/symbols/LineSymbolMarker"
 ], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, LineSymbolMarker) {
 
-	const biglabelBlob = new Blob([JSON.stringify(bigLabels)], {
+	const biglabelBlob = new Blob([JSON.stringify(bigLabelJson)], {
 		type: "application/json"
 	});
 
-	const blob = new Blob([JSON.stringify(geojson)], {
+	const borderBlob = new Blob([JSON.stringify(mapBorderJson)], {
+		type: "application/json"
+	});
+
+	const blob = new Blob([JSON.stringify(geoJson)], {
+		type: "application/json"
+	});
+
+	const secretBlob = new Blob([JSON.stringify(secretJson)], {
 		type: "application/json"
 	});
 
 	const routeBlob = new Blob([JSON.stringify(routeJson)], {
+		type: "application/json"
+	});
+
+	const secretRouteBlob = new Blob([JSON.stringify(secretRouteJson)], {
 		type: "application/json"
 	});
 
@@ -77,6 +88,16 @@ require([
 	const ufGridBlob = new Blob([JSON.stringify(ufineGrid)], {
 		type: "application/json"
 	});
+
+	let borderRenderer = {
+		type: "simple",
+		symbol: {
+			type: "simple-line",  // autocasts as SimpleLineSymbol()
+			color: [0, 0, 0, 0.7],
+			style: 'dash',
+			width: 4
+		}
+	};
 
 	let fGridRenderer = {
 		type: "simple",
@@ -98,14 +119,41 @@ require([
 		}
 	};
 
- 	let routeRenderer = {
-		type: "simple",
-		symbol: {
-			type: "simple-line",  // autocasts as SimpleLineSymbol()
-			color: [178, 165, 152, 0.2],
-			style: 'solid',
-			width: 6
-		}
+	let routeRenderer = {
+		type: "unique-value",  // autocasts as new UniqueValueRenderer()
+		field: "Type",
+		defaultSymbol: { type: "simple-line" },  // autocasts as new SimpleLineSymbol()
+		uniqueValueInfos: [
+			{
+				value: "downwind",
+				symbol: {
+					type: "simple-line",  // autocasts as SimpleLineSymbol()
+					color: [178, 165, 152, 0.23],
+					style: 'solid',
+					width: 6
+				}
+			},
+			{
+				value: "closehauled",
+				symbol: {
+					type: "simple-line",  // autocasts as SimpleLineSymbol()
+					color: [175, 10, 10, 0.15],
+					style: 'solid',
+					width: 6
+				}
+			},
+			{
+				value: "beamreach",
+				symbol: {
+					type: "simple-line",  // autocasts as SimpleLineSymbol()
+					color: [30, 30, 175, 0.1],
+					style: 'solid',
+					width: 6
+				}
+			}
+
+		],
+		visualVariables: []
 	};
 
 	let windRenderer = {
@@ -273,6 +321,13 @@ require([
 
 	};
 
+	
+	const borderLayer = new GeoJSONLayer({
+		url: URL.createObjectURL(borderBlob),
+		renderer: borderRenderer,
+		visible: false
+	});
+
 	const biglabel = new GeoJSONLayer({
 		url: URL.createObjectURL(biglabelBlob),
 		renderer: bigLabelsRenderer,
@@ -282,7 +337,15 @@ require([
 
 	const route = new GeoJSONLayer({
 		url: URL.createObjectURL(routeBlob),
+		labelingInfo: [bigLabelClass],
 		renderer: routeRenderer
+	});
+
+	const secretRoute = new GeoJSONLayer({
+		url: URL.createObjectURL(secretRouteBlob),
+		renderer: routeRenderer,
+		labelingInfo: [bigLabelClass],
+		visible: false
 	});
 
 	const wind = new GeoJSONLayer({
@@ -313,8 +376,15 @@ require([
 		labelingInfo: [labelClass]
 	});
 
+	const secretlayer = new GeoJSONLayer({
+		url: URL.createObjectURL(secretBlob),
+		renderer: renderer,
+		labelingInfo: [labelClass],
+		visible: false
+	});
+
 	const map = new ArcGISMap({
-		layers: [route, wind, layer, grid, fGrid, ufGrid, biglabel]
+		layers: [route, secretRoute, wind, layer, secretlayer, grid, fGrid, ufGrid, biglabel, borderLayer]
 	});
 
 	const view = new MapView({
@@ -322,7 +392,7 @@ require([
 		map: map,
 		center: [1, 36],
 		constraints: {
-			minScale: 16000000,
+			minScale: 10000000, //16000000
 			maxScale: 8000,
 			extent: {
 				xmin: -90,
@@ -334,8 +404,36 @@ require([
 		}
 	});
 
+	// fix the terrible stock scroll behaviour
+	view.on("mouse-wheel", (event) => {
+		event.stopPropagation();
+
+		const customZoomFactor = 1.25;
+		let newScale = view.scale * (event.deltaY < 0 ? 1 / customZoomFactor : customZoomFactor);
+		newScale = clamp(newScale, view.constraints.maxScale, view.constraints.minScale)
+
+		if (newScale != view.scale) {
+			const screenPoint = {
+				x: event.x,
+				y: event.y,
+			};
+
+			const mapPoint = view.toMap(screenPoint);
+			const scaleChange = newScale / view.scale;
+
+			const newCenter = {
+				x: (mapPoint.x - view.center.x) * (1 - scaleChange) + view.center.x,
+				y: (mapPoint.y - view.center.y) * (1 - scaleChange) + view.center.y,
+			};
+			
+			view.center = newCenter;
+		}
+		view.scale = newScale;
+
+	});
+
 	view.ui._removeComponents(["attribution"]);
-	view.scale = 6000000;
+	view.scale = 10000000;
 
 	edgeLayer = new GraphicsLayer();
 	imageLayer = new GraphicsLayer();
@@ -374,25 +472,16 @@ require([
 				let start_bearing = getBearing(point.latitude, point.longitude, linedata.p0[1], linedata.p0[0]);
 				let end_bearing = getBearing(linedata.p0[1], linedata.p0[0], point.latitude, point.longitude);
 
-				let start_point = clamp(parseInt((start_bearing + 11.5) / 22.5), 0, 16);
-				let end_point = clamp(parseInt((end_bearing + 11.5) / 22.5), 0, 16);
-
-				if(start_point < 0 || start_point > 15)
-					start_point = 0;
-
-				if(end_point < 0 || end_point > 15)
-					end_point = 0;
-
 				let start_text = new Graphic(GraphicsLibrary.headingLabel);
 				start_text.geometry.longitude = linedata.p0[0];
 				start_text.geometry.latitude = linedata.p0[1];
-				start_text.symbol.text = compassLabels[start_point];
+				start_text.symbol.text = getCompassStringFromDeg(start_bearing);
 				topTempLayer.add(start_text);
 
 				let end_text = new Graphic(GraphicsLibrary.headingLabel);
 				end_text.geometry.longitude = point.longitude;
 				end_text.geometry.latitude = point.latitude;
-				end_text.symbol.text = compassLabels[end_point];
+				end_text.symbol.text = getCompassStringFromDeg(end_bearing);
 				topTempLayer.add(end_text);
 
 				let length  = Math.hypot(
@@ -752,14 +841,26 @@ require([
 	}
 
 	//Settings checkboxes
+	document.getElementById('secretcheck').onclick = function () {
+		secretlayer.visible = this.checked;
+		secretRoute.visible = this.checked && route.visible;
+		localStorage.setItem("secrets_visible", this.checked);
+	}
+
 	document.getElementById('routescheck').onclick = function () {
 		route.visible = this.checked;
+		secretRoute.visible = this.checked && secretlayer.visible;
 		localStorage.setItem("route_visible", this.checked);
 	}
 
 	document.getElementById('windscheck').onclick = function () {
 		wind.visible = this.checked;
 		localStorage.setItem("wind_visible", this.checked);
+	}
+
+	document.getElementById('bordercheck').onclick = function () {
+		borderLayer.visible = this.checked;
+		localStorage.setItem("border_visible", this.checked);
 	}
 
 	//Info Menu
@@ -918,13 +1019,30 @@ require([
 					day = Number(line.split(":")[1]);
 				}else if(line.includes(" ") && line.includes(".")){
 					let coords = line.split(" ");
+					let time = 0;
+					let winddir = "";
+					let colour = "yellowpoint";
+
+					if(coords.length == 4){
+						let hours = ('00'+parseInt(coords[2])).slice(-2)
+						let minutes = ('00'+parseInt((coords[2] - parseInt(coords[2]))*60)).slice(-2)
+
+						time = hours+":"+minutes;
+						winddir = getCompassStringFromDeg(Math.round(coords[3]));
+
+						if(coords[2] < 8 || coords[2] > 21)
+							colour = "bluepoint"
+					}
+
 					mapObjects.path.push({
 						pos: [coords[1], coords[0]],
-						colour: "greenpoint",
+						colour: colour,
 						day: day,
-						time: 0,
-						winddir: "",
+						time: time,
+						winddir: winddir,
 					});	
+
+					
 				}
 			}
 
@@ -933,8 +1051,19 @@ require([
 		});
 	});
 
+	if(localStorage.hasOwnProperty("border_visible")){
+		borderLayer.visible = localStorage.getItem("border_visible") === 'true';
+		document.getElementById("bordercheck").checked = borderLayer.visible;
+	}
+
+	if(localStorage.hasOwnProperty("secrets_visible")){
+		secretlayer.visible = localStorage.getItem("secrets_visible") === 'true';
+		document.getElementById("secretcheck").checked = secretlayer.visible;
+	}
+
 	if(localStorage.hasOwnProperty("route_visible")){
 		route.visible = localStorage.getItem("route_visible") === 'true';
+		secretRoute.visible = secretlayer.visible && route.visible;
 		document.getElementById("routescheck").checked = route.visible;
 	}
 

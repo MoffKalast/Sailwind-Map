@@ -1,5 +1,5 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<meta charset="utf-8" />
 	<title class="lang" id="web_title">Sailwind Interactive Map</title>
@@ -50,6 +50,7 @@
 			  <option value="orangepoint">Orange</option>
 			  <option value="bluepoint">Blue</option>
 			  <option value="greenpoint">Green</option>
+			  <option value="yellowpoint">Yellow</option>
 			</select>
 		</div>
 
@@ -59,7 +60,7 @@
 		</div>
 		<div class="row">
 			<label for="details_time" class="left">Time</label>
-			<input id="details_time" class="right" type="text" maxlength="4" placeholder="">
+			<input id="details_time" class="right" type="time">
 		</div>
 		<div class="row">
 			<label for="details_winddir" class="left">Wind Dir</label>
@@ -233,17 +234,24 @@
 			</div>
 			<hr>
 			<div class="row">
-				<label style="font-weight: bold;" for="secretcheck" >Distance labels</label>
-				<input id="secretcheck" type="checkbox" disabled class="checkbox">
+				<label style="font-weight: bold;" for="secretcheck" >Secrets</label>
+				<input id="secretcheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Show the distances between points.</label>
+				<label style="color:rgb(40, 33, 22)">Have ye not heard the stories?</label>
 			</div>
 			<hr>
 			<div class="row">
-				<label style="font-weight: bold;" for="secretcheck" >Secrets</label>
-				<input id="secretcheck" type="checkbox" disabled class="checkbox">
+				<label style="font-weight: bold;" for="bordercheck" >Map Borders</label>
+				<input id="bordercheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Have ye not heard the stories?</label>
+				<label style="color:rgb(40, 33, 22)">Show the world limits.</label>
+			</div>
+			<hr>
+			<div class="row">
+				<label style="font-weight: bold;" for="distancescheck" >Distance labels</label>
+				<input id="distancescheck" type="checkbox" class="checkbox" disabled>
+				<br>
+				<label style="color:rgb(40, 33, 22)">Show the distances between points.</label>
 			</div>
 			<hr>
 		</div>

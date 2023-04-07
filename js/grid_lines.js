@@ -1,3 +1,27 @@
+var mapBorderJson = {
+	"type": "FeatureCollection",
+	"features": []
+}
+
+let limits = [
+	[[-12, 46], [32, 46]],
+	[[32, 46], [32, 26]],
+	[[-12, 26], [32, 26]],
+	[[-12, 46], [-12, 26]]
+]
+
+for (const line of limits){
+	mapBorderJson.features.push({
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": line
+		}
+	});
+}
+
+
+
 let maxLat = 70;
 let minLat = 0;
 
@@ -89,12 +113,12 @@ for (let i = minLat*100; i <= maxLat*100; i+=5) {
     }
 }
 
-var bigLabels = {
+var bigLabelJson = {
 	"type": "FeatureCollection",
 	"features": []
 }
 
-bigLabels.features.push({
+bigLabelJson.features.push({
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
@@ -104,7 +128,7 @@ bigLabels.features.push({
 	}
 });
 
-bigLabels.features.push({
+bigLabelJson.features.push({
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
@@ -114,7 +138,7 @@ bigLabels.features.push({
 	}
 });
 
-bigLabels.features.push({
+bigLabelJson.features.push({
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
@@ -124,12 +148,13 @@ bigLabels.features.push({
 	}
 });
 
-bigLabels.features.push({
+/* bigLabelJson.features.push({
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [12.1, 35.5]
+		"coordinates": [11.1, 38.5]
 	}, "properties": {
 		"TextString": "Here be dragons",
 	}
 });
+ */

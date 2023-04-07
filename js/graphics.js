@@ -58,6 +58,25 @@ class GraphicsLibrary{
 		}
 	};
 
+	static yellowPoint = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+			style: "circle",
+			color: [255, 216, 0, 0.95],
+			size: 10,
+			outline: {
+				// autocasts as new SimpleLineSymbol()
+				color: [20, 20, 20, 0.75],
+				width: 1.5
+			}
+		}
+	};
+
 	static destinationPoint = {
 		geometry: {
 			type: "point",
@@ -79,6 +98,7 @@ class GraphicsLibrary{
 	static points = {
 		"orangepoint": GraphicsLibrary.orangePoint,
 		"bluepoint": GraphicsLibrary.bluePoint,
+		"yellowpoint": GraphicsLibrary.yellowPoint,
 		"greenpoint": GraphicsLibrary.greenPoint,
 		"goalpoint": GraphicsLibrary.destinationPoint
 	}
