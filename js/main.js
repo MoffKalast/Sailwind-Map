@@ -1076,29 +1076,37 @@ require([
 		Modal.open('modal_tutorial');
 		localStorage.setItem("modal_tutorial", true);
 	}
+
+	function openDetails(result) {
+		let entry = result.array[result.index];
+
+		const screenPoint = view.toScreen({
+			x: entry.pos[0], // longitude
+			y:  entry.pos[1], // latitude
+			spatialReference: view.spatialReference, // match the view's spatial reference
+		});
+	
+		document.getElementById("form_position_details").style.top = screenPoint.y+"px";
+		document.getElementById("form_position_details").style.left = screenPoint.x+"px";
+		document.getElementById("form_position_details").style.display = "block";
+	
+		document.getElementById("details_longitude").value = entry.pos[0];
+		document.getElementById("details_lattitude").value = entry.pos[1];
+		document.getElementById("details_colour").value = entry.colour;
+	
+		document.getElementById("details_day").value = entry.day;
+		document.getElementById("details_time").value = entry.time;
+		document.getElementById("details_winddir").value = entry.winddir;
+	
+		menuPoint = result;	
+	}
+	
+	function closeDetails() {
+		document.getElementById("form_position_details").style.display = "none";
+		menuPoint = undefined;
+	} 
+
 });
-
-function openDetails(result) {
-	document.getElementById("form_position_details").style.top = event.y;
-	document.getElementById("form_position_details").style.left = event.x;
-	document.getElementById("form_position_details").style.display = "block";
-
-	let entry = result.array[result.index];
-	document.getElementById("details_longitude").value = entry.pos[0];
-	document.getElementById("details_lattitude").value = entry.pos[1];
-	document.getElementById("details_colour").value = entry.colour;
-
-	document.getElementById("details_day").value = entry.day;
-	document.getElementById("details_time").value = entry.time;
-	document.getElementById("details_winddir").value = entry.winddir;
-
-	menuPoint = result;	
-}
-
-function closeDetails() {
-	document.getElementById("form_position_details").style.display = "none";
-	menuPoint = undefined;
-} 
 
 /* function clearLocal() {
 	lineGraphicsLayer.removeAll();
