@@ -1,7 +1,7 @@
 //cursor indicator lines
 window.onmousemove = function (e) {
-	document.getElementById("horizCursorline").style.top = e.screenY+"px";
-	document.getElementById("vertCursorline").style.left = e.screenX+"px";
+	document.getElementById("horizCursorline").style.top = e.clientY+"px";
+	document.getElementById("vertCursorline").style.left = e.clientX+"px";
 };
 
 function getCompassStringFromDeg(deg){
