@@ -235,6 +235,27 @@ class GraphicsLibrary{
 		}
 	};
 
+	static distanceLabel = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "black",
+			haloColor: [221, 218, 215, 1.0],
+			haloSize: "2pt",
+			font: {
+				family: "Montserrat",
+				size: 13
+			},
+			text: "",
+			xoffset: 3,
+			yoffset: 0,
+		}
+	};
+
 	//Line heading text
 	static headingLabel = {
 		geometry: {

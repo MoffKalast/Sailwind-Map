@@ -14,6 +14,7 @@ const DrawMode ={
 	Erase: "erase"
 }
 var drawMode = DrawMode.None;
+var show_distances = false;
 
 var mapObjects = {
 	lines: [],
@@ -459,6 +460,7 @@ require([
 
 		topTempLayer.removeAll();
 		tempLayer.removeAll();
+		document.getElementById("arrow_needle").style.display = "none";
 
 		//draw temp line
 		for (let i = mapObjects.lines.length-1; i >= 0; i--) {
@@ -469,7 +471,7 @@ require([
 				line.geometry.paths = [linedata.p0, [point.longitude, point.latitude]];
 				tempLayer.add(line);
 
-				let start_bearing = getBearing(point.latitude, point.longitude, linedata.p0[1], linedata.p0[0]);
+/* 				let start_bearing = getBearing(point.latitude, point.longitude, linedata.p0[1], linedata.p0[0]);
 				let end_bearing = getBearing(linedata.p0[1], linedata.p0[0], point.latitude, point.longitude);
 
 				let start_text = new Graphic(GraphicsLibrary.headingLabel);
@@ -496,8 +498,26 @@ require([
 					minicompass.geometry.longitude = (linedata.p0[0] + point.longitude)/2;
 					minicompass.geometry.latitude = (linedata.p0[1] + point.latitude)/2;
 					topTempLayer.add(minicompass);
-				}
+				} */
+
+				let length  = Math.hypot(
+					linedata.p0[0] - point.longitude,
+					linedata.p0[1] - point.latitude,
+				);
+
+				let length_text = new Graphic(GraphicsLibrary.distanceLabel);
+				length_text.geometry.longitude = (linedata.p0[0] + point.longitude)/2;
+				length_text.geometry.latitude = (linedata.p0[1] + point.latitude)/2;
+				length_text.symbol.text = (length*90).toFixed(1)+" NM";
+				topTempLayer.add(length_text);
+
+				let bearing = getBearing(linedata.p0[1], linedata.p0[0], point.latitude, point.longitude);
+				bearing = Math.round(bearing * 10) / 10;
+
+				document.getElementById("arrow_needle").style.transform = 'rotate(' + bearing + 'deg)';
+				document.getElementById("arrow_needle").style.display = "block";
 			}
+
 		}
 
 		if(drawMode == DrawMode.Erase){
@@ -841,6 +861,11 @@ require([
 	}
 
 	//Settings checkboxes
+	document.getElementById('distancescheck').onclick = function () {
+		//show_distances = this.checked;
+		//localStorage.setItem("distances_visible", show_distances);
+	}
+
 	document.getElementById('secretcheck').onclick = function () {
 		secretlayer.visible = this.checked;
 		secretRoute.visible = this.checked && route.visible;
@@ -1050,6 +1075,11 @@ require([
 			redrawMap();
 		});
 	});
+
+	if(localStorage.hasOwnProperty("distances_visible")){
+		//show_distances = localStorage.getItem("distances_visible") === 'true';
+		//document.getElementById("distancescheck").checked = show_distances;
+	}
 
 	if(localStorage.hasOwnProperty("border_visible")){
 		borderLayer.visible = localStorage.getItem("border_visible") === 'true';

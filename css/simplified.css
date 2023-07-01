@@ -426,11 +426,19 @@ button:active {
 }
 
 #compass_needle {
-    position:absolute;
+    position: absolute;
     width: calc(29vh);
     height: calc(29vh);
     margin: 0.5vh;
     transition: all 1.3s;
+}
+
+#arrow_needle {
+    display: none;
+    position: absolute;
+    width: calc(29vh);
+    height: calc(29vh);
+    margin: 0.5vh;
 }
 
 .checkbox {
