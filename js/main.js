@@ -1042,8 +1042,8 @@ require([
 
 				if(line.startsWith("Day")){
 					day = Number(line.split(":")[1]);
-				}else if(line.includes(" ") && line.includes(".")){
-					let coords = line.split(" ");
+				}else if(line.includes(" ") && (line.includes(".") || line.includes(","))){
+					let coords = line.replaceAll(",", ".").split(" ");
 					let time = 0;
 					let winddir = "";
 					let colour = "yellowpoint";
