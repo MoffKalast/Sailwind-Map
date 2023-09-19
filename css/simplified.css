@@ -477,7 +477,7 @@ button:active {
     position: fixed;
     height: 4vh;
     width: auto;
-    top: 94vh;
+    bottom: 0vh;
     left: 31.75vw;
 }
 
