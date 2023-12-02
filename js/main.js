@@ -737,6 +737,8 @@ require([
 		tempLayer.removeAll();
 		renderLayer.removeAll();
 
+		console.log(mapObjects.lines)
+
 		// draw lines
 		if(mapObjects.lines.length > 0){
 			for (i = 0; i < mapObjects.lines.length; i++) {
@@ -759,6 +761,23 @@ require([
 			renderLayer.add(line);
 		}
 
+		//draw route line distances
+		if(show_distances && mapObjects.path.length > 1){
+			for (i = 0; i < mapObjects.path.length-1; i++) {
+				let p0 = mapObjects.path[i].pos;
+				let p1 = mapObjects.path[i+1].pos;
+				let length  = Math.hypot(
+					p0[0] - p1[0],
+					p0[1] - p1[1],
+				);
+	
+				let length_text = new Graphic(GraphicsLibrary.distanceLabel);
+				length_text.geometry.longitude = (p0[0] + p1[0])/2;
+				length_text.geometry.latitude = (p0[1] + p1[1])/2;
+				length_text.symbol.text = (length*90).toFixed(1)+" NM";
+				renderLayer.add(length_text);
+			}
+		}
 		// draw goal leg
 		if(mapObjects.path.length > 0 && mapObjects.goals.length > 0){
 			let line = new Graphic(GraphicsLibrary.dottedOrangeLine);
@@ -862,8 +881,9 @@ require([
 
 	//Settings checkboxes
 	document.getElementById('distancescheck').onclick = function () {
-		//show_distances = this.checked;
-		//localStorage.setItem("distances_visible", show_distances);
+		show_distances = this.checked;
+		localStorage.setItem("distances_visible", show_distances);
+		redrawMap();
 	}
 
 	document.getElementById('secretcheck').onclick = function () {
@@ -1077,8 +1097,9 @@ require([
 	});
 
 	if(localStorage.hasOwnProperty("distances_visible")){
-		//show_distances = localStorage.getItem("distances_visible") === 'true';
-		//document.getElementById("distancescheck").checked = show_distances;
+		show_distances = localStorage.getItem("distances_visible") === 'true';
+		document.getElementById("distancescheck").checked = show_distances;
+		redrawMap();
 	}
 
 	if(localStorage.hasOwnProperty("border_visible")){
