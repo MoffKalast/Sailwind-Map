@@ -14,7 +14,8 @@ const DrawMode ={
 	Erase: "erase"
 }
 var drawMode = DrawMode.None;
-var show_distances = false;
+var showDistances = false;
+var showSecrets = false;
 
 var mapObjects = {
 	lines: [],
@@ -737,8 +738,6 @@ require([
 		tempLayer.removeAll();
 		renderLayer.removeAll();
 
-		console.log(mapObjects.lines)
-
 		// draw lines
 		if(mapObjects.lines.length > 0){
 			for (i = 0; i < mapObjects.lines.length; i++) {
@@ -762,7 +761,7 @@ require([
 		}
 
 		//draw route line distances
-		if(show_distances && mapObjects.path.length > 1){
+		if(showDistances && mapObjects.path.length > 1){
 			for (i = 0; i < mapObjects.path.length-1; i++) {
 				let p0 = mapObjects.path[i].pos;
 				let p1 = mapObjects.path[i+1].pos;
@@ -881,20 +880,21 @@ require([
 
 	//Settings checkboxes
 	document.getElementById('distancescheck').onclick = function () {
-		show_distances = this.checked;
-		localStorage.setItem("distances_visible", show_distances);
+		showDistances = this.checked;
+		localStorage.setItem("distances_visible", showDistances);
 		redrawMap();
 	}
 
 	document.getElementById('secretcheck').onclick = function () {
-		secretlayer.visible = this.checked;
-		secretRoute.visible = this.checked && route.visible;
-		localStorage.setItem("secrets_visible", this.checked);
+		showSecrets = this.checked;
+		secretlayer.visible = showSecrets && layer.visible;
+		secretRoute.visible = showSecrets && route.visible;
+		localStorage.setItem("secrets_visible", showSecrets);
 	}
 
 	document.getElementById('routescheck').onclick = function () {
 		route.visible = this.checked;
-		secretRoute.visible = this.checked && secretlayer.visible;
+		secretRoute.visible = this.checked && showSecrets;
 		localStorage.setItem("route_visible", this.checked);
 	}
 
@@ -906,6 +906,13 @@ require([
 	document.getElementById('bordercheck').onclick = function () {
 		borderLayer.visible = this.checked;
 		localStorage.setItem("border_visible", this.checked);
+	}
+
+	document.getElementById('hideislandscheck').onclick = function () {
+		layer.visible = !this.checked;
+		biglabel.visible = !this.checked;
+		secretlayer.visible = !this.checked && showSecrets;
+		localStorage.setItem("islands_hidden", this.checked);
 	}
 
 	//Info Menu
@@ -1097,8 +1104,8 @@ require([
 	});
 
 	if(localStorage.hasOwnProperty("distances_visible")){
-		show_distances = localStorage.getItem("distances_visible") === 'true';
-		document.getElementById("distancescheck").checked = show_distances;
+		showDistances = localStorage.getItem("distances_visible") === 'true';
+		document.getElementById("distancescheck").checked = showDistances;
 		redrawMap();
 	}
 
@@ -1108,13 +1115,15 @@ require([
 	}
 
 	if(localStorage.hasOwnProperty("secrets_visible")){
-		secretlayer.visible = localStorage.getItem("secrets_visible") === 'true';
-		document.getElementById("secretcheck").checked = secretlayer.visible;
+		showSecrets = localStorage.getItem("secrets_visible") === 'true';
+		secretlayer.visible = showSecrets && layer.visible;
+		secretRoute.visible = showSecrets && route.visible;
+		document.getElementById("secretcheck").checked = showSecrets;
 	}
 
 	if(localStorage.hasOwnProperty("route_visible")){
 		route.visible = localStorage.getItem("route_visible") === 'true';
-		secretRoute.visible = secretlayer.visible && route.visible;
+		secretRoute.visible = showSecrets && route.visible;
 		document.getElementById("routescheck").checked = route.visible;
 	}
 
@@ -1122,6 +1131,15 @@ require([
 		wind.visible = localStorage.getItem("wind_visible") === 'true';
 		document.getElementById("windscheck").checked = wind.visible;
 	}
+
+	if(localStorage.hasOwnProperty("islands_hidden")){
+		let hidden = localStorage.getItem("islands_hidden") === 'true';
+		secretlayer.visible = showSecrets && !hidden;
+		layer.visible = !hidden;
+		biglabel.visible = !hidden;
+		document.getElementById("hideislandscheck").checked = hidden;
+	}
+
 
 	if(!localStorage.hasOwnProperty("modal_tutorial")){
 		Modal.open('modal_tutorial');
