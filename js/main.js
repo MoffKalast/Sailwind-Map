@@ -972,6 +972,36 @@ require([
 		redrawMap();
 	}
 
+	document.getElementById('details_day').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_day").value;
+		menuPoint.array[menuPoint.index].day = val;
+	
+		redrawMap();
+	}
+
+	document.getElementById('details_time').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_time").value;
+		menuPoint.array[menuPoint.index].time = val;
+	
+		redrawMap();
+	}
+
+	document.getElementById('details_winddir').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_winddir").value;
+		menuPoint.array[menuPoint.index].winddir = val;
+	
+		redrawMap();
+	}
+
 	// dynamic degree number renderer
 	view.watch('extent', function(newextent, oldextent) {
 		let xmin = view.extent.xmin;
