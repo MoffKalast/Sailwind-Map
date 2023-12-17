@@ -148,6 +148,16 @@ bigLabelJson.features.push({
 	}
 });
 
+bigLabelJson.features.push({
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [3.5, 29]
+	}, "properties": {
+		"TextString": "Fire Fish Lagoon",
+	}
+});
+
 /* bigLabelJson.features.push({
 	"type": "Feature",
 	"geometry": {

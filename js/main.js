@@ -260,6 +260,16 @@ require([
 				}
 			}
 		}, {
+			value: "Fire Fish Lagoon",
+			symbol: {
+				type: "simple-fill",  // autocasts as new SimpleFillSymbol()
+				color: "orange",
+				outline: {  // autocasts as new SimpleLineSymbol()
+					color: [0, 0, 0, 0.8],
+					width: "5em"
+				}
+			}
+		}, {
 			value: "Aestrin",
 			symbol: {
 				type: "simple-fill",  // autocasts as new SimpleFillSymbol()

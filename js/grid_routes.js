@@ -12,6 +12,8 @@ let trade_routes = [
 	[[[3.5802, 35.363], [4.77, 31.33]],"beamreach"], //happy bay -> dragon cliffs
 	[[[4.77, 31.33], [-2, 31.14]],"downwind"], //dragon cliffs -> midpoint
 	[[[-2, 31.14], [-4.8682, 31.14]],"closehauled"], //midpoint -> gold rock
+	[[[4.77, 31.33], [3, 28]],"downwind"], //dragon cliffs -> fire fish
+	[[[3, 28], [-4.8682, 31.14]],"beamreach"], //fire fish -> gold rock
 ];
 
 for (const route of trade_routes){
