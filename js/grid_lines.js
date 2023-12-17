@@ -152,7 +152,7 @@ bigLabelJson.features.push({
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [3.5, 29]
+		"coordinates": [3, 28.7]
 	}, "properties": {
 		"TextString": "Fire Fish Lagoon",
 	}
