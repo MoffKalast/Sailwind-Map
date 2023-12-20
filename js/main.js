@@ -646,6 +646,8 @@ require([
 		}
 
 		redrawMap();
+		// update map object in local storage
+		localStorage.setItem("mapObjects", JSON.stringify(mapObjects));
 	});
 
 	view.on("drag", (event) => {
@@ -937,17 +939,36 @@ require([
 		redrawMap();
 	}
 
-	document.getElementById('save_map').onclick = function () {
-		localStorage.setItem("mapObjects", JSON.stringify(mapObjects));
+	document.getElementById('export_map').onclick = function () {
+		var mapObject = JSON.stringify(mapObjects),
+			a = document.createElement("a"),
+		    blob = new Blob([mapObject], {type: "octet/stream"}),
+		    url = window.URL.createObjectURL(blob);
+		a.href = url;
+		a.download = 'mapObject.json';
+		a.click();
+		window.URL.revokeObjectURL(url);
 	}
 
+	document.getElementById('import_map').onclick = function() {
+		// causes file input to prompt for file
+		document.getElementById('map_file').click();
+		// if user did upload file, goes to 'map_file'.onchange (below)
+	}
 
-	document.getElementById('load_map').onclick = function () {
-		if(!localStorage.hasOwnProperty("mapObjects"))
-			return;
-
-		mapObjects = JSON.parse(localStorage.getItem("mapObjects"));	
-		redrawMap();
+	document.getElementById('map_file').onchange = function() {
+		var files = document.getElementById('map_file').files;
+		if (files.length <= 0) {
+		    return false;
+		} 
+		var fr = new FileReader();
+		fr.onload = function(e) { 
+			mapObjects = JSON.parse(e.target.result);
+			localStorage.setItem("mapObjects", JSON.stringify(mapObjects));
+			redrawMap();
+		}
+		  
+		fr.readAsText(files.item(0));
 	}
 
 	//Details menu
@@ -1214,6 +1235,11 @@ require([
 		document.getElementById("form_position_details").style.display = "none";
 		menuPoint = undefined;
 	} 
+
+	if(localStorage.hasOwnProperty("mapObjects")) {
+		mapObjects = JSON.parse(localStorage.getItem("mapObjects"));	
+		redrawMap();
+	}
 
 });
 
