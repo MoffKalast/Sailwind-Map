@@ -939,14 +939,15 @@ require([
 		redrawMap();
 	}
 
-	document.getElementById('export_map').onclick = function () {
-		var mapObject = JSON.stringify(mapObjects),
-			a = document.createElement("a"),
-		    blob = new Blob([mapObject], {type: "octet/stream"}),
-		    url = window.URL.createObjectURL(blob);
-		a.href = url;
-		a.download = 'mapObject.json';
+	document.getElementById('export_map').onclick = async function () {
+		const map_name = await prompt('What manner of chart be this?')
+		const url = window.URL.createObjectURL(new Blob([JSON.stringify(mapObjects)], {type: "octet/stream"}));
+
+		let a = document.createElement("a");
+		a.href = url
+		a.download = map_name+'.json';
 		a.click();
+
 		window.URL.revokeObjectURL(url);
 	}
 
@@ -957,11 +958,11 @@ require([
 	}
 
 	document.getElementById('map_file').onchange = function() {
-		var files = document.getElementById('map_file').files;
+		let files = document.getElementById('map_file').files;
 		if (files.length <= 0) {
 		    return false;
 		} 
-		var fr = new FileReader();
+		let fr = new FileReader();
 		fr.onload = function(e) { 
 			mapObjects = JSON.parse(e.target.result);
 			localStorage.setItem("mapObjects", JSON.stringify(mapObjects));
