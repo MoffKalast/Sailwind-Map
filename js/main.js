@@ -550,6 +550,9 @@ require([
 		if(mouseGrabMoving != undefined){
 			mouseGrabMoving.array[mouseGrabMoving.index].pos = [point.longitude, point.latitude];
 			redrawMap();
+
+			// update quicksave
+			localStorage.setItem("quicksave_data", JSON.stringify(mapObjects));
 		}
 	});
 
@@ -646,8 +649,9 @@ require([
 		}
 
 		redrawMap();
-		// update map object in local storage
-		localStorage.setItem("mapObjects", JSON.stringify(mapObjects));
+
+		// update quicksave
+		localStorage.setItem("quicksave_data", JSON.stringify(mapObjects));
 	});
 
 	view.on("drag", (event) => {
@@ -940,7 +944,11 @@ require([
 	}
 
 	document.getElementById('export_map').onclick = async function () {
-		const map_name = await prompt('What manner of chart be this?')
+		const map_name = await prompt('What manner of chart be this?');
+
+		if(map_name == "" || map_name == null)
+			return;
+
 		const url = window.URL.createObjectURL(new Blob([JSON.stringify(mapObjects)], {type: "octet/stream"}));
 
 		let a = document.createElement("a");
@@ -965,7 +973,7 @@ require([
 		let fr = new FileReader();
 		fr.onload = function(e) { 
 			mapObjects = JSON.parse(e.target.result);
-			localStorage.setItem("mapObjects", JSON.stringify(mapObjects));
+			localStorage.setItem("quicksave_data", JSON.stringify(mapObjects));
 			redrawMap();
 		}
 		  
@@ -1202,10 +1210,14 @@ require([
 		document.getElementById("hideislandscheck").checked = hidden;
 	}
 
-
 	if(!localStorage.hasOwnProperty("modal_tutorial")){
 		Modal.open('modal_tutorial');
 		localStorage.setItem("modal_tutorial", true);
+	}
+
+	if(localStorage.hasOwnProperty("quicksave_data")) {
+		mapObjects = JSON.parse(localStorage.getItem("quicksave_data"));	
+		redrawMap();
 	}
 
 	function openDetails(result) {
@@ -1236,11 +1248,6 @@ require([
 		document.getElementById("form_position_details").style.display = "none";
 		menuPoint = undefined;
 	} 
-
-	if(localStorage.hasOwnProperty("mapObjects")) {
-		mapObjects = JSON.parse(localStorage.getItem("mapObjects"));	
-		redrawMap();
-	}
 
 });
 
