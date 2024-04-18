@@ -7436,7 +7436,7 @@ var geoJson = {
 			},
 			"properties": {
 				"Region": "Emerald Archipelago",
-				"Name": "Sage Hils",
+				"Name": "Sage Hills",
 				"SHAPE_Area": 0.00107592977215,
 				"Latitude": 30.893699645996094,
 				"Longitude": 4.472690105438232
