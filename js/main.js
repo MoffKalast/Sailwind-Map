@@ -612,7 +612,7 @@ require([
 		}
 		else if(drawMode == DrawMode.Point){
 			mapObjects.points.push({
-				description: "Description",
+				description: "Click to Rename",
 				pos: [long, lat],
 				colour: "bluepoint",
 				day: 0,
