@@ -587,6 +587,7 @@ require([
 
 				if(distancePointToLineSegment([long, lat], p0, p1) < degreesPerPixel * 7){
 					mapObjects.path.splice(i+1, 0, {
+						description: "",
 						pos: [long, lat],
 						colour: "orangepoint",
 						day: 0,
@@ -600,6 +601,7 @@ require([
 
 			if(!inserted){
 				mapObjects.path.push({
+					description: "",
 					pos: [long, lat],
 					colour: "orangepoint",
 					day: 0,
@@ -610,6 +612,7 @@ require([
 		}
 		else if(drawMode == DrawMode.Point){
 			mapObjects.points.push({
+				description: "Click to Rename",
 				pos: [long, lat],
 				colour: "bluepoint",
 				day: 0,
@@ -810,6 +813,16 @@ require([
 				point.geometry.latitude = mapObjects.path[i].pos[1];
 				point.geometry.longitude = mapObjects.path[i].pos[0];
 				renderLayer.add(point);
+
+				if(mapObjects.path[i].description != "")
+				{
+					let description_text = new Graphic(GraphicsLibrary.distanceLabel);
+					description_text.geometry.longitude = mapObjects.path[i].pos[0];
+					description_text.geometry.latitude = mapObjects.path[i].pos[1];
+					description_text.symbol.text = mapObjects.path[i].description;
+					description_text.symbol.yoffset = 10;
+					renderLayer.add(description_text);
+				}
 			}
 		}
 
@@ -820,6 +833,16 @@ require([
 				point.geometry.latitude = mapObjects.points[i].pos[1];
 				point.geometry.longitude = mapObjects.points[i].pos[0];
 				renderLayer.add(point);
+
+				if(mapObjects.points[i].description != "")
+				{
+					let description_text = new Graphic(GraphicsLibrary.distanceLabel);
+					description_text.geometry.longitude = mapObjects.points[i].pos[0];
+					description_text.geometry.latitude = mapObjects.points[i].pos[1];
+					description_text.symbol.text = mapObjects.points[i].description;
+					description_text.symbol.yoffset = 10;
+					renderLayer.add(description_text);
+				}
 			}
 		}
 
@@ -981,6 +1004,16 @@ require([
 	}
 
 	//Details menu
+	document.getElementById('details_description').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_description").value;
+		menuPoint.array[menuPoint.index].description = val;
+	
+		redrawMap();
+	}
+
 	document.getElementById('details_lattitude').onchange = function () {
 		if(menuPoint == undefined)
 			return;
@@ -1140,6 +1173,7 @@ require([
 				if(line.startsWith("Day")){
 					day = Number(line.split(":")[1]);
 				}else if(line.includes(" ") && (line.includes(".") || line.includes(","))){
+					let description = ""
 					let coords = line.replaceAll(",", ".").split(" ");
 					let time = 0;
 					let winddir = "";
@@ -1157,6 +1191,7 @@ require([
 					}
 
 					mapObjects.path.push({
+						description: description,
 						pos: [coords[1], coords[0]],
 						colour: colour,
 						day: day,
@@ -1233,6 +1268,7 @@ require([
 		document.getElementById("form_position_details").style.left = screenPoint.x+"px";
 		document.getElementById("form_position_details").style.display = "block";
 	
+		document.getElementById("details_description").value = entry.description;
 		document.getElementById("details_longitude").value = entry.pos[0];
 		document.getElementById("details_lattitude").value = entry.pos[1];
 		document.getElementById("details_colour").value = entry.colour;
