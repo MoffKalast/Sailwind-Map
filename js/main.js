@@ -587,6 +587,8 @@ require([
 
 				if(distancePointToLineSegment([long, lat], p0, p1) < degreesPerPixel * 7){
 					mapObjects.path.splice(i+1, 0, {
+						name: "Name",
+						showname: false,
 						pos: [long, lat],
 						colour: "orangepoint",
 						day: 0,
@@ -600,6 +602,8 @@ require([
 
 			if(!inserted){
 				mapObjects.path.push({
+					name: "Name",
+					showname: false,
 					pos: [long, lat],
 					colour: "orangepoint",
 					day: 0,
@@ -610,6 +614,8 @@ require([
 		}
 		else if(drawMode == DrawMode.Point){
 			mapObjects.points.push({
+				name: "Name",
+				showname: true,
 				pos: [long, lat],
 				colour: "bluepoint",
 				day: 0,
@@ -820,6 +826,17 @@ require([
 				point.geometry.latitude = mapObjects.points[i].pos[1];
 				point.geometry.longitude = mapObjects.points[i].pos[0];
 				renderLayer.add(point);
+
+				if(mapObjects.points[i].showname)
+				{
+					let name_text = new Graphic(GraphicsLibrary.distanceLabel);
+					name_text.geometry.longitude = mapObjects.points[i].pos[0];
+					let shift = 0.1;
+					name_text.geometry.latitude = shift + Number(mapObjects.points[i].pos[1]);
+					
+					name_text.symbol.text = mapObjects.points[i].name;
+					renderLayer.add(name_text);
+				}
 			}
 		}
 
@@ -981,6 +998,26 @@ require([
 	}
 
 	//Details menu
+	document.getElementById('details_name').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_name").value;
+		menuPoint.array[menuPoint.index].name = val;
+	
+		redrawMap();
+	}
+
+	document.getElementById('details_show_name').onchange = function () {
+		if(menuPoint == undefined)
+			return;
+
+		let val = document.getElementById("details_show_name").checked;
+		menuPoint.array[menuPoint.index].showname = val;
+	
+		redrawMap();
+	}
+
 	document.getElementById('details_lattitude').onchange = function () {
 		if(menuPoint == undefined)
 			return;
@@ -1140,6 +1177,7 @@ require([
 				if(line.startsWith("Day")){
 					day = Number(line.split(":")[1]);
 				}else if(line.includes(" ") && (line.includes(".") || line.includes(","))){
+					let name = "Name"
 					let coords = line.replaceAll(",", ".").split(" ");
 					let time = 0;
 					let winddir = "";
@@ -1157,6 +1195,7 @@ require([
 					}
 
 					mapObjects.path.push({
+						name: name,
 						pos: [coords[1], coords[0]],
 						colour: colour,
 						day: day,
@@ -1233,6 +1272,8 @@ require([
 		document.getElementById("form_position_details").style.left = screenPoint.x+"px";
 		document.getElementById("form_position_details").style.display = "block";
 	
+		document.getElementById("details_name").value = entry.name;
+		document.getElementById("details_show_name").checked = entry.showname;
 		document.getElementById("details_longitude").value = entry.pos[0];
 		document.getElementById("details_lattitude").value = entry.pos[1];
 		document.getElementById("details_colour").value = entry.colour;
