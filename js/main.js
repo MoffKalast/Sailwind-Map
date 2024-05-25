@@ -820,6 +820,7 @@ require([
 					description_text.geometry.longitude = mapObjects.path[i].pos[0];
 					description_text.geometry.latitude = mapObjects.path[i].pos[1];
 					description_text.symbol.text = mapObjects.path[i].description;
+					description_text.symbol.yoffset = 10;
 					renderLayer.add(description_text);
 				}
 			}
@@ -839,6 +840,7 @@ require([
 					description_text.geometry.longitude = mapObjects.points[i].pos[0];
 					description_text.geometry.latitude = mapObjects.points[i].pos[1];
 					description_text.symbol.text = mapObjects.points[i].description;
+					description_text.symbol.yoffset = 10;
 					renderLayer.add(description_text);
 				}
 			}
