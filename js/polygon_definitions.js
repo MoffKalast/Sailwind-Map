@@ -11522,7 +11522,7 @@ var secretJson = {
 			},
 			"properties": {
 				"Region": "Al'Ankh",
-				"Name": "The Hideout",
+				"Name": "Eleann Island",
 				"SHAPE_Area": 0.00415015313998,
 				"Latitude": 32.77173149909110,
 				"Longitude": -6.46158401925045
