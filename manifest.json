@@ -30,7 +30,7 @@
       "purpose": "maskable any"
     }
   ],
-  "start_url": "/index.html",
+  "start_url": "/Sailwind-Map",
   "background_color": "#AFA193",
   "display": "fullscreen",
   "scope": "/",
