@@ -24,6 +24,12 @@ var mapObjects = {
 	goals: []
 }
 
+// save the zoom and position of the map
+let positionData={
+	center:{x:0, y:0},
+	scale:0
+}
+
 function setMode(event, newMode){
 
 	if(drawMode == newMode){
@@ -42,15 +48,36 @@ function setMode(event, newMode){
 	}
 }
 
+// fetch("/assets/islands/alankh/gold_rock_city.json")
+// .then((respone)=>respone.json())
+// .then(json=>console.log(json));
+
+function fetchJSON(url) {
+    return fetch(url)
+        .then(response => response.json())
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+// async function test(){
+// 	const t = await fetch("/assets/islands/alankh/gold_rock_city.json")
+// 	console.log(t.json());
+// }
+
 require([
 	"esri/Map",
 	"esri/views/MapView",
 	"esri/layers/GeoJSONLayer",
 	"esri/Graphic",
 	"esri/layers/GraphicsLayer",
-	"esri/symbols/LineSymbolMarker"
+	"esri/symbols/LineSymbolMarker",
+	"/js/island_loader.js"
 ], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, LineSymbolMarker) {
 
+	(async()=>{
+
+		await load_islands();
 	const biglabelBlob = new Blob([JSON.stringify(bigLabelJson)], {
 		type: "application/json"
 	});
@@ -59,11 +86,11 @@ require([
 		type: "application/json"
 	});
 
-	const blob = new Blob([JSON.stringify(geoJson)], {
+	const blob = new Blob([islands_data_to_json()], {
 		type: "application/json"
 	});
 
-	const secretBlob = new Blob([JSON.stringify(secretJson)], {
+	const secretBlob = new Blob([islands_secrets_data_to_json()], {
 		type: "application/json"
 	});
 
@@ -441,11 +468,26 @@ require([
 			view.center = newCenter;
 		}
 		view.scale = newScale;
-
+		
+		positionData.center = view.center;
+		positionData.scale=view.scale;
+		localStorage.setItem("positionData", JSON.stringify(positionData));
 	});
 
 	view.ui._removeComponents(["attribution"]);
 	view.scale = 10000000;
+
+	if(localStorage.hasOwnProperty("positionData")){
+		positionData = JSON.parse(localStorage.getItem("positionData"));
+
+		view.scale = positionData.scale;
+		view.center = positionData.center;
+	}else{
+		positionData.scale = view.scale;
+		positionData.center = view.center;
+
+		localStorage.setItem("positionData", JSON.stringify(positionData));
+	}
 
 	edgeLayer = new GraphicsLayer();
 	imageLayer = new GraphicsLayer();
@@ -661,6 +703,9 @@ require([
 		if(mouseGrabMoving != undefined){
 			event.stopPropagation();
 		}
+		positionData.center = view.center;
+		positionData.scale=view.scale;
+		localStorage.setItem("positionData", JSON.stringify(positionData));
 	});
 
 	view.on("hold", function (event) {
@@ -1285,7 +1330,7 @@ require([
 		menuPoint = undefined;
 	} 
 
-});
+})()});
 
 /* function clearLocal() {
 	lineGraphicsLayer.removeAll();
