@@ -178,38 +178,51 @@ let islands_secrets = [
 //     });
 // }
 
-async function _load_island_files(files, island_list) {
+function _load_island_files(files) {
     const island_path = "assets/islands";
-    for (let index = 0; index < files.length; index++) {
-        const island_file = files[index];
+
+    const islandPromises = files.map(async (island_file) => {
         try {
             const data = await fetchJSON(island_path + "/" + island_file + ".json");
             if (data.type === undefined)
                 data.type = "Polygon";
-            island_list.push(data);
+            // island_list.push(data);
+            return data;
         }
         catch (error) {
             console.error(error);
         }
-    }
-
-    island_list.sort((a, b) => {
-        if (a.region.toLowerCase() === "city") return 1;
-        if (b.region.toLowerCase() === "city") return -1;
-        if (a.region.toLowerCase() === "rock") return 1;
-        if (b.region.toLowerCase() === "rock") return -1;
-        return 0;
     });
+
+    return islandPromises;
+}
+
+function _sort_island_data(island_a, island_b) {
+    if (island_a.region.toLowerCase() === "city") return 1;
+    if (island_b.region.toLowerCase() === "city") return -1;
+    if (island_a.region.toLowerCase() === "rock") return 1;
+    if (island_b.region.toLowerCase() === "rock") return -1;
+    return 0;
 }
 
 async function load_islands() {
-    await _load_island_files(island_files, islands)
-    await _load_island_files(secret_island_files, islands_secrets)
+    const islandPromises = _load_island_files(island_files)
+    const secretIslandPromises = _load_island_files(secret_island_files)
+
+    const [islandsData, secretIslandsData] = await Promise.all([
+        Promise.all(islandPromises),
+        Promise.all(secretIslandPromises)
+    ]);
+
+    islands.push(...islandsData.filter(data => data !== null));
+    islands_secrets.push(...secretIslandsData.filter(data => data !== null));
+
+    islands.sort(_sort_island_data);
+    islands_secrets.sort(_sort_island_data);
 }
 
 function island_template_json(island_list) {
-    let jsonText = '{"type": "FeatureCollection",\n' +
-        '"features": [\n';
+    const obj = { "type": "FeatureCollection", "features": [] }
 
     island_list.forEach(island => {
         const featureObj = {
@@ -224,14 +237,10 @@ function island_template_json(island_list) {
             }
         }
 
-        jsonText += JSON.stringify(featureObj) + ","
+        obj.features.push(featureObj);
     });
 
-    jsonText = jsonText.slice(0, -1);
-
-    jsonText += "]}";
-
-    return jsonText;
+    return JSON.stringify(obj);
 }
 
 function islands_data_to_json() {
