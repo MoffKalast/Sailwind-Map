@@ -5,7 +5,6 @@ const island_files = [
     "aestrin/fort_aestrin_1",
     "aestrin/mount_malefic",
     "aestrin/oracle",
-    "aestrin/rock_of_despair",
     "aestrin/siren_song",
     "aestrin/sunspire_0",
     "aestrin/sunspire_1",
@@ -24,7 +23,6 @@ const island_files = [
     "alankh/alchemists_island_0",
     "alankh/alchemists_island_1",
     "alankh/alnilem",
-    "alankh/eleann_island",
     "alankh/gold_rock_city_0",
     "alankh/gold_rock_city_1",
     "alankh/gold_rock_city_2",
@@ -36,14 +34,12 @@ const island_files = [
     "alankh/cities/albacore_town_city",
     "alankh/cities/alchemists_island_city",
     "alankh/cities/alnilem_city",
-    "alankh/cities/eleann_island_city",
     "alankh/cities/gold_rock_city_city",
     "alankh/cities/neverdin_city",
     "alankh/cities/oasis_city_0",
     "alankh/cities/oasis_city_1",
     "alankh/rocks/alnilem_rock_0",
     "alankh/rocks/alnilem_rock_1",
-    "alankh/rocks/eleann_island_rock",
     "alankh/rocks/gold_rock_city_rock_0",
     "alankh/rocks/gold_rock_city_rock_1",
     "alankh/rocks/oasis_rock",
@@ -51,10 +47,6 @@ const island_files = [
     "bay/happy_bay_0",
     "bay/happy_bay_1",
     "bay/happy_bay_city",
-
-    "chronos/chronos",
-    "chronos/chronos_city",
-    "chronos/chronos_rock",
 
     "emerald/crab_beach",
     "emerald/dragon_cliffs",
@@ -80,6 +72,18 @@ const island_files = [
     "firefish/cities/kicia_fire_fish_town_city",
     "firefish/cities/senna_onna_city",
     "firefish/rocks/firefish_rock",
+]
+
+const secret_island_files = [
+    "aestrin/rock_of_despair",
+
+    "alankh/cities/eleann_island_city",
+    "alankh/rocks/eleann_island_rock",
+    "alankh/eleann_island",
+
+    "chronos/chronos",
+    "chronos/chronos_city",
+    "chronos/chronos_rock",
 ]
 
 let islands = [
@@ -174,31 +178,33 @@ let islands_secrets = [
 //     });
 // }
 
-async function load_islands() {
+async function _load_island_files(files, island_list) {
     const island_path = "assets/islands";
-    for (let index = 0; index < island_files.length; index++) {
-        const island_file = island_files[index];
+    for (let index = 0; index < files.length; index++) {
+        const island_file = files[index];
         try {
             const data = await fetchJSON(island_path + "/" + island_file + ".json");
             if (data.type === undefined)
                 data.type = "Polygon";
-            if (data.secret === undefined || !data.secret)
-                islands.push(data);
-            else
-                islands_secrets.push(data);
+            island_list.push(data);
         }
         catch (error) {
             console.error(error);
         }
     }
 
-    islands.sort((a, b) => {
+    island_list.sort((a, b) => {
         if (a.region.toLowerCase() === "city") return 1;
         if (b.region.toLowerCase() === "city") return -1;
         if (a.region.toLowerCase() === "rock") return 1;
         if (b.region.toLowerCase() === "rock") return -1;
         return 0;
     });
+}
+
+async function load_islands() {
+    await _load_island_files(island_files, islands)
+    await _load_island_files(secret_island_files, islands_secrets)
 }
 
 function island_template_json(island_list) {
