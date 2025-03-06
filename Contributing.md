@@ -99,50 +99,45 @@ After you're done, open the console with F12 and run `pathToData()`. This should
 ]
 ```
 
-### 6. Open [polygon_definitions.js](js/polygon_definitions.js)
+### 6. Add new island file
 
-Regular data should be added to the `geoJson` var, and secrets to `secretJson`.
+Island data is kept under `assets/islands/<region>`, where each file represents a landmass of some type.
 
 ```json
-"properties": {
-    "Region": "Emerald Archipelago",
-    "Name": "Sage Hils",
-    "SHAPE_Area": 0.00107592977215,
-    "Latitude": 30.893699645996094,
-    "Longitude": 4.472690105438232
-}
+"region": "Aestrin",
+"name": "Eastwind",
+"type": "Polygon"
 ```
 
 **Region** can be one of either: "Emerald Archipelago", "Al'Ankh", "Happy Bay", "Fire Fish Lagoon", "Aestrin", "City", or "Rock". These are set in [main.js](/js/main.js) as different rendering styles, but as of now all regions render in the same orange colour, City renders as red and Rock/Sand renders as gray.
 
 **Name** refers to the actual label that will be rendered above the polygon, can be left as empty string if the island doesn't have a name.
 
-**SHAPE_Area**, **Latitude**, and **Longitude** are unused legacy params and can be left at whatever.
-
-The features can be either a single Polygon or a MultiPolygon array of them. The latter is presumably more preformant with only one draw call and it's probably best to merge together all unnamed islands and rocks in the same region.
+**Type** can be either a single Polygon or a MultiPolygon array of them. The latter is presumably more preformant with only one draw call and it's probably best to merge together all unnamed islands and rocks in the same region.
 
 Here's an example of both options:
 
 ```json
-
-"type": "Feature",
-"geometry": {
+{
+    "region": "Aestrin",
+    "name": "SomeNewIsland",
     "type": "Polygon",
     "coordinates": [
         [
             [
-                4.75075891704177,
-                31.35304322705834
+                0.22230016363154,
+                40.90540889294039
             ],
             [
-                4.75067758560000,
-                31.35126113890000
+                0.22466,
+                40.90619
             ],
             [
-                4.74902057650000,
-                31.35179901120000
-            ]
+                0.22478,
+                40.90865
+            ],
         ]
+    ]
 }
 
 ```
@@ -150,41 +145,62 @@ Here's an example of both options:
 Make sure the brackets are right, otherwise the map will fail at loading the file.
 
 ```json
-"type": "MultiPolygon",
-"coordinates": [
-    [
+{
+    "region": "Aestrin",
+    "name": "SomeNewIsland",
+    "type": "MultiPolygon",
+    "coordinates": [
         [
             [
-                4.75075891704177,
-                31.35304322705834
-            ],
+                [
+                    4.75075891704177,
+                    31.35304322705834
+                ],
+                [
+                    4.75067758560000,
+                    31.35126113890000
+                ],
+                [
+                    4.74902057650000,
+                    31.35179901120000
+                ]
+            ]
+        ],
+        [
             [
-                4.75067758560000,
-                31.35126113890000
-            ],
-            [
-                4.74902057650000,
-                31.35179901120000
+                [
+                    4.78302669530000,
+                    31.30674934390000
+                ],
+                [
+                    4.78072166440000,
+                    31.31055641170000
+                ],
+                [
+                    4.78203344350000,
+                    31.31355285640000
+                ]
             ]
         ]
     ],
-    [
-        [
-            [
-                4.78302669530000,
-                31.30674934390000
-            ],
-            [
-                4.78072166440000,
-                31.31055641170000
-            ],
-            [
-                4.78203344350000,
-                31.31355285640000
-            ]
-        ]
-    ]
-
+    "secret": false
+}
 ```
 
-The labelled islands are easy enough to find by name, but the rest have no labels and could be anything, so deducing what is what often requires looking up the coordinate points of a polygon on the map. This could use a major refactor (probably by script to group together areas into separate files), but for now at it's at least good practice to keep the same general area polygons consecutive to each other.
+Some entries have a "secret" parameter, which is not used for the time being.
+
+### 7. Add the new files to the file list
+
+In order to have the files loaded, open [island_loader.js](js/island_loader.js) and add all new files to either the `island_files` or `secret_island_files` list. 
+```js
+const island_files = [
+    "aestrin/eastwind_0",
+    "aestrin/eastwind_1",
+    "aestrin/fort_aestrin_0",
+```
+```js
+const secret_island_files = [
+    "aestrin/rock_of_despair",
+    "alankh/cities/eleann_island_city",
+```
+That's it. Thanks :)
