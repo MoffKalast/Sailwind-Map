@@ -71,8 +71,7 @@ require([
 	"esri/layers/GeoJSONLayer",
 	"esri/Graphic",
 	"esri/layers/GraphicsLayer",
-	"esri/symbols/LineSymbolMarker",
-	"/js/island_loader.js"
+	"esri/symbols/LineSymbolMarker"
 ], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, LineSymbolMarker) {
 
 	(async()=>{
