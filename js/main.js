@@ -16,6 +16,7 @@ const DrawMode ={
 var drawMode = DrawMode.None;
 var showDistances = false;
 var showSecrets = false;
+let dark_mode = false;
 
 var mapObjects = {
 	lines: [],
@@ -48,10 +49,6 @@ function setMode(event, newMode){
 	}
 }
 
-// fetch("/assets/islands/alankh/gold_rock_city.json")
-// .then((respone)=>respone.json())
-// .then(json=>console.log(json));
-
 function fetchJSON(url) {
     return fetch(url)
         .then(response => response.json())
@@ -59,11 +56,6 @@ function fetchJSON(url) {
             console.log(error);
         });
 }
-
-// async function test(){
-// 	const t = await fetch("/assets/islands/alankh/gold_rock_city.json")
-// 	console.log(t.json());
-// }
 
 require([
 	"esri/Map",
@@ -998,6 +990,12 @@ require([
 		localStorage.setItem("islands_hidden", this.checked);
 	}
 
+	document.getElementById('darkmodecheck').onclick = function () {
+		dark_mode = this.checked;
+		changeTheme(this.checked);
+		localStorage.setItem("dark_mode", this.checked);
+	}
+
 	//Info Menu
 	document.getElementById('clearcoords').onclick = function () {
 		mapObjects = {
@@ -1008,6 +1006,7 @@ require([
 		}
 	
 		redrawMap();
+		localStorage.setItem("quicksave_data", JSON.stringify(mapObjects));
 	}
 
 	document.getElementById('export_map').onclick = async function () {
@@ -1289,6 +1288,12 @@ require([
 		document.getElementById("hideislandscheck").checked = hidden;
 	}
 
+	if(localStorage.hasOwnProperty("dark_mode")){
+		dark_mode = localStorage.getItem("dark_mode") === "true"
+		changeTheme(dark_mode)
+		document.getElementById("darkmodecheck").checked = dark_mode
+	}
+
 	if(!localStorage.hasOwnProperty("modal_tutorial")){
 		Modal.open('modal_tutorial');
 		localStorage.setItem("modal_tutorial", true);
@@ -1327,7 +1332,52 @@ require([
 	function closeDetails() {
 		document.getElementById("form_position_details").style.display = "none";
 		menuPoint = undefined;
-	} 
+	}
+
+	function changeTheme(darkMode){
+		if(darkMode){
+			view.background = [0,0,0];
+			borderLayer.renderer.symbol.color = [255,255,255,0.7]
+			grid.renderer.symbol.color = [255,255,255,0.5]
+
+			wind.renderer.uniqueValueInfos[0].symbol.color = [40,190,40,0.3]
+			wind.renderer.uniqueValueInfos[0].symbol.marker.color = [40,190,40,0.6]
+
+			wind.renderer.uniqueValueInfos[1].symbol.color = [150, 150, 250,0.3]
+			wind.renderer.uniqueValueInfos[1].symbol.marker.color = [150, 150, 250,0.6]
+
+			wind.renderer.uniqueValueInfos[2].symbol.color = [180, 90, 30,0.3]
+			wind.renderer.uniqueValueInfos[2].symbol.marker.color = [180, 90, 30,0.6]
+
+			route.renderer.uniqueValueInfos[0].symbol.color = [178, 165, 152, 0.43]
+			route.renderer.uniqueValueInfos[1].symbol.color = [225, 60, 60, 0.35]
+			route.renderer.uniqueValueInfos[2].symbol.color = [120, 120, 255, 0.2]
+
+			secretRoute.renderer.uniqueValueInfos[0].symbol.color = [178, 165, 152, 0.43]
+			secretRoute.renderer.uniqueValueInfos[1].symbol.color = [225, 60, 60, 0.35]
+			secretRoute.renderer.uniqueValueInfos[2].symbol.color = [120, 120, 255, 0.2]
+		}else{
+			view.background = null;
+			borderLayer.renderer.symbol.color = [0,0,0,0.7]
+			grid.renderer.symbol.color = [0,0,0,0.5]
+			wind.renderer.uniqueValueInfos[0].symbol.color = [0,150,0,0.3]
+			wind.renderer.uniqueValueInfos[0].symbol.marker.color = [0,150,0,0.6]
+
+			wind.renderer.uniqueValueInfos[1].symbol.color = [100, 100, 200,0.3]
+			wind.renderer.uniqueValueInfos[1].symbol.marker.color = [100, 100, 200,0.6]
+
+			wind.renderer.uniqueValueInfos[2].symbol.color = [150, 60, 0,0.3]
+			wind.renderer.uniqueValueInfos[2].symbol.marker.color = [150, 60, 0,0.6]
+
+			route.renderer.uniqueValueInfos[0].symbol.color = [178, 165, 152, 0.23]
+			route.renderer.uniqueValueInfos[1].symbol.color = [175, 10, 10, 0.15]
+			route.renderer.uniqueValueInfos[2].symbol.color = [30, 30, 175, 0.1]
+
+			secretRoute.renderer.uniqueValueInfos[0].symbol.color = [178, 165, 152, 0.23]
+			secretRoute.renderer.uniqueValueInfos[1].symbol.color = [175, 10, 10, 0.15]
+			secretRoute.renderer.uniqueValueInfos[2].symbol.color = [30, 30, 175, 0.1]
+		}
+	}
 
 })()});
 
