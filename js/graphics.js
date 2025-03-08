@@ -114,10 +114,10 @@ class DarkThemeGraphics {
 		symbol: {
 			type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
 			style: "x",
-			color: [200, 6, 7, .75],
+			color: [255, 6, 7, .75],
 			outline: {
 				// autocasts as new SimpleLineSymbol()
-				color: [200, 6, 7, .75],
+				color: [255, 6, 7, .75],
 				width: 3
 			}
 		}
@@ -184,7 +184,7 @@ class DarkThemeGraphics {
 		},
 		symbol: {
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
-			color: [122, 6, 7, 0.75],
+			color: [255, 30, 50, 0.8],
 			style: 'dash-dot',
 			width: 2
 		}
@@ -197,7 +197,7 @@ class DarkThemeGraphics {
 		},
 		symbol: {
 			type: "simple-line",  // autocasts as SimpleLineSymbol()
-			color: [225, 55, 0, .75],
+			color: [244, 80, 30, .8],
 			style: 'short-dot',
 			width: 2
 		}
