@@ -1,4 +1,3 @@
-
 function updateThemeColors(dark_mode) {
 	_currentThemeColor = dark_mode ? DarkThemeGraphics : LightThemeGraphics;
 }
@@ -9,6 +8,19 @@ class DarkThemeGraphics {
 	static borderColor = [255, 255, 255, 0.7];
 
 	static gridColor = [255, 255, 255, 0.5];
+
+	static emeralWindColor = [40, 190, 40, 0.3]
+	static emeralWindArrowColor = [40, 190, 40, 0.6]
+
+	static aestrinWindColor = [150, 150, 250, 0.3]
+	static aestrinWindArrowColor = [150, 150, 250, 0.6]
+
+	static alankhWindColor = [180, 90, 30, 0.3]
+	static alankhWindArrowColor = [180, 90, 30, 0.6]
+
+	static routeDownwindColor = [178, 165, 152, 0.43];
+	static routeClosehauledColor = [225, 60, 60, 0.35];
+	static routeBeamreach = [120, 120, 255, 0.2];
 
 	// Route graphics
 	static orangePoint = {
@@ -214,6 +226,49 @@ class DarkThemeGraphics {
 			height: "200px"
 		}
 	};
+
+	//Graticule indicator numbers
+	static degreeSideLabel = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "white",
+			haloColor: [63, 72, 80, 0.95],
+			haloSize: "4pt",
+			font: {
+				family: "Montserrat",
+				size: 14
+			},
+			text: "0°",
+			xoffset: 0,
+			yoffset: -5,
+		}
+	};
+
+	static degreeTopLabel = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "white",
+			haloColor: [63, 72, 80, 0.95],
+			haloSize: "4pt",
+			font: {
+				family: "Montserrat",
+				size: 14
+			},
+			text: "0°",
+			xoffset: 3,
+			yoffset: 0,
+		}
+	};
 }
 
 class LightThemeGraphics {
@@ -222,6 +277,19 @@ class LightThemeGraphics {
 	static borderColor = [0, 0, 0, 0.7];
 
 	static gridColor = [0, 0, 0, 0.5];
+
+	static emeralWindColor = [0, 150, 0, 0.3]
+	static emeralWindArrowColor = [0, 150, 0, 0.6]
+
+	static aestrinWindColor = [100, 100, 200, 0.3]
+	static aestrinWindArrowColor = [100, 100, 200, 0.6]
+
+	static alankhWindColor = [150, 60, 0, 0.3]
+	static alankhWindArrowColor = [150, 60, 0, 0.6]
+
+	static routeDownwindColor = [178, 165, 152, 0.23];
+	static routeClosehauledColor = [175, 10, 10, 0.15];
+	static routeBeamreach = [30, 30, 175, 0.1];
 
 	// Route graphics
 	static orangePoint = {
@@ -427,6 +495,49 @@ class LightThemeGraphics {
 			height: "200px"
 		}
 	};
+
+	//Graticule indicator numbers
+	static degreeSideLabel = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "black",
+			haloColor: [192, 183, 175, 0.95],
+			haloSize: "4pt",
+			font: {
+				family: "Montserrat",
+				size: 14
+			},
+			text: "0°",
+			xoffset: 0,
+			yoffset: -5,
+		}
+	};
+
+	static degreeTopLabel = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "black",
+			haloColor: [192, 183, 175, 0.95],
+			haloSize: "4pt",
+			font: {
+				family: "Montserrat",
+				size: 14
+			},
+			text: "0°",
+			xoffset: 3,
+			yoffset: 0,
+		}
+	};
 }
 
 let _currentThemeColor = LightThemeGraphics;
@@ -443,6 +554,43 @@ class GraphicsLibrary {
 	static get gridColor() {
 		return _currentThemeColor.gridColor;
 	}
+
+	static get emeralWindColor() {
+		return _currentThemeColor.emeralWindColor;
+	}
+
+	static get emeralWindArrowColor() {
+		return _currentThemeColor.emeralWindArrowColor;
+	}
+
+	static get aestrinWindColor() {
+		return _currentThemeColor.aestrinWindColor;
+	}
+
+	static get aestrinWindArrowColor() {
+		return _currentThemeColor.aestrinWindArrowColor;
+	}
+
+	static get alankhWindColor(){
+		return _currentThemeColor.alankhWindColor;
+	}
+
+	static get alankhWindArrowColor(){
+		return _currentThemeColor.alankhWindArrowColor;
+	}
+
+	static get routeDownwindColor(){
+		return _currentThemeColor.routeDownwindColor;
+	}
+
+	static get routeClosehauledColor(){
+		return _currentThemeColor.routeClosehauledColor;
+	}
+
+	static get routeBeamreach(){
+		return _currentThemeColor.routeBeamreach;
+	}
+
 
 	// Route graphics
 	static get orangePoint() {
@@ -514,47 +662,13 @@ class GraphicsLibrary {
 	}
 
 	//Graticule indicator numbers
-	static degreeSideLabel = {
-		geometry: {
-			type: "point",
-			longitude: 0,
-			latitude: 0
-		},
-		symbol: {
-			type: "text",
-			color: "black",
-			haloColor: [192, 183, 175, 0.95],
-			haloSize: "4pt",
-			font: {
-				family: "Montserrat",
-				size: 14
-			},
-			text: "0°",
-			xoffset: 0,
-			yoffset: -5,
-		}
-	};
+	static get degreeSideLabel(){
+		return _currentThemeColor.degreeSideLabel;
+	}
 
-	static degreeTopLabel = {
-		geometry: {
-			type: "point",
-			longitude: 0,
-			latitude: 0
-		},
-		symbol: {
-			type: "text",
-			color: "black",
-			haloColor: [192, 183, 175, 0.95],
-			haloSize: "4pt",
-			font: {
-				family: "Montserrat",
-				size: 14
-			},
-			text: "0°",
-			xoffset: 3,
-			yoffset: 0,
-		}
-	};
+	static get degreeTopLabel(){
+		return _currentThemeColor.degreeTopLabel;
+	}
 
 	static distanceLabel = {
 		geometry: {

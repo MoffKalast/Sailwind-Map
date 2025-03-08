@@ -1136,68 +1136,7 @@ require([
 	// dynamic degree number renderer
 	view.watch('stationary', function(newextent, oldextent) {
 
-		if(view.extent == undefined)
-			return;
-
-		let xmin = view.extent.xmin;
-		let xmax = view.extent.xmax;
-		let ymin = view.extent.ymin;
-		let ymax = view.extent.ymax;
-		let width_offset = view.extent.width * 0.03;
-		let height_offset = view.extent.height * 0.04;
-
-		//would be better to just reuse objects, but there's no way to iterate over existing ones
-		edgeLayer.removeAll();
-
-		let lat_min = parseInt(ymin)-1;
-		let lat_max = parseInt(ymax)+1;
-
-		let long_min = parseInt(xmin)-1;
-		let long_max = parseInt(xmax)+1;
-
-		if(lat_min < 0)
-			lat_min = 0;
-
-		if(lat_max > 70)
-			lat_max = 70;
-
-		if(long_min < -60)
-			long_min = -60;
-
-		if(long_max > 60)
-			long_max = 60;
-
-		let step = 1;
-		let decimals = 0;
-
-		if(view.extent.height < 0.4){
-			step = 0.05;
-			decimals = 2;
-		}
-		else if(view.extent.height < 2){
-			step = 0.25;
-			decimals = 2;
-		}
-		else if(view.extent.height < 5){
-			step = 0.5;
-			decimals = 1;
-		}
-
-		for(let i = lat_min; i <= lat_max; i+=step){
-			let testpoint = new Graphic(GraphicsLibrary.degreeSideLabel);
-			testpoint.geometry.latitude = i;
-			testpoint.geometry.longitude = xmin + width_offset;
-			testpoint.symbol.text = i.toFixed(decimals)+"°";
-			edgeLayer.add(testpoint);
-		}
-
-		for(let i = long_min; i <= long_max; i+=step){
-			let testpoint = new Graphic(GraphicsLibrary.degreeTopLabel);
-			testpoint.geometry.latitude = ymax - height_offset;
-			testpoint.geometry.longitude = i;
-			testpoint.symbol.text = i.toFixed(decimals)+"°";
-			edgeLayer.add(testpoint);
-		}
+		redrawEdge();
 
 	});
 
@@ -1343,42 +1282,90 @@ require([
 		borderLayer.renderer.symbol.color = GraphicsLibrary.borderColor;
 		grid.renderer.symbol.color = GraphicsLibrary.gridColor;
 
-		if(darkMode){
-			wind.renderer.uniqueValueInfos[0].symbol.color = [40,190,40,0.3]
-			wind.renderer.uniqueValueInfos[0].symbol.marker.color = [40,190,40,0.6]
+		wind.renderer.uniqueValueInfos[0].symbol.color = GraphicsLibrary.emeralWindColor;
+		wind.renderer.uniqueValueInfos[0].symbol.marker.color = GraphicsLibrary.emeralWindArrowColor;
 
-			wind.renderer.uniqueValueInfos[1].symbol.color = [150, 150, 250,0.3]
-			wind.renderer.uniqueValueInfos[1].symbol.marker.color = [150, 150, 250,0.6]
+		wind.renderer.uniqueValueInfos[1].symbol.color = GraphicsLibrary.aestrinWindColor;
+		wind.renderer.uniqueValueInfos[1].symbol.marker.color = GraphicsLibrary.aestrinWindArrowColor;
 
-			wind.renderer.uniqueValueInfos[2].symbol.color = [180, 90, 30,0.3]
-			wind.renderer.uniqueValueInfos[2].symbol.marker.color = [180, 90, 30,0.6]
+		wind.renderer.uniqueValueInfos[2].symbol.color = GraphicsLibrary.alankhWindColor;
+		wind.renderer.uniqueValueInfos[2].symbol.marker.color = GraphicsLibrary.alankhWindArrowColor;
 
-			route.renderer.uniqueValueInfos[0].symbol.color = [178, 165, 152, 0.43]
-			route.renderer.uniqueValueInfos[1].symbol.color = [225, 60, 60, 0.35]
-			route.renderer.uniqueValueInfos[2].symbol.color = [120, 120, 255, 0.2]
+		route.renderer.uniqueValueInfos[0].symbol.color = GraphicsLibrary.routeDownwindColor;
+		route.renderer.uniqueValueInfos[1].symbol.color = GraphicsLibrary.routeClosehauledColor;
+		route.renderer.uniqueValueInfos[2].symbol.color = GraphicsLibrary.routeBeamreach;
 
-			secretRoute.renderer.uniqueValueInfos[0].symbol.color = [178, 165, 152, 0.43]
-			secretRoute.renderer.uniqueValueInfos[1].symbol.color = [225, 60, 60, 0.35]
-			secretRoute.renderer.uniqueValueInfos[2].symbol.color = [120, 120, 255, 0.2]
-		}else{
-			wind.renderer.uniqueValueInfos[0].symbol.color = [0,150,0,0.3]
-			wind.renderer.uniqueValueInfos[0].symbol.marker.color = [0,150,0,0.6]
+		secretRoute.renderer.uniqueValueInfos[0].symbol.color = GraphicsLibrary.routeDownwindColor;
+		secretRoute.renderer.uniqueValueInfos[1].symbol.color = GraphicsLibrary.routeClosehauledColor
+		secretRoute.renderer.uniqueValueInfos[2].symbol.color = GraphicsLibrary.routeBeamreach;
 
-			wind.renderer.uniqueValueInfos[1].symbol.color = [100, 100, 200,0.3]
-			wind.renderer.uniqueValueInfos[1].symbol.marker.color = [100, 100, 200,0.6]
+		redrawMap();
+		redrawEdge();
+	}
 
-			wind.renderer.uniqueValueInfos[2].symbol.color = [150, 60, 0,0.3]
-			wind.renderer.uniqueValueInfos[2].symbol.marker.color = [150, 60, 0,0.6]
+	function redrawEdge(){
+		if(view.extent == undefined)
+			return;
 
-			route.renderer.uniqueValueInfos[0].symbol.color = [178, 165, 152, 0.23]
-			route.renderer.uniqueValueInfos[1].symbol.color = [175, 10, 10, 0.15]
-			route.renderer.uniqueValueInfos[2].symbol.color = [30, 30, 175, 0.1]
+		let xmin = view.extent.xmin;
+		let xmax = view.extent.xmax;
+		let ymin = view.extent.ymin;
+		let ymax = view.extent.ymax;
+		let width_offset = view.extent.width * 0.03;
+		let height_offset = view.extent.height * 0.04;
 
-			secretRoute.renderer.uniqueValueInfos[0].symbol.color = [178, 165, 152, 0.23]
-			secretRoute.renderer.uniqueValueInfos[1].symbol.color = [175, 10, 10, 0.15]
-			secretRoute.renderer.uniqueValueInfos[2].symbol.color = [30, 30, 175, 0.1]
+		//would be better to just reuse objects, but there's no way to iterate over existing ones
+		edgeLayer.removeAll();
+
+		let lat_min = parseInt(ymin)-1;
+		let lat_max = parseInt(ymax)+1;
+
+		let long_min = parseInt(xmin)-1;
+		let long_max = parseInt(xmax)+1;
+
+		if(lat_min < 0)
+			lat_min = 0;
+
+		if(lat_max > 70)
+			lat_max = 70;
+
+		if(long_min < -60)
+			long_min = -60;
+
+		if(long_max > 60)
+			long_max = 60;
+
+		let step = 1;
+		let decimals = 0;
+
+		if(view.extent.height < 0.4){
+			step = 0.05;
+			decimals = 2;
 		}
-		redrawMap()
+		else if(view.extent.height < 2){
+			step = 0.25;
+			decimals = 2;
+		}
+		else if(view.extent.height < 5){
+			step = 0.5;
+			decimals = 1;
+		}
+
+		for(let i = lat_min; i <= lat_max; i+=step){
+			let testpoint = new Graphic(GraphicsLibrary.degreeSideLabel);
+			testpoint.geometry.latitude = i;
+			testpoint.geometry.longitude = xmin + width_offset;
+			testpoint.symbol.text = i.toFixed(decimals)+"°";
+			edgeLayer.add(testpoint);
+		}
+
+		for(let i = long_min; i <= long_max; i+=step){
+			let testpoint = new Graphic(GraphicsLibrary.degreeTopLabel);
+			testpoint.geometry.latitude = ymax - height_offset;
+			testpoint.geometry.longitude = i;
+			testpoint.symbol.text = i.toFixed(decimals)+"°";
+			edgeLayer.add(testpoint);
+		}
 	}
 
 })()});
