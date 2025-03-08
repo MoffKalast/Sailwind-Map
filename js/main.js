@@ -41,11 +41,11 @@ function setMode(event, newMode){
 
 	let buttons = document.getElementsByClassName("iconbutton");
 	for (let i = 0; i < buttons.length; i++) {
-		buttons[i].style.backgroundColor = "#ffd8c273";
+		buttons[i].style.backgroundColor = dark_mode ? "#2a242073": "#ffd8c273";
 	}
 
 	if(drawMode != DrawMode.None){
-		event.target.style.backgroundColor = "#FFFBEE";
+		event.target.style.backgroundColor = dark_mode ? "black" : "white";
 	}
 }
 
@@ -1319,7 +1319,6 @@ require([
 			"box": "box-dark",
 			"button": "button-dark",
 			"clearcoords": "clearcoords-dark",
-			"iconbutton": "iconbutton-dark",
 			"comment": "comment-dark"
 		};
 	
@@ -1346,6 +1345,10 @@ require([
 		document.getElementById("tool_path_nolines").src =  darkMode ? "assets/img/tools/path_nolines_dark.svg" :  "assets/img/tools/path_nolines.svg";
 		document.getElementById("tool_destination").src =  darkMode ? "assets/img/tools/destination_dark.svg" :  "assets/img/tools/destination.svg";
 		document.getElementById("tool_eraser").src =  darkMode ? "assets/img/tools/eraser_dark.svg" :  "assets/img/tools/eraser.svg";
+
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].style.backgroundColor = dark_mode ? "#2a242073": "#ffd8c273";
+		}
 
 		//annoying zoom menu that's controlled by arcgis internally
 		function toggleEsriZoomDarkMode(isDark) {

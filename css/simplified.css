@@ -532,11 +532,6 @@ button:active {
     border-width : 0.2vh;
 }
 
-.iconbutton-dark{
-    background-color: #2a242073 !important;
-    color: lightgray !important;
-}
-
 .icon{
     width: 3vh;
     height: 3vh;
