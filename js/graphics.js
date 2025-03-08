@@ -5,9 +5,9 @@ function updateThemeColors(dark_mode) {
 class DarkThemeGraphics {
 	static backgroundColor = { color: [40, 40, 40] }
 
-	static borderColor = [200, 200, 200, 0.8];
+	static borderColor = [100, 100, 100, 0.6];
 
-	static gridColor = [255, 255, 255, 0.5];
+	static gridColor = [100, 100, 100, 0.3];
 
 	static emeralWindColor = [40, 190, 40, 0.3]
 	static emeralWindArrowColor = [40, 190, 40, 0.6]
@@ -18,11 +18,11 @@ class DarkThemeGraphics {
 	static alankhWindColor = [180, 90, 30, 0.3]
 	static alankhWindArrowColor = [180, 90, 30, 0.6]
 
-	static routeDownwindColor = [178, 165, 152, 0.43];
-	static routeClosehauledColor = [225, 60, 60, 0.35];
-	static routeBeamreach = [120, 120, 255, 0.2];
+	static routeDownwindColor = [178, 165, 152, 0.15];
+	static routeClosehauledColor = [225, 60, 60, 0.25];
+	static routeBeamreach = [120, 120, 255, 0.15];
 
-	static bigLabelColor = "#706860";
+	static bigLabelColor = "#ada69f";
 	static bigLabelHalo = [0, 0, 0, 0.0];
 
 	static labelColor = "white";
