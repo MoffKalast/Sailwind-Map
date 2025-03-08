@@ -222,17 +222,10 @@
 			<h1>Settings</h1>
 			<hr>
 			<div class="row">
-				<label style="font-weight: bold;" for="darkmodecheck" >Dark Mode</label>
-				<input id="darkmodecheck" type="checkbox" class="checkbox">
-				<br>
-				<label style="color:rgb(40, 33, 22)">Turn the map into dark mode.</label>
-			</div>
-			<hr>
-			<div class="row">
 				<label style="font-weight: bold;" for="routescheck">Trade Routes</label>
 				<input id="routescheck" type="checkbox" checked class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Common shipping lanes with favorable winds and profitable trade.</label>
+				<label >Common shipping lanes with favorable winds and profitable trade.</label>
 				<a href="https://sailwind.fandom.com/wiki/Trade_winds?file=World_Trade_Map.png" target="_blank">More info.</a>
 			</div>
 			<hr>
@@ -240,7 +233,7 @@
 				<label style="font-weight: bold;" for="windscheck" >Trade Winds</label>
 				<input id="windscheck" type="checkbox" checked class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Permanent prevailing winds that have been used by captains of sailing ships to cross the world's oceans for centuries. </label>
+				<label >Permanent prevailing winds that have been used by captains of sailing ships to cross the world's oceans for centuries. </label>
 				<a href="https://sailwind.fandom.com/wiki/Trade_winds" target="_blank">More info.</a>
 			</div>
 			<hr>
@@ -248,30 +241,36 @@
 				<label style="font-weight: bold;" for="bordercheck" >Map Borders</label>
 				<input id="bordercheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Show the world limits.</label>
+				<label >Show the world limits.</label>
 			</div>
 			<hr>
 			<div class="row">
 				<label style="font-weight: bold;" for="distancescheck" >Distance labels</label>
 				<input id="distancescheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Show the distances between points.</label>
+				<label >Show the distances between points.</label>
 			</div>
 			<hr>
 			<div class="row">
 				<label style="font-weight: bold;" for="secretcheck" >Secrets</label>
 				<input id="secretcheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Have ye not heard the stories?</label>
+				<label >Have ye not heard the stories?</label>
 			</div>
 			<hr>
 			<div class="row">
 				<label style="font-weight: bold;" for="hideislandscheck" >Hide islands</label>
 				<input id="hideislandscheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Ye've taken yer brave pills and put on yer man pants.</label>
+				<label >Ye've taken yer brave pills and put on yer man pants.</label>
 			</div>
 			<hr>
+			<div class="row">
+				<label style="font-weight: bold;" for="darkmodecheck" >Dark Mode</label>
+				<input id="darkmodecheck" type="checkbox" class="checkbox">
+				<br>
+				<label >Turn the map into dark mode.</label>
+			</div>
 		</div>
 	</div>
 
@@ -327,7 +326,7 @@
 				<span id="traveldist" class="right"></span>
 			</div>
 			<div class="buttons">
-				<button id="clearcoords" type="button" style="background-color: rgb(208, 137, 114);">Clear All Drawings</button>
+				<button id="clearcoords" type="button" class="clearcoords">Clear All Drawings</button>
 			</div>
 			<hr>
 			<div class="buttons">
@@ -337,7 +336,7 @@
 			</div>
 		</div>
 
-		<div class="compass_container" id="compass">
+		<div class="compass-container" id="compass">
 			<img src="assets/img/downscaled_compass.png" alt="compass" id="compass_image">
 			<img src="assets/img/downscaled_needle.png" alt="compassneedle" id="compass_needle">
 			<img src="assets/img/arrow_needle.png" alt="arrowneedle" id="arrow_needle">

@@ -5,7 +5,7 @@ function updateThemeColors(dark_mode) {
 class DarkThemeGraphics {
 	static backgroundColor = { color: [40, 40, 40] }
 
-	static borderColor = [255, 255, 255, 0.7];
+	static borderColor = [200, 200, 200, 0.8];
 
 	static gridColor = [255, 255, 255, 0.5];
 
@@ -25,8 +25,8 @@ class DarkThemeGraphics {
 	static bigLabelColor = "#706860";
 	static bigLabelHalo = [0, 0, 0, 0.0];
 
-	static labelColor = "black";
-	static labelHalo = [221, 218, 215, 1.0];
+	static labelColor = "white";
+	static labelHalo = [40, 40, 40, 1.0];
 
 	// Route graphics
 	static orangePoint = {
@@ -227,7 +227,7 @@ class DarkThemeGraphics {
 		},
 		symbol: {
 			type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-			url: "assets/img/boat.svg",
+			url: "assets/img/boat_dark.svg",
 			width: "200px",
 			height: "200px"
 		}
@@ -243,7 +243,7 @@ class DarkThemeGraphics {
 		symbol: {
 			type: "text",
 			color: "white",
-			haloColor: [63, 72, 80, 0.95],
+			haloColor: [40, 40, 40, 0.95],
 			haloSize: "4pt",
 			font: {
 				family: "Montserrat",
@@ -264,7 +264,7 @@ class DarkThemeGraphics {
 		symbol: {
 			type: "text",
 			color: "white",
-			haloColor: [63, 72, 80, 0.95],
+			haloColor: [40, 40, 40, 0.95],
 			haloSize: "4pt",
 			font: {
 				family: "Montserrat",
@@ -284,8 +284,8 @@ class DarkThemeGraphics {
 		},
 		symbol: {
 			type: "text",
-			color: "black",
-			haloColor: [221, 218, 215, 1.0],
+			color: "white",
+			haloColor: [40, 40, 40, 1.0],
 			haloSize: "2pt",
 			font: {
 				family: "Montserrat",

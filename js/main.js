@@ -1314,6 +1314,33 @@ require([
 		secretlayer.labelingInfo[0].symbol.color = GraphicsLibrary.labelColor;
 		secretlayer.labelingInfo[0].symbol.haloColor = GraphicsLibrary.labelHalo;
 
+		const elementsMap = {
+			"compass-container": "compass-container-dark",
+			"box": "box-dark",
+			"esri-zoom": "esri-zoom-dark",
+			"button": "button-dark",
+			"clearcoords": "clearcoords-dark",
+			"iconbutton": "iconbutton-dark",
+			"comment": "comment-dark"
+		};
+	
+		for (const [baseClass, darkClass] of Object.entries(elementsMap)) {
+			const elements = document.getElementsByClassName(baseClass);
+			for (let i = 0; i < elements.length; i++) {
+				elements[i].classList.toggle(darkClass, darkMode);
+			}
+		}
+
+		const buttons = document.getElementsByTagName("button");
+		for (let i = 0; i < buttons.length; i++) {
+			console.log(buttons[i])
+			buttons[i].classList.toggle("button-dark", darkMode);
+		}
+
+		document.body.style.color = darkMode ? "lightgray": "black";
+		document.getElementById("compass_image").src =  darkMode ? "assets/img/downscaled_compass_dark.png" :  "assets/img/downscaled_compass.png";
+		document.getElementById("clearcoords")
+
 		redrawMap();
 		redrawEdge();
 	}
