@@ -63,10 +63,9 @@ require([
 	"esri/layers/GeoJSONLayer",
 	"esri/Graphic",
 	"esri/layers/GraphicsLayer",
-	"esri/symbols/LineSymbolMarker"
-], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, LineSymbolMarker) {
-
-	let ThemeGraphicsLibrary = LightThemeGraphics;
+	"esri/symbols/LineSymbolMarker",
+	"esri/webmap/background/ColorBackground"
+], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, LineSymbolMarker, ColorBackground) {
 
 	(async()=>{
 
@@ -511,7 +510,7 @@ require([
 			let linedata = mapObjects.lines[i];
 
 			if(linedata.p1 == undefined){
-				let line = new Graphic(ThemeGraphicsLibrary.lines[linedata.type]);
+				let line = new Graphic(GraphicsLibrary.lines[linedata.type]);
 				line.geometry.paths = [linedata.p0, [point.longitude, point.latitude]];
 				tempLayer.add(line);
 
@@ -568,7 +567,7 @@ require([
 			let result = findObjectAt(point.longitude, point.latitude);
 			if(result != undefined){
 				let offset = (view.extent.width/window.screen.width)*11;
-				let eraser = new Graphic(ThemeGraphicsLibrary.eraser);
+				let eraser = new Graphic(GraphicsLibrary.eraser);
 				eraser.geometry.longitude = point.longitude + offset;
 				eraser.geometry.latitude = point.latitude + offset;
 				topTempLayer.add(eraser);
@@ -798,7 +797,7 @@ require([
 			for (i = 0; i < mapObjects.lines.length; i++) {
 				let linedata = mapObjects.lines[i];
 				if (linedata.p1 != undefined){
-					let line = new Graphic(ThemeGraphicsLibrary.lines[linedata.type]);
+					let line = new Graphic(GraphicsLibrary.lines[linedata.type]);
 					line.geometry.paths = [linedata.p0, linedata.p1];
 					renderLayer.add(line);
 				}
@@ -810,7 +809,7 @@ require([
 			let linedata = [];
 			mapObjects.path.forEach(e => linedata.push(e.pos));
 
-			let line = new Graphic(ThemeGraphicsLibrary.orangeLine);
+			let line = new Graphic(GraphicsLibrary.orangeLine);
 			line.geometry.paths = linedata;
 			renderLayer.add(line);
 		}
@@ -834,7 +833,7 @@ require([
 		}
 		// draw goal leg
 		if(mapObjects.path.length > 0 && mapObjects.goals.length > 0){
-			let line = new Graphic(ThemeGraphicsLibrary.dottedOrangeLine);
+			let line = new Graphic(GraphicsLibrary.dottedOrangeLine);
 			line.geometry.paths = [
 				mapObjects.path[mapObjects.path.length-1].pos,
 				mapObjects.goals[0].pos
@@ -845,7 +844,7 @@ require([
 		//draw route dots
 		if(mapObjects.path.length > 0){
 			for (i = 0; i < mapObjects.path.length; i++) {
-				let point = new Graphic(ThemeGraphicsLibrary.points[mapObjects.path[i].colour]);
+				let point = new Graphic(GraphicsLibrary.points[mapObjects.path[i].colour]);
 				point.geometry.latitude = mapObjects.path[i].pos[1];
 				point.geometry.longitude = mapObjects.path[i].pos[0];
 				renderLayer.add(point);
@@ -865,7 +864,7 @@ require([
 		//draw scatter dots
 		if(mapObjects.points.length > 0){
 			for (i = 0; i < mapObjects.points.length; i++) {
-				let point = new Graphic(ThemeGraphicsLibrary.points[mapObjects.points[i].colour]);
+				let point = new Graphic(GraphicsLibrary.points[mapObjects.points[i].colour]);
 				point.geometry.latitude = mapObjects.points[i].pos[1];
 				point.geometry.longitude = mapObjects.points[i].pos[0];
 				renderLayer.add(point);
@@ -885,7 +884,7 @@ require([
 		//draw destinations
 		if(mapObjects.goals.length > 0){
 			for (i = 0; i < mapObjects.goals.length; i++) {
-				let point = new Graphic(ThemeGraphicsLibrary.destinationPoint);
+				let point = new Graphic(GraphicsLibrary.destinationPoint);
 				point.geometry.latitude = mapObjects.goals[i].pos[1];
 				point.geometry.longitude = mapObjects.goals[i].pos[0];
 				renderLayer.add(point);
@@ -1335,15 +1334,16 @@ require([
 	}
 
 	function changeTheme(darkMode){
-		ThemeGraphicsLibrary = dark_mode ? DarkThemeGraphics : LightThemeGraphics;
 		imageLayer.removeAll();
+		updateThemeColors(darkMode);
 		// Boat svg
-		imageLayer.add(new Graphic(ThemeGraphicsLibrary.boat));
-		if(darkMode){
-			view.background = [0,0,0];
-			borderLayer.renderer.symbol.color = [255,255,255,0.7]
-			grid.renderer.symbol.color = [255,255,255,0.5]
+		imageLayer.add(new Graphic(GraphicsLibrary.boat));
 
+		view.background = GraphicsLibrary.backgroundColor;
+		borderLayer.renderer.symbol.color = GraphicsLibrary.borderColor;
+		grid.renderer.symbol.color = GraphicsLibrary.gridColor;
+
+		if(darkMode){
 			wind.renderer.uniqueValueInfos[0].symbol.color = [40,190,40,0.3]
 			wind.renderer.uniqueValueInfos[0].symbol.marker.color = [40,190,40,0.6]
 
@@ -1361,9 +1361,6 @@ require([
 			secretRoute.renderer.uniqueValueInfos[1].symbol.color = [225, 60, 60, 0.35]
 			secretRoute.renderer.uniqueValueInfos[2].symbol.color = [120, 120, 255, 0.2]
 		}else{
-			view.background = null;
-			borderLayer.renderer.symbol.color = [0,0,0,0.7]
-			grid.renderer.symbol.color = [0,0,0,0.5]
 			wind.renderer.uniqueValueInfos[0].symbol.color = [0,150,0,0.3]
 			wind.renderer.uniqueValueInfos[0].symbol.marker.color = [0,150,0,0.6]
 
