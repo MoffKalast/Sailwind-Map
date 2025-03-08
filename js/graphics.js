@@ -22,6 +22,12 @@ class DarkThemeGraphics {
 	static routeClosehauledColor = [225, 60, 60, 0.35];
 	static routeBeamreach = [120, 120, 255, 0.2];
 
+	static bigLabelColor = "#706860";
+	static bigLabelHalo = [0, 0, 0, 0.0];
+
+	static labelColor = "black";
+	static labelHalo = [221, 218, 215, 1.0];
+
 	// Route graphics
 	static orangePoint = {
 		geometry: {
@@ -269,6 +275,27 @@ class DarkThemeGraphics {
 			yoffset: 0,
 		}
 	};
+
+	static distanceLabel = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "black",
+			haloColor: [221, 218, 215, 1.0],
+			haloSize: "2pt",
+			font: {
+				family: "Montserrat",
+				size: 13
+			},
+			text: "",
+			xoffset: 3,
+			yoffset: 0,
+		}
+	};
 }
 
 class LightThemeGraphics {
@@ -290,6 +317,12 @@ class LightThemeGraphics {
 	static routeDownwindColor = [178, 165, 152, 0.23];
 	static routeClosehauledColor = [175, 10, 10, 0.15];
 	static routeBeamreach = [30, 30, 175, 0.1];
+
+	static bigLabelColor = "#706860";
+	static bigLabelHalo = [0, 0, 0, 0.0];
+
+	static labelColor = "black";
+	static labelHalo = [221, 218, 215, 1.0];
 
 	// Route graphics
 	static orangePoint = {
@@ -538,6 +571,27 @@ class LightThemeGraphics {
 			yoffset: 0,
 		}
 	};
+
+	static distanceLabel = {
+		geometry: {
+			type: "point",
+			longitude: 0,
+			latitude: 0
+		},
+		symbol: {
+			type: "text",
+			color: "black",
+			haloColor: [221, 218, 215, 1.0],
+			haloSize: "2pt",
+			font: {
+				family: "Montserrat",
+				size: 13
+			},
+			text: "",
+			xoffset: 3,
+			yoffset: 0,
+		}
+	};
 }
 
 let _currentThemeColor = LightThemeGraphics;
@@ -589,6 +643,20 @@ class GraphicsLibrary {
 
 	static get routeBeamreach(){
 		return _currentThemeColor.routeBeamreach;
+	}
+
+	static get bigLabelColor(){
+		return _currentThemeColor.bigLabelColor;
+	}
+	static get bigLabelHalo(){
+		return _currentThemeColor.bigLabelHalo;
+	}
+
+	static get labelColor(){
+		return _currentThemeColor.labelColor;
+	}
+	static get labelHalo(){
+		return _currentThemeColor.labelHalo;
 	}
 
 
@@ -670,26 +738,9 @@ class GraphicsLibrary {
 		return _currentThemeColor.degreeTopLabel;
 	}
 
-	static distanceLabel = {
-		geometry: {
-			type: "point",
-			longitude: 0,
-			latitude: 0
-		},
-		symbol: {
-			type: "text",
-			color: "black",
-			haloColor: [221, 218, 215, 1.0],
-			haloSize: "2pt",
-			font: {
-				family: "Montserrat",
-				size: 13
-			},
-			text: "",
-			xoffset: 3,
-			yoffset: 0,
-		}
-	};
+	static get distanceLabel(){
+		return _currentThemeColor.distanceLabel;
+	}
 
 	//Line heading text
 	static headingLabel = {

@@ -1299,6 +1299,21 @@ require([
 		secretRoute.renderer.uniqueValueInfos[1].symbol.color = GraphicsLibrary.routeClosehauledColor
 		secretRoute.renderer.uniqueValueInfos[2].symbol.color = GraphicsLibrary.routeBeamreach;
 
+		biglabel.labelingInfo[0].symbol.color = GraphicsLibrary.bigLabelColor;
+		biglabel.labelingInfo[0].symbol.haloColor = GraphicsLibrary.bigLabelHalo;
+
+		route.labelingInfo[0].symbol.color = GraphicsLibrary.bigLabelColor;
+		route.labelingInfo[0].symbol.haloColor = GraphicsLibrary.bigLabelHalo;
+
+		secretRoute.labelingInfo[0].symbol.color = GraphicsLibrary.bigLabelColor;
+		secretRoute.labelingInfo[0].symbol.haloColor = GraphicsLibrary.bigLabelHalo;
+
+		layer.labelingInfo[0].symbol.color = GraphicsLibrary.labelColor;
+		layer.labelingInfo[0].symbol.haloColor = GraphicsLibrary.labelHalo;
+
+		secretlayer.labelingInfo[0].symbol.color = GraphicsLibrary.labelColor;
+		secretlayer.labelingInfo[0].symbol.haloColor = GraphicsLibrary.labelHalo;
+
 		redrawMap();
 		redrawEdge();
 	}
