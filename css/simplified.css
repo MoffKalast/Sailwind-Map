@@ -128,7 +128,7 @@ h3{
     position: fixed;
     width: 28vw;
     height: auto;
-    top: 30vh;
+    top: 25vh;
     left: 35vw;
 }
 
@@ -185,7 +185,7 @@ h3{
 }
 
 .comment-dark {
-    color :rgb(132, 132, 132)
+    color :rgb(185, 185, 185)
 }
 
 .box input {
@@ -413,11 +413,11 @@ button:active {
 }
 
 .clearcoords{
-    background-color: rgb(208, 137, 114)
+    background-color: rgb(208, 137, 114) !important
 }
 
 .clearcoords-dark{
-    background-color: rgb(72, 30, 17)
+    background-color: rgb(72, 30, 17) !important
 }
 
 /* COMPASS 
@@ -477,6 +477,7 @@ button:active {
 
 .checkbox {
     accent-color: darkorange;
+    background-color: #282422;
     height: 2vh;
     width: 2vh;
     text-align: right;

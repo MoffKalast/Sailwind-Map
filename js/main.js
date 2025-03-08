@@ -1360,9 +1360,9 @@ require([
 				const rules = document.styleSheets[i].cssRules || document.styleSheets[i].rules;
 				for (let j = 0; j < rules.length; j++) {
 					if (rules[j].selectorText === '.esri-zoom') {
-					styleSheet = document.styleSheets[i];
-					ruleIndex = j;
-					break;
+						styleSheet = document.styleSheets[i];
+						ruleIndex = j;
+						break;
 					}
 				}
 				} catch (e) { continue; } // Skip CORS-restricted stylesheets
