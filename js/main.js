@@ -16,6 +16,7 @@ const DrawMode ={
 var drawMode = DrawMode.None;
 var showDistances = false;
 var showSecrets = false;
+let dark_mode = false;
 
 var mapObjects = {
 	lines: [],
@@ -48,10 +49,6 @@ function setMode(event, newMode){
 	}
 }
 
-// fetch("/assets/islands/alankh/gold_rock_city.json")
-// .then((respone)=>respone.json())
-// .then(json=>console.log(json));
-
 function fetchJSON(url) {
     return fetch(url)
         .then(response => response.json())
@@ -60,19 +57,15 @@ function fetchJSON(url) {
         });
 }
 
-// async function test(){
-// 	const t = await fetch("/assets/islands/alankh/gold_rock_city.json")
-// 	console.log(t.json());
-// }
-
 require([
 	"esri/Map",
 	"esri/views/MapView",
 	"esri/layers/GeoJSONLayer",
 	"esri/Graphic",
 	"esri/layers/GraphicsLayer",
-	"esri/symbols/LineSymbolMarker"
-], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, LineSymbolMarker) {
+	"esri/symbols/LineSymbolMarker",
+	"esri/webmap/background/ColorBackground"
+], function (ArcGISMap, MapView, GeoJSONLayer, Graphic, GraphicsLayer, LineSymbolMarker, ColorBackground) {
 
 	(async()=>{
 
@@ -500,8 +493,6 @@ require([
 	map.add(renderLayer);
 	map.add(topTempLayer);
 
-	// Boat svg
-	imageLayer.add(new Graphic(GraphicsLibrary.boat));
 
 	view.on('pointer-move', function (event) {
 
@@ -998,6 +989,12 @@ require([
 		localStorage.setItem("islands_hidden", this.checked);
 	}
 
+	document.getElementById('darkmodecheck').onclick = function () {
+		dark_mode = this.checked;
+		changeTheme(this.checked);
+		localStorage.setItem("dark_mode", this.checked);
+	}
+
 	//Info Menu
 	document.getElementById('clearcoords').onclick = function () {
 		mapObjects = {
@@ -1008,6 +1005,7 @@ require([
 		}
 	
 		redrawMap();
+		localStorage.setItem("quicksave_data", JSON.stringify(mapObjects));
 	}
 
 	document.getElementById('export_map').onclick = async function () {
@@ -1138,68 +1136,7 @@ require([
 	// dynamic degree number renderer
 	view.watch('stationary', function(newextent, oldextent) {
 
-		if(view.extent == undefined)
-			return;
-
-		let xmin = view.extent.xmin;
-		let xmax = view.extent.xmax;
-		let ymin = view.extent.ymin;
-		let ymax = view.extent.ymax;
-		let width_offset = view.extent.width * 0.03;
-		let height_offset = view.extent.height * 0.04;
-
-		//would be better to just reuse objects, but there's no way to iterate over existing ones
-		edgeLayer.removeAll();
-
-		let lat_min = parseInt(ymin)-1;
-		let lat_max = parseInt(ymax)+1;
-
-		let long_min = parseInt(xmin)-1;
-		let long_max = parseInt(xmax)+1;
-
-		if(lat_min < 0)
-			lat_min = 0;
-
-		if(lat_max > 70)
-			lat_max = 70;
-
-		if(long_min < -60)
-			long_min = -60;
-
-		if(long_max > 60)
-			long_max = 60;
-
-		let step = 1;
-		let decimals = 0;
-
-		if(view.extent.height < 0.4){
-			step = 0.05;
-			decimals = 2;
-		}
-		else if(view.extent.height < 2){
-			step = 0.25;
-			decimals = 2;
-		}
-		else if(view.extent.height < 5){
-			step = 0.5;
-			decimals = 1;
-		}
-
-		for(let i = lat_min; i <= lat_max; i+=step){
-			let testpoint = new Graphic(GraphicsLibrary.degreeSideLabel);
-			testpoint.geometry.latitude = i;
-			testpoint.geometry.longitude = xmin + width_offset;
-			testpoint.symbol.text = i.toFixed(decimals)+"°";
-			edgeLayer.add(testpoint);
-		}
-
-		for(let i = long_min; i <= long_max; i+=step){
-			let testpoint = new Graphic(GraphicsLibrary.degreeTopLabel);
-			testpoint.geometry.latitude = ymax - height_offset;
-			testpoint.geometry.longitude = i;
-			testpoint.symbol.text = i.toFixed(decimals)+"°";
-			edgeLayer.add(testpoint);
-		}
+		redrawEdge();
 
 	});
 
@@ -1289,6 +1226,12 @@ require([
 		document.getElementById("hideislandscheck").checked = hidden;
 	}
 
+	if(localStorage.hasOwnProperty("dark_mode")){
+		dark_mode = localStorage.getItem("dark_mode") === "true"
+		changeTheme(dark_mode)
+		document.getElementById("darkmodecheck").checked = dark_mode
+	}
+
 	if(!localStorage.hasOwnProperty("modal_tutorial")){
 		Modal.open('modal_tutorial');
 		localStorage.setItem("modal_tutorial", true);
@@ -1327,7 +1270,145 @@ require([
 	function closeDetails() {
 		document.getElementById("form_position_details").style.display = "none";
 		menuPoint = undefined;
-	} 
+	}
+
+	function changeTheme(darkMode){
+		imageLayer.removeAll();
+		updateThemeColors(darkMode);
+		// Boat svg
+		imageLayer.add(new Graphic(GraphicsLibrary.boat));
+
+		view.background = GraphicsLibrary.backgroundColor;
+		borderLayer.renderer.symbol.color = GraphicsLibrary.borderColor;
+		grid.renderer.symbol.color = GraphicsLibrary.gridColor;
+
+		wind.renderer.uniqueValueInfos[0].symbol.color = GraphicsLibrary.emeralWindColor;
+		wind.renderer.uniqueValueInfos[0].symbol.marker.color = GraphicsLibrary.emeralWindArrowColor;
+
+		wind.renderer.uniqueValueInfos[1].symbol.color = GraphicsLibrary.aestrinWindColor;
+		wind.renderer.uniqueValueInfos[1].symbol.marker.color = GraphicsLibrary.aestrinWindArrowColor;
+
+		wind.renderer.uniqueValueInfos[2].symbol.color = GraphicsLibrary.alankhWindColor;
+		wind.renderer.uniqueValueInfos[2].symbol.marker.color = GraphicsLibrary.alankhWindArrowColor;
+
+		route.renderer.uniqueValueInfos[0].symbol.color = GraphicsLibrary.routeDownwindColor;
+		route.renderer.uniqueValueInfos[1].symbol.color = GraphicsLibrary.routeClosehauledColor;
+		route.renderer.uniqueValueInfos[2].symbol.color = GraphicsLibrary.routeBeamreach;
+
+		secretRoute.renderer.uniqueValueInfos[0].symbol.color = GraphicsLibrary.routeDownwindColor;
+		secretRoute.renderer.uniqueValueInfos[1].symbol.color = GraphicsLibrary.routeClosehauledColor
+		secretRoute.renderer.uniqueValueInfos[2].symbol.color = GraphicsLibrary.routeBeamreach;
+
+		biglabel.labelingInfo[0].symbol.color = GraphicsLibrary.bigLabelColor;
+		biglabel.labelingInfo[0].symbol.haloColor = GraphicsLibrary.bigLabelHalo;
+
+		route.labelingInfo[0].symbol.color = GraphicsLibrary.bigLabelColor;
+		route.labelingInfo[0].symbol.haloColor = GraphicsLibrary.bigLabelHalo;
+
+		secretRoute.labelingInfo[0].symbol.color = GraphicsLibrary.bigLabelColor;
+		secretRoute.labelingInfo[0].symbol.haloColor = GraphicsLibrary.bigLabelHalo;
+
+		layer.labelingInfo[0].symbol.color = GraphicsLibrary.labelColor;
+		layer.labelingInfo[0].symbol.haloColor = GraphicsLibrary.labelHalo;
+
+		secretlayer.labelingInfo[0].symbol.color = GraphicsLibrary.labelColor;
+		secretlayer.labelingInfo[0].symbol.haloColor = GraphicsLibrary.labelHalo;
+
+		const elementsMap = {
+			"compass-container": "compass-container-dark",
+			"box": "box-dark",
+			"esri-zoom": "esri-zoom-dark",
+			"button": "button-dark",
+			"clearcoords": "clearcoords-dark",
+			"iconbutton": "iconbutton-dark",
+			"comment": "comment-dark"
+		};
+	
+		for (const [baseClass, darkClass] of Object.entries(elementsMap)) {
+			const elements = document.getElementsByClassName(baseClass);
+			for (let i = 0; i < elements.length; i++) {
+				elements[i].classList.toggle(darkClass, darkMode);
+			}
+		}
+
+		const buttons = document.getElementsByTagName("button");
+		for (let i = 0; i < buttons.length; i++) {
+			console.log(buttons[i])
+			buttons[i].classList.toggle("button-dark", darkMode);
+		}
+
+		document.body.style.color = darkMode ? "lightgray": "black";
+		document.getElementById("compass_image").src =  darkMode ? "assets/img/downscaled_compass_dark.png" :  "assets/img/downscaled_compass.png";
+		document.getElementById("clearcoords")
+
+		redrawMap();
+		redrawEdge();
+	}
+
+	function redrawEdge(){
+		if(view.extent == undefined)
+			return;
+
+		let xmin = view.extent.xmin;
+		let xmax = view.extent.xmax;
+		let ymin = view.extent.ymin;
+		let ymax = view.extent.ymax;
+		let width_offset = view.extent.width * 0.03;
+		let height_offset = view.extent.height * 0.04;
+
+		//would be better to just reuse objects, but there's no way to iterate over existing ones
+		edgeLayer.removeAll();
+
+		let lat_min = parseInt(ymin)-1;
+		let lat_max = parseInt(ymax)+1;
+
+		let long_min = parseInt(xmin)-1;
+		let long_max = parseInt(xmax)+1;
+
+		if(lat_min < 0)
+			lat_min = 0;
+
+		if(lat_max > 70)
+			lat_max = 70;
+
+		if(long_min < -60)
+			long_min = -60;
+
+		if(long_max > 60)
+			long_max = 60;
+
+		let step = 1;
+		let decimals = 0;
+
+		if(view.extent.height < 0.4){
+			step = 0.05;
+			decimals = 2;
+		}
+		else if(view.extent.height < 2){
+			step = 0.25;
+			decimals = 2;
+		}
+		else if(view.extent.height < 5){
+			step = 0.5;
+			decimals = 1;
+		}
+
+		for(let i = lat_min; i <= lat_max; i+=step){
+			let testpoint = new Graphic(GraphicsLibrary.degreeSideLabel);
+			testpoint.geometry.latitude = i;
+			testpoint.geometry.longitude = xmin + width_offset;
+			testpoint.symbol.text = i.toFixed(decimals)+"°";
+			edgeLayer.add(testpoint);
+		}
+
+		for(let i = long_min; i <= long_max; i+=step){
+			let testpoint = new Graphic(GraphicsLibrary.degreeTopLabel);
+			testpoint.geometry.latitude = ymax - height_offset;
+			testpoint.geometry.longitude = i;
+			testpoint.symbol.text = i.toFixed(decimals)+"°";
+			edgeLayer.add(testpoint);
+		}
+	}
 
 })()});
 
