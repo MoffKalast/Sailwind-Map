@@ -6,7 +6,6 @@ class DarkThemeGraphics {
 	static backgroundColor = { color: [40, 40, 40] }
 
 	static borderColor = [100, 100, 100, 0.6];
-
 	static gridColor = [100, 100, 100, 0.3];
 
 	static emeralWindColor = [40, 190, 40, 0.3]
@@ -57,7 +56,7 @@ class DarkThemeGraphics {
 		symbol: {
 			type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
 			style: "circle",
-			color: [90, 118, 170, 0.95],
+			color: [96, 152, 255, 0.95],
 			size: 10,
 			outline: {
 				// autocasts as new SimpleLineSymbol()

@@ -1333,13 +1333,20 @@ require([
 
 		const buttons = document.getElementsByTagName("button");
 		for (let i = 0; i < buttons.length; i++) {
-			console.log(buttons[i])
 			buttons[i].classList.toggle("button-dark", darkMode);
 		}
 
 		document.body.style.color = darkMode ? "lightgray": "black";
 		document.getElementById("compass_image").src =  darkMode ? "assets/img/downscaled_compass_dark.png" :  "assets/img/downscaled_compass.png";
-		document.getElementById("clearcoords")
+
+		//tools
+		document.getElementById("tool_line_black").src =  darkMode ? "assets/img/tools/line_white.svg" :  "assets/img/tools/line_black.svg";
+		document.getElementById("tool_line_gray").src =  darkMode ? "assets/img/tools/line_darkgray.svg" :  "assets/img/tools/line_gray.svg";
+		document.getElementById("tool_line_red").src =  darkMode ? "assets/img/tools/line_brightred.svg" :  "assets/img/tools/line_red.svg";
+		document.getElementById("tool_path").src =  darkMode ? "assets/img/tools/path_dark.svg" :  "assets/img/tools/path.svg";
+		document.getElementById("tool_path_nolines").src =  darkMode ? "assets/img/tools/path_nolines_dark.svg" :  "assets/img/tools/path_nolines.svg";
+		document.getElementById("tool_destination").src =  darkMode ? "assets/img/tools/destination_dark.svg" :  "assets/img/tools/destination.svg";
+		document.getElementById("tool_eraser").src =  darkMode ? "assets/img/tools/eraser_dark.svg" :  "assets/img/tools/eraser.svg";
 
 		redrawMap();
 		redrawEdge();
