@@ -1317,7 +1317,6 @@ require([
 		const elementsMap = {
 			"compass-container": "compass-container-dark",
 			"box": "box-dark",
-			"esri-zoom": "esri-zoom-dark",
 			"button": "button-dark",
 			"clearcoords": "clearcoords-dark",
 			"iconbutton": "iconbutton-dark",
@@ -1347,6 +1346,61 @@ require([
 		document.getElementById("tool_path_nolines").src =  darkMode ? "assets/img/tools/path_nolines_dark.svg" :  "assets/img/tools/path_nolines.svg";
 		document.getElementById("tool_destination").src =  darkMode ? "assets/img/tools/destination_dark.svg" :  "assets/img/tools/destination.svg";
 		document.getElementById("tool_eraser").src =  darkMode ? "assets/img/tools/eraser_dark.svg" :  "assets/img/tools/eraser.svg";
+
+		//annoying zoom menu that's controlled by arcgis internally
+		function toggleEsriZoomDarkMode(isDark) {
+			// Find the stylesheet and rule index for .esri-zoom
+			let styleSheet = null, ruleIndex = -1;
+			
+			for (let i = 0; i < document.styleSheets.length && !styleSheet; i++) {
+				try {
+				const rules = document.styleSheets[i].cssRules || document.styleSheets[i].rules;
+				for (let j = 0; j < rules.length; j++) {
+					if (rules[j].selectorText === '.esri-zoom') {
+					styleSheet = document.styleSheets[i];
+					ruleIndex = j;
+					break;
+					}
+				}
+				} catch (e) { continue; } // Skip CORS-restricted stylesheets
+			}
+			
+			if (!styleSheet || ruleIndex === -1) {
+				console.error('Could not find .esri-zoom rule');
+				return;
+			}
+			
+			// Delete existing rule and insert modified version
+			styleSheet.deleteRule(ruleIndex);
+			
+			const bgImages = isDark 
+				? 'url("../assets/img/zenbg1_dark.png"), url("../assets/img/zenbg2_dark.png")'
+				: 'url("../assets/img/zenbg1.png"), url("../assets/img/zenbg2.png")';
+				
+			const boxShadow = isDark
+				? '0 0 .1vh .1vw #453e3a, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #282422 !important'
+				: '0 0 .1vh .1vw #E6E0D9, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #C4B2A4 !important';
+			
+			styleSheet.insertRule(`.esri-zoom{
+				font-size: 2vh;
+				background: #c5b26300;
+				background-image: ${bgImages};
+				background-repeat: repeat-x, repeat;
+				border-radius: .7vh;
+				padding: .5vh;
+				margin-bottom: 2vh;
+				width: 100%;
+				height: 100%;
+				border: 0.3vh;
+				border-style: solid;
+				display: block;
+				border-color: #00000096;
+				box-shadow: ${boxShadow};
+			}`, ruleIndex);
+		  }
+
+		toggleEsriZoomDarkMode(darkMode);
+
 
 		redrawMap();
 		redrawEdge();

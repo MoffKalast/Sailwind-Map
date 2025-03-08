@@ -75,19 +75,12 @@ h3{
     display: block;
     border-color: #00000096;
     box-shadow: 0 0 .1vh .1vw #E6E0D9, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #C4B2A4 !important;
-   
-}
-
-.esri-zoom-dark{
-    background-image: url("../assets/img/zenbg1_dark.png"), url("../assets/img/zenbg2_dark.png");
-    box-shadow: 0 0 .1vh .1vw #453e3a, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #282422 !important;
 }
 
 .esri-widget--button{
     background-color: transparent !important;
     width: 2.5vh !important;
     height: 3.1vh !important;
-    
 }
 
 .esri-icon{
