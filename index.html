@@ -111,31 +111,31 @@
 	<div id="toolpanel" class="box noselect" >
 
 		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.BlackLine)">
-			<img class="icon" src="assets/img/tools/line_black.svg" />
+			<img id="tool_line_black" class="icon" src="assets/img/tools/line_black.svg" />
 		</button>
 
 		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.GrayLine)">
-			<img class="icon" src="assets/img/tools/line_gray.svg" />
+			<img id="tool_line_gray" class="icon" src="assets/img/tools/line_gray.svg" />
 		</button>
 
 		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.RedLine)">
-			<img class="icon" src="assets/img/tools/line_red.svg" />
+			<img id="tool_line_red" class="icon" src="assets/img/tools/line_red.svg" />
 		</button>
 
 		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Path)">
-			<img class="icon" src="assets/img/tools/path.svg" />
+			<img id="tool_path" class="icon" src="assets/img/tools/path.svg" />
 		</button>
 
 		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Point)">
-			<img class="icon" src="assets/img/tools/path_nolines.svg" />
+			<img id="tool_path_nolines" class="icon" src="assets/img/tools/path_nolines.svg" />
 		</button>
 
 		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Goal)">
-			<img class="icon" src="assets/img/tools/destination.svg" />
+			<img id="tool_destination" class="icon" src="assets/img/tools/destination.svg" />
 		</button>
 
 		<button type="button" class="iconbutton" onclick="setMode(event, DrawMode.Erase)">
-			<img class="icon" src="assets/img/tools/eraser.svg" />
+			<img id="tool_eraser" class="icon" src="assets/img/tools/eraser.svg" />
 		</button>
 	</div>
 
@@ -225,7 +225,7 @@
 				<label style="font-weight: bold;" for="routescheck">Trade Routes</label>
 				<input id="routescheck" type="checkbox" checked class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Common shipping lanes with favorable winds and profitable trade.</label>
+				<label class="comment">Common shipping lanes with favorable winds and profitable trade.</label>
 				<a href="https://sailwind.fandom.com/wiki/Trade_winds?file=World_Trade_Map.png" target="_blank">More info.</a>
 			</div>
 			<hr>
@@ -233,7 +233,7 @@
 				<label style="font-weight: bold;" for="windscheck" >Trade Winds</label>
 				<input id="windscheck" type="checkbox" checked class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Permanent prevailing winds that have been used by captains of sailing ships to cross the world's oceans for centuries. </label>
+				<label class="comment">Permanent prevailing winds that have been used by captains of sailing ships to cross the world's oceans for centuries. </label>
 				<a href="https://sailwind.fandom.com/wiki/Trade_winds" target="_blank">More info.</a>
 			</div>
 			<hr>
@@ -241,30 +241,29 @@
 				<label style="font-weight: bold;" for="bordercheck" >Map Borders</label>
 				<input id="bordercheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Show the world limits.</label>
+				<label class="comment">Show the world limits.</label>
 			</div>
 			<hr>
 			<div class="row">
 				<label style="font-weight: bold;" for="distancescheck" >Distance labels</label>
 				<input id="distancescheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Show the distances between points.</label>
+				<label class="comment">Show the distances between points.</label>
 			</div>
 			<hr>
 			<div class="row">
 				<label style="font-weight: bold;" for="secretcheck" >Secrets</label>
 				<input id="secretcheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Have ye not heard the stories?</label>
+				<label class="comment">Have ye not heard the stories?</label>
 			</div>
 			<hr>
 			<div class="row">
 				<label style="font-weight: bold;" for="hideislandscheck" >Hide islands</label>
 				<input id="hideislandscheck" type="checkbox" class="checkbox">
 				<br>
-				<label style="color:rgb(40, 33, 22)">Ye've taken yer brave pills and put on yer man pants.</label>
+				<label class="comment">Ye've taken yer brave pills and put on yer man pants.</label>
 			</div>
-			<hr>
 		</div>
 	</div>
 
@@ -291,7 +290,7 @@
 			<h1>Import Coordinate Viewer Mod Coords File</h1>
 			<hr>
 			<br>
-			<input id="coordsfile" type="file"/>
+			<input id="coordsfile" type="file" style="color: #000;"/>
 			<br>
 			<br>
 			<label>The files can be usually found under the following path on Windows:</label>
@@ -320,7 +319,7 @@
 				<span id="traveldist" class="right"></span>
 			</div>
 			<div class="buttons">
-				<button id="clearcoords" type="button" style="background-color: rgb(208, 137, 114);">Clear All Drawings</button>
+				<button id="clearcoords" type="button" class="clearcoords">Clear All Drawings</button>
 			</div>
 			<hr>
 			<div class="buttons">
@@ -330,7 +329,7 @@
 			</div>
 		</div>
 
-		<div class="compass_container" id="compass">
+		<div class="compass-container" id="compass">
 			<img src="assets/img/downscaled_compass.png" alt="compass" id="compass_image">
 			<img src="assets/img/downscaled_needle.png" alt="compassneedle" id="compass_needle">
 			<img src="assets/img/arrow_needle.png" alt="arrowneedle" id="arrow_needle">
@@ -343,6 +342,19 @@
 		</div>
 		<br>
 
+	</div>
+
+	<!-- dark mode night slider -->
+	<div class="daynight-slider-container">
+		<div class="daynight-slider-toggle-container" id="daynightSliderToggle">
+			<div class="daynight-slider-toggle-button">
+				<div class="daynight-slider-moon-details">
+					<div class="daynight-slider-crater"></div>
+					<div class="daynight-slider-crater"></div>
+					<div class="daynight-slider-crater"></div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 </body>

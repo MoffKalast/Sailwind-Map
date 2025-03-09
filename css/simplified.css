@@ -75,14 +75,12 @@ h3{
     display: block;
     border-color: #00000096;
     box-shadow: 0 0 .1vh .1vw #E6E0D9, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #C4B2A4 !important;
-   
 }
 
 .esri-widget--button{
     background-color: transparent !important;
     width: 2.5vh !important;
     height: 3.1vh !important;
-    
 }
 
 .esri-icon{
@@ -130,7 +128,7 @@ h3{
     position: fixed;
     width: 28vw;
     height: auto;
-    top: 30vh;
+    top: 25vh;
     left: 35vw;
 }
 
@@ -158,6 +156,11 @@ h3{
     display: block;
 }
 
+.box-dark {
+    background-image: url("../assets/img/zenbg1_dark.png"), url("../assets/img/zenbg2_dark.png");
+    box-shadow: 0 0 .1vh .1vw #453e3a, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #282422 !important;
+}
+
 .box hr {
     width: 100%;
     margin-top: 0.2vh;
@@ -174,6 +177,15 @@ h3{
 
 .box label {
     font-size: 2vh;
+    
+}
+
+.comment {
+    color :rgb(40, 33, 22)
+}
+
+.comment-dark {
+    color :rgb(185, 185, 185)
 }
 
 .box input {
@@ -251,6 +263,10 @@ select {
     content: "";
     display: table;
     clear: both;
+}
+
+.row-dark{
+    color: lightgray;
 }
 
 
@@ -379,6 +395,11 @@ button {
     border-width : 0.2vh;
 }
 
+.button-dark{
+    background-color: #3a322d73;
+    color: lightgray;
+}
+
 button:hover {
     background-color: rgba(218, 98, 0, 0.596);
     background-image: url(data:image/png;base64,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);
@@ -391,10 +412,18 @@ button:active {
     transform: translateY(0.2vh);
 }
 
+.clearcoords{
+    background-color: rgb(208, 137, 114) !important
+}
+
+.clearcoords-dark{
+    background-color: rgb(72, 30, 17) !important
+}
+
 /* COMPASS 
     ALL OF THIS COULD BE COMPLETELY RE-WRITTEN TO DO THE EXACT SAME THING WITH LESS CODE */
 
-.compass_container {
+.compass-container {
     height: 30vh;
     width: 30vh;
     z-index: 10;
@@ -411,7 +440,12 @@ button:active {
     box-shadow: 0 0 .1vh .1vw #E6E0D9, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #C4B2A4;
 }
 
-.compass_container .square {
+.compass-container-dark {
+    background-image: url("../assets/img/endgrain_dark.png");
+    box-shadow: 0 0 .1vh .1vw #453e3a, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #282422;
+}
+
+.compass-container .square {
     background-color: red;
     width: 100%;
     height: 20px;
@@ -443,6 +477,7 @@ button:active {
 
 .checkbox {
     accent-color: darkorange;
+    background-color: #282422;
     height: 2vh;
     width: 2vh;
     text-align: right;
@@ -502,4 +537,100 @@ button:active {
     width: 3vh;
     height: 3vh;
     pointer-events: none;
+}
+
+/* Extra fancy dark mode slider */
+.daynight-slider-container {
+	position: fixed;
+	bottom: 15px;
+	left: 15px;
+	z-index: 1000;
+}
+.daynight-slider-toggle-container {
+	position: relative;
+	width: 45px; /* Reduced from 55px (by 10px) */
+	height: 25px;
+	border-radius: 12.5px;
+	background: linear-gradient(to right, #ff7e5f, #feb47b);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+	overflow: hidden;
+	cursor: pointer;
+	transition: background 0.5s ease;
+    border: 0.3vh;
+    border-style: solid;
+    border-color: #81818196;
+    box-shadow: 0 0 .1vh .1vw #E6E0D9, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #C4B2A4 !important;
+}
+
+.daynight-slider-toggle-container-dark {
+    border-color: #00000096;
+    box-shadow: 0 0 .1vh .1vw #453e3a, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #282422 !important;
+}
+
+.daynight-slider-toggle-container.night {
+	background: linear-gradient(to right, #141e30, #243b55);
+}
+.daynight-slider-toggle-button {
+	position: absolute;
+	width: 21px;
+	height: 21px;
+	border-radius: 50%;
+	top: 2px;
+	left: 2px;
+	background: #ffdb58;
+	box-shadow: 0 0 5px rgba(255, 219, 88, 0.8), 
+				inset 0 0 5px rgba(255, 165, 0, 0.5);
+	transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	z-index: 2;
+	padding: 4px; /* Added 4px padding */
+	box-sizing: border-box; /* Ensure padding doesn't affect overall size */
+}
+.daynight-slider-toggle-container.night .daynight-slider-toggle-button {
+	left: 22px; /* Adjusted from 32px to account for narrower container */
+	background: #e0e0e0;
+	box-shadow: 0 0 5px rgba(224, 224, 224, 0.4), 
+				inset 0 0 4px rgba(66, 66, 66, 0.3);
+}
+.daynight-slider-toggle-container.night .daynight-slider-sun-rays {
+	opacity: 0;
+}
+.daynight-slider-moon-details {
+	position: absolute;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+	top: 4px; /* Adjusted to account for padding */
+	left: 4px; /* Adjusted to account for padding */
+	right: 4px; /* Ensure content stays within padded area */
+	bottom: 4px; /* Ensure content stays within padded area */
+}
+.daynight-slider-crater {
+	position: absolute;
+	background: #c0c0c0;
+	border-radius: 50%;
+	box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+}
+.daynight-slider-crater:nth-child(1) {
+	width: 5px;
+	height: 5px;
+	top: 1px; /* Adjusted positioning for padding */
+	left: 0px;
+}
+.daynight-slider-crater:nth-child(2) {
+	width: 3px;
+	height: 3px;
+	top: 8px; /* Adjusted positioning for padding */
+	left: 4px;
+}
+.daynight-slider-crater:nth-child(3) {
+	width: 4px;
+	height: 4px;
+	top: 4px; /* Adjusted positioning for padding */
+	left: 8px;
+}
+.daynight-slider-toggle-container.night .daynight-slider-moon-details {
+	opacity: 1;
+}
+@keyframes daynight-slider-sunRays {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
