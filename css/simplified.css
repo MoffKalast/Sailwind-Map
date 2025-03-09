@@ -538,3 +538,99 @@ button:active {
     height: 3vh;
     pointer-events: none;
 }
+
+/* Extra fancy dark mode slider */
+.daynight-slider-container {
+	position: fixed;
+	bottom: 15px;
+	left: 15px;
+	z-index: 1000;
+}
+.daynight-slider-toggle-container {
+	position: relative;
+	width: 45px; /* Reduced from 55px (by 10px) */
+	height: 25px;
+	border-radius: 12.5px;
+	background: linear-gradient(to right, #ff7e5f, #feb47b);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+	overflow: hidden;
+	cursor: pointer;
+	transition: background 0.5s ease;
+    border: 0.3vh;
+    border-style: solid;
+    border-color: #81818196;
+    box-shadow: 0 0 .1vh .1vw #E6E0D9, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #C4B2A4 !important;
+}
+
+.daynight-slider-toggle-container-dark {
+    border-color: #00000096;
+    box-shadow: 0 0 .1vh .1vw #453e3a, 0 0 .15vh .15vw rgba(0, 0, 0, 0.671), 0 -.1vh .30vh .30vw #282422 !important;
+}
+
+.daynight-slider-toggle-container.night {
+	background: linear-gradient(to right, #141e30, #243b55);
+}
+.daynight-slider-toggle-button {
+	position: absolute;
+	width: 21px;
+	height: 21px;
+	border-radius: 50%;
+	top: 2px;
+	left: 2px;
+	background: #ffdb58;
+	box-shadow: 0 0 5px rgba(255, 219, 88, 0.8), 
+				inset 0 0 5px rgba(255, 165, 0, 0.5);
+	transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	z-index: 2;
+	padding: 4px; /* Added 4px padding */
+	box-sizing: border-box; /* Ensure padding doesn't affect overall size */
+}
+.daynight-slider-toggle-container.night .daynight-slider-toggle-button {
+	left: 22px; /* Adjusted from 32px to account for narrower container */
+	background: #e0e0e0;
+	box-shadow: 0 0 5px rgba(224, 224, 224, 0.4), 
+				inset 0 0 4px rgba(66, 66, 66, 0.3);
+}
+.daynight-slider-toggle-container.night .daynight-slider-sun-rays {
+	opacity: 0;
+}
+.daynight-slider-moon-details {
+	position: absolute;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+	top: 4px; /* Adjusted to account for padding */
+	left: 4px; /* Adjusted to account for padding */
+	right: 4px; /* Ensure content stays within padded area */
+	bottom: 4px; /* Ensure content stays within padded area */
+}
+.daynight-slider-crater {
+	position: absolute;
+	background: #c0c0c0;
+	border-radius: 50%;
+	box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+}
+.daynight-slider-crater:nth-child(1) {
+	width: 5px;
+	height: 5px;
+	top: 1px; /* Adjusted positioning for padding */
+	left: 0px;
+}
+.daynight-slider-crater:nth-child(2) {
+	width: 3px;
+	height: 3px;
+	top: 8px; /* Adjusted positioning for padding */
+	left: 4px;
+}
+.daynight-slider-crater:nth-child(3) {
+	width: 4px;
+	height: 4px;
+	top: 4px; /* Adjusted positioning for padding */
+	left: 8px;
+}
+.daynight-slider-toggle-container.night .daynight-slider-moon-details {
+	opacity: 1;
+}
+@keyframes daynight-slider-sunRays {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}

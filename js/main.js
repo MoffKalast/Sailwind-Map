@@ -989,11 +989,12 @@ require([
 		localStorage.setItem("islands_hidden", this.checked);
 	}
 
-	document.getElementById('darkmodecheck').onclick = function () {
-		dark_mode = this.checked;
-		changeTheme(this.checked);
-		localStorage.setItem("dark_mode", this.checked);
-	}
+	document.getElementById('daynightSliderToggle').addEventListener('click', function () {
+		this.classList.toggle('night');
+		dark_mode = this.classList.contains('night');
+		changeTheme(dark_mode);
+		localStorage.setItem("dark_mode", dark_mode);
+	});
 
 	//Info Menu
 	document.getElementById('clearcoords').onclick = function () {
@@ -1229,7 +1230,10 @@ require([
 	if(localStorage.hasOwnProperty("dark_mode")){
 		dark_mode = localStorage.getItem("dark_mode") === "true"
 		changeTheme(dark_mode)
-		document.getElementById("darkmodecheck").checked = dark_mode
+
+		if(dark_mode){
+			document.getElementById('daynightSliderToggle').classList.toggle('night')
+		}
 	}
 
 	if(!localStorage.hasOwnProperty("modal_tutorial")){
@@ -1319,7 +1323,8 @@ require([
 			"box": "box-dark",
 			"button": "button-dark",
 			"clearcoords": "clearcoords-dark",
-			"comment": "comment-dark"
+			"comment": "comment-dark",
+			"daynight-slider-toggle-container": "daynight-slider-toggle-container-dark"
 		};
 	
 		for (const [baseClass, darkClass] of Object.entries(elementsMap)) {
