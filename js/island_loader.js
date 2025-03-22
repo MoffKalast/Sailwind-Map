@@ -1,4 +1,6 @@
 const island_files = [
+    "aestrin/aestra_abbey",
+    "aestrin/firefly_grotto",
     "aestrin/eastwind_0",
     "aestrin/eastwind_1",
     "aestrin/fort_aestrin_0",
@@ -8,14 +10,20 @@ const island_files = [
     "aestrin/siren_song",
     "aestrin/sunspire_0",
     "aestrin/sunspire_1",
+    "aestrin/cities/aestra_abbey_city",
     "aestrin/cities/eastwind_city",
     "aestrin/cities/fort_aestrin_city_0",
     "aestrin/cities/fort_aestrin_city_1",
     "aestrin/cities/mount_malefic_city",
     "aestrin/cities/siren_song_city",
     "aestrin/cities/sunspire_city",
+    //"aestrin/cities/fey_valley_city",
+    "aestrin/cities/firefly_grotto_city",
     "aestrin/rocks/fort_aestrin_rocks",
     "aestrin/rocks/siren_song_rocks",
+    "aestrin/rocks/firefly_grotto_rocks",
+    "aestrin/rocks/firefly_grotto_pillars",
+    "aestrin/rocks/aestra_abbey_rocks",
 
     "alankh/alankh_academy",
     "alankh/albacore_town_0",
@@ -84,14 +92,6 @@ const secret_island_files = [
     "chronos/chronos",
     "chronos/chronos_city",
     "chronos/chronos_rock",
-]
-
-let islands = [
-
-]
-
-let islands_secrets = [
-
 ]
 
 // was used to turn the polygon_definitions.js into separete files and download them
@@ -177,6 +177,9 @@ let islands_secrets = [
 //         link.click();
 //     });
 // }
+
+let islands = [];
+let islands_secrets = [];
 
 function _load_island_files(files) {
     const island_path = "assets/islands";
