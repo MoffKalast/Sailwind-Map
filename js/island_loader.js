@@ -85,6 +85,9 @@ const island_files = [
 ]
 
 const secret_island_files = [
+
+    "aestrin/bone_isle",
+    "aestrin/cities/bone_isle_city",
     "aestrin/rock_of_despair",
 
     "alankh/cities/eleann_island_city",
