@@ -66,6 +66,7 @@ const island_files = [
     "emerald/serpent_isle_0",
     "emerald/serpent_isle_1",
     "emerald/pondering_peak",
+    "emerald/turtle_island",
     "emerald/cities/crab_beach_city",
     "emerald/cities/dragon_cliffs_city",
     "emerald/cities/new_port_city",
@@ -73,6 +74,7 @@ const island_files = [
     "emerald/cities/sanctuary_city",
     "emerald/cities/serpent_isle_city",
     "emerald/cities/pondering_peak_city",
+    "emerald/cities/turtle_island_city",
     "emerald/rocks/dragon_cliffs_rock",
     "emerald/rocks/serpent_isle_rock",
 
