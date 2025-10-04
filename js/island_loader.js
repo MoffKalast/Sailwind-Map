@@ -53,6 +53,9 @@ const island_files = [
     "alankh/rocks/gold_rock_city_rock_0",
     "alankh/rocks/gold_rock_city_rock_1",
     "alankh/rocks/oasis_rock",
+    "alankh/old_ankh_town_0.json",
+    "alankh/old_ankh_town_2.json",
+    "alankh/cities/old_ankh_town_city.json",
 
     "bay/happy_bay_0",
     "bay/happy_bay_1",
