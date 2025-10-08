@@ -105,6 +105,10 @@ const secret_island_files = [
     "chronos/chronos",
     "chronos/chronos_city",
     "chronos/chronos_rock",
+
+    "alankh/mirage_mountain",
+    "alankh/cities/mirage_mountain_city",
+    "alankh/rocks/mirage_mountain_rocks",
 ]
 
 // was used to turn the polygon_definitions.js into separete files and download them
