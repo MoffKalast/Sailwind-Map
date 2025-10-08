@@ -291,5 +291,5 @@
 
         ]
     ],
-    "secret": true
+    "secret": false
 }

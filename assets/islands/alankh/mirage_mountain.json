@@ -766,5 +766,5 @@
             ]
         ]
     ],
-    "secret": true
+    "secret": false
 }
