@@ -55,6 +55,9 @@ const island_files = [
     "alankh/rocks/oasis_rock",
     "alankh/old_ankh_town",
     "alankh/cities/old_ankh_town_city",
+    "alankh/mirage_mountain",
+    "alankh/cities/mirage_mountain_city",
+    "alankh/rocks/mirage_mountain_rocks",
 
     "bay/happy_bay_0",
     "bay/happy_bay_1",
@@ -106,9 +109,6 @@ const secret_island_files = [
     "chronos/chronos_city",
     "chronos/chronos_rock",
 
-    "alankh/mirage_mountain",
-    "alankh/cities/mirage_mountain_city",
-    "alankh/rocks/mirage_mountain_rocks",
 ]
 
 // was used to turn the polygon_definitions.js into separete files and download them
