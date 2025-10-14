@@ -58,6 +58,7 @@ const island_files = [
     "alankh/mirage_mountain",
     "alankh/cities/mirage_mountain_city",
     "alankh/rocks/mirage_mountain_rocks",
+    "alankh/cities/saffron_city",
 
     "bay/happy_bay_0",
     "bay/happy_bay_1",
