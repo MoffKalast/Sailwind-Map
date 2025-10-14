@@ -104,6 +104,8 @@ const secret_island_files = [
     "alankh/cities/eleann_island_city",
     "alankh/rocks/eleann_island_rock",
     "alankh/eleann_island",
+    "alankh/cities/saffron_city",
+    "alankh/saffron",
 
     "chronos/chronos",
     "chronos/chronos_city",
