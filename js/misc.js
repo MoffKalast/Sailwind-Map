@@ -27,7 +27,7 @@ function getDistanceFromLatLonInNm(lat1, lon1, lat2, lon2) {
 	//var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 	// var d = R * c; // Distance in km
 
-	var d = Math.sqrt(Math.pow((lat2 - lat1), 2) + Math.pow((lon2 - lon1), 2)) * 90
+	var d = Math.sqrt(Math.pow((lat2 - lat1), 2) + Math.pow((lon2 - lon1), 2)) * 140
 	return d;
 }
 
