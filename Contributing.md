@@ -1,6 +1,6 @@
 # Contributing Guide
 
-As mentioned in the ReadMe, the framework used is ArcGIS, here's some info on it:
+As mentioned in the README, the framework used is ArcGIS, here's some info on it:
 - https://developers.arcgis.com/javascript/latest/ 
 - https://community.esri.com/t5/arcgis-online-documents/tkb-p/arcgis-online-docs
 
@@ -21,6 +21,19 @@ Here's a general rundown:
 - [grid_winds.js](js/grid_winds.js) Defines trade winds
 
 - [polygon_definitions.js](js/polygon_definitions.js) Abandon hope all ye who enter here
+
+
+## Running Locally
+
+The project is a static site with no build step, but it **must be served over HTTP**. Opening `index.html` directly as a `file://` URL silently fails to load island data, because the browser blocks the `fetch()` calls in [island_loader.js](js/island_loader.js).
+
+Any static file server works, so use whatever you already have. If you don't have one set up, MDN has an accessible guide: [Set up a local testing server](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/set_up_a_local_testing_server). Serve from the repo root, then open the URL it prints.
+
+A few project-specific things that aren't super obvious:
+
+- You need an internet connection while running it. ArcGIS, jQuery, and Google Fonts load from their CDNs at runtime.
+- Island JSON and ArcGIS assets are cached aggressively; hard-refresh after edits (or use a server with live reload).
+- Failed or malformed island fetches currently only surface as `console.error` messages, so keep the devtools console open.
 
 
 ## Updating layer data
